@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph.xml"
+    app:startDestination="@id/coinsFragment">
+
+    <fragment
+        android:id="@+id/coinsFragment"
+        android:name="com.marioioannou.cryptopal.ui.fragments.CoinsFragment"
+        android:label="Crypto Coins"
+        tools:layout="@layout/fragment_coins" />
+    <fragment
+        android:id="@+id/watchlistFragment"
+        android:name="com.marioioannou.cryptopal.ui.fragments.WatchlistFragment"
+        android:label="Watchlist"
+        tools:layout="@layout/fragment_watchlist" />
+    <fragment
+        android:id="@+id/newsFragment"
+        android:name="com.marioioannou.cryptopal.ui.fragments.NewsFragment"
+        android:label="Crypto News"
+        tools:layout="@layout/fragment_news" />
+</navigation>

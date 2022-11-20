@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">CryptoPal</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="crypto_coins">Crypto Coins</string>
+    <string name="trending_coins">Trending Coins</string>
+</resources>
