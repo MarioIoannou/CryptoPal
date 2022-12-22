@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/coinsFragment"
-        android:icon="@drawable/coin"/>
+        android:id="@+id/homeFragment"
+        android:icon="@drawable/home"
+        tools:ignore="MenuTitle" />
 
     <item
-        android:id="@+id/watchlistFragment"
-        android:icon="@drawable/watchlist"/>
+        android:id="@+id/marketFragment"
+        android:icon="@drawable/market"
+        tools:ignore="MenuTitle" />
 
     <item
         android:id="@+id/newsFragment"
-        android:icon="@drawable/news" />
+        android:icon="@drawable/news"
+        tools:ignore="MenuTitle" />
 </menu>

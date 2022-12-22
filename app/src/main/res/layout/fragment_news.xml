@@ -1,43 +1,179 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.fragments.NewsFragment">
+    tools:context=".ui.fragments.news.NewsFragment">
 
-    <RelativeLayout
-        android:id="@+id/layout_top"
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/custom_toolbar_shape"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:elevation="0dp">
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cv_settings"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerInParent="true"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="8dp"
-            android:clickable="true"
-            app:cardBackgroundColor="@color/my_grey_blue"
-            app:cardCornerRadius="10dp"
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar_market"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_scrollFlags="scroll|enterAlways">
 
-            <com.google.android.material.imageview.ShapeableImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_gravity="center"
-                android:src="@drawable/settings"
-                app:tint="@color/my_dark_grey" />
+            <RelativeLayout
+                android:id="@+id/layout_top"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-        </com.google.android.material.card.MaterialCardView>
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cv_settings"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="16dp"
+                    android:clickable="true"
+                    app:cardBackgroundColor="@color/my_grey_blue"
+                    app:cardCornerRadius="10dp">
 
-    </RelativeLayout>
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/settings"
+                        app:tint="@color/my_dark_grey" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <HorizontalScrollView
+                    android:id="@+id/scrollView_chart_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:scrollbars="none"
+                    android:layout_below="@id/cv_settings">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.chip.ChipGroup
+                            android:id="@+id/chip_group_filter"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            app:checkedChip="@id/chip_trending"
+                            app:layout_constraintTop_toBottomOf="@+id/materialCardView"
+                            app:selectionRequired="true"
+                            app:singleLine="true"
+                            app:singleSelection="true">
+
+                            <com.google.android.material.chip.Chip
+                                android:id="@+id/chip_trending"
+                                style="@style/ChipStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="50dp"
+                                android:fontFamily="@font/roboto_bold"
+                                android:text="Trending"
+                                android:textSize="14sp"
+                                app:chipEndPadding="13dp"
+                                app:chipStartPadding="13dp" />
+
+                            <com.google.android.material.chip.Chip
+                                android:id="@+id/chip_handpicked"
+                                style="@style/ChipStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="50dp"
+                                android:fontFamily="@font/roboto_bold"
+                                android:text="Handpicked"
+                                android:textSize="14sp"
+                                app:chipEndPadding="13dp"
+                                app:chipStartPadding="13dp" />
+
+                            <com.google.android.material.chip.Chip
+                                android:id="@+id/chip_latest"
+                                style="@style/ChipStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="50dp"
+                                android:fontFamily="@font/roboto_bold"
+                                android:text="Latest"
+                                android:textSize="14sp"
+                                app:chipEndPadding="13dp"
+                                app:chipStartPadding="13dp" />
+
+                            <com.google.android.material.chip.Chip
+                                android:id="@+id/chip_bullish"
+                                style="@style/ChipStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="50dp"
+                                android:fontFamily="@font/roboto_bold"
+                                android:text="Bullish"
+                                android:textSize="14sp"
+                                app:chipEndPadding="13dp"
+                                app:chipStartPadding="13dp" />
+
+                            <com.google.android.material.chip.Chip
+                                android:id="@+id/chip_bearish"
+                                style="@style/ChipStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="50dp"
+                                android:fontFamily="@font/roboto_bold"
+                                android:text="Bearish"
+                                android:textSize="14sp"
+                                app:chipEndPadding="13dp"
+                                app:chipStartPadding="13dp" />
+
+                        </com.google.android.material.chip.ChipGroup>
+
+                    </LinearLayout>
+
+                </HorizontalScrollView>
+
+            </RelativeLayout>
+
+        </com.google.android.material.appbar.MaterialToolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbarDefaultDelayBeforeFade="@integer/material_motion_duration_long_1"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lottie_news"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/lottie_news"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.5" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_news"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.5"
+            tools:listitem="@layout/row_news_layout" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

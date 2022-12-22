@@ -16,6 +16,26 @@
         <item name="colorControlNormal">@color/my_blue</item>
     </style>
 
+    <style name="CoinImageview" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="background">@null</item>
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">8dp</item>
+    </style>
+
+    <style name="CoinDetailImageview" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="background">@null</item>
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
+    <style name="ChipStyle" parent="Widget.MaterialComponents.Chip.Filter">
+        <item name="chipBackgroundColor">@color/chip_background_color</item>
+        <item name="android:textColor">@color/chip_text_color</item>
+        <item name="chipIconEnabled">false</item>
+        <item name="checkedIcon">@null</item>
+        <!--<item name="checkedIconTint">@color/chip_text_color</item>-->
+    </style>
+
     <style name="MyThemeOverlay_Toolbar" parent="ThemeOverlay.MaterialComponents.Toolbar.Primary">
         <!-- Title -->
         <item name="android:textColorPrimary">@color/my_blue</item>
@@ -25,4 +45,6 @@
         <item name="android:fontFamily">@font/titillium_bold</item>
         <item name="android:textSize">25sp</item>
     </style>
+
+
 </resources>

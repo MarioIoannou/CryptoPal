@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        app:cardCornerRadius="30dp"
+        app:cardElevation="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:strokeColor="@color/my_grey_blue"
+        app:strokeWidth="1dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/img_coin"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="28dp"
+                android:layout_marginBottom="28dp"
+                android:src="@drawable/test_bitcoin"
+                android:theme="@style/CoinImageview"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.476" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_symbol"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:padding="5dp"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:fontFamily="@font/roboto_bold"
+                app:layout_constraintStart_toEndOf="@+id/img_coin"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="BTC" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:padding="5dp"
+                android:textColor="@color/my_dark_grey"
+                android:textSize="13sp"
+                app:fontFamily="@font/roboto_bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/tv_symbol"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/img_coin"
+                app:layout_constraintStart_toStartOf="@+id/tv_symbol"
+                app:layout_constraintTop_toBottomOf="@+id/tv_symbol"
+                app:layout_constraintVertical_bias="0.0"
+                tools:text="Bitcoin" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:ellipsize="end"
+                android:maxLength="8"
+                android:padding="5dp"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:fontFamily="@font/roboto_bold"
+                app:layout_constraintEnd_toStartOf="@+id/cv_change_percentage"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="0.544444" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_currency_symbol"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:padding="5dp"
+                android:text="$"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:fontFamily="@font/roboto_bold"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_price"
+                app:layout_constraintEnd_toStartOf="@+id/tv_price"
+                app:layout_constraintTop_toTopOf="@+id/tv_price"
+                tools:text="$" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_price_change"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:padding="5dp"
+                android:textColor="@color/my_dark_grey"
+                android:textSize="13sp"
+                app:fontFamily="@font/roboto_bold"
+                app:layout_constraintEnd_toEndOf="@+id/tv_price"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="@+id/tv_price"
+                app:layout_constraintTop_toBottomOf="@+id/tv_price"
+                tools:text="+5.56" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cv_change_percentage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
+                android:layout_marginEnd="24dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:strokeColor="@color/my_blue"
+                app:strokeWidth="2dp">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tv_change_percentage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:maxLength="6"
+                    android:maxLines="1"
+                    android:padding="5dp"
+                    android:text="+3.36%"
+                    android:textColor="@color/my_dark_grey"
+                    android:textSize="13sp"
+                    app:fontFamily="@font/roboto_bold" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

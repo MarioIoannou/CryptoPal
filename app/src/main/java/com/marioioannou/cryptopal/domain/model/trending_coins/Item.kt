@@ -10,14 +10,8 @@ data class Item(
     val id: String,
     @SerializedName("large")
     val large: String,
-    @SerializedName("market_cap_rank")
-    val marketCapRank: Int,
     @SerializedName("name")
     val name: String,
-    @SerializedName("price_btc")
-    val priceBtc: Double,
-    @SerializedName("score")
-    val score: Int,
     @SerializedName("slug")
     val slug: String,
     @SerializedName("small")

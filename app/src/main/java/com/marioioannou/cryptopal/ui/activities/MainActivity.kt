@@ -12,9 +12,10 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.marioioannou.cryptopal.R
 import com.marioioannou.cryptopal.databinding.ActivityMainBinding
+import com.marioioannou.cryptopal.viewmodels.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
-//@AndroidEntryPoint
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
@@ -22,7 +23,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
 
-    //val viewModel: MainViewModel by viewModels()
+    val viewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,19 +38,19 @@ class MainActivity : AppCompatActivity() {
         navController = navHostFragment.findNavController()
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.coinsFragment,
-                R.id.watchlistFragment,
+                R.id.homeFragment,
+                R.id.marketFragment,
                 R.id.newsFragment
             )
         )
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.coinsFragment -> {
+                R.id.homeFragment -> {
                     showBottomNav()
                     //hideToolbar()
                 }
-                R.id.watchlistFragment -> {
+                R.id.marketFragment -> {
                     showBottomNav()
                     //showToolbar()
                 }

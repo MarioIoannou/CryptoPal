@@ -3,21 +3,127 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph.xml"
-    app:startDestination="@id/coinsFragment">
+    app:startDestination="@id/homeFragment">
 
     <fragment
-        android:id="@+id/coinsFragment"
-        android:name="com.marioioannou.cryptopal.ui.fragments.CoinsFragment"
-        android:label="Crypto Coins"
-        tools:layout="@layout/fragment_coins" />
+        android:id="@+id/homeFragment"
+        android:name="com.marioioannou.cryptopal.ui.fragments.HomeFragment"
+        android:label="Home"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_coinDetailFragment"
+            app:destination="@id/coinDetailFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_homeFragment_to_searchFragment"
+            app:destination="@id/searchFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+    </fragment>
     <fragment
-        android:id="@+id/watchlistFragment"
-        android:name="com.marioioannou.cryptopal.ui.fragments.WatchlistFragment"
-        android:label="Watchlist"
-        tools:layout="@layout/fragment_watchlist" />
+        android:id="@+id/marketFragment"
+        android:name="com.marioioannou.cryptopal.ui.fragments.MarketFragment"
+        android:label="Market"
+        tools:layout="@layout/fragment_market">
+        <action
+            android:id="@+id/action_marketFragment_to_coinDetailFragment"
+            app:destination="@id/coinDetailFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_marketFragment_to_searchFragment"
+            app:destination="@id/searchFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_marketFragment_to_coinFilterBottomSheet"
+            app:destination="@id/coinFilterBottomSheet" />
+    </fragment>
     <fragment
         android:id="@+id/newsFragment"
-        android:name="com.marioioannou.cryptopal.ui.fragments.NewsFragment"
-        android:label="Crypto News"
-        tools:layout="@layout/fragment_news" />
+        android:name="com.marioioannou.cryptopal.ui.fragments.news.NewsFragment"
+        android:label="News"
+        tools:layout="@layout/fragment_news" >
+        <action
+            android:id="@+id/action_newsFragment_to_articleFragment"
+            app:destination="@id/articleFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/coinDetailFragment"
+        android:name="com.marioioannou.cryptopal.ui.fragments.coin_detail.CoinDetailFragment"
+        android:label="fragment_coin_detail"
+        tools:layout="@layout/fragment_coin_detail">
+        <argument
+            android:name="coin"
+            app:argType="com.marioioannou.cryptopal.domain.model.coins.CryptoCoin" />
+        <action
+            android:id="@+id/action_coinDetailFragment_to_infoFragment"
+            app:destination="@id/infoFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+        <argument
+            android:name="fromSearch"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.marioioannou.cryptopal.ui.fragments.SearchFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_searchFragment_to_coinDetailFragment"
+            app:destination="@id/coinDetailFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+    </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.marioioannou.cryptopal.ui.fragments.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" />
+    <action
+        android:id="@+id/action_global_settingsFragment"
+        app:destination="@id/settingsFragment"
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_left"
+        app:popEnterAnim="@anim/slide_in_left"
+        app:popExitAnim="@anim/slide_out_right" />
+    <dialog
+        android:id="@+id/coinFilterBottomSheet"
+        android:name="com.marioioannou.cryptopal.ui.fragments.coin_detail.filter_dialog.CoinFilterBottomSheet"
+        android:label="fragment_coin_filter_bottom_sheet"
+        tools:layout="@layout/fragment_coin_filter_bottom_sheet" >
+        <action
+            android:id="@+id/action_coinFilterBottomSheet_to_marketFragment"
+            app:destination="@id/marketFragment"
+            app:popUpTo="@id/marketFragment"
+            app:popUpToInclusive="true" />
+    </dialog>
+    <fragment
+        android:id="@+id/infoFragment"
+        android:name="com.marioioannou.cryptopal.ui.fragments.InfoFragment"
+        android:label="fragment_info"
+        tools:layout="@layout/fragment_info" />
+    <fragment
+        android:id="@+id/articleFragment"
+        android:name="com.marioioannou.cryptopal.ui.fragments.news.ArticleFragment"
+        android:label="fragment_article"
+        tools:layout="@layout/fragment_article" >
+        <argument
+            android:name="article"
+            app:argType="com.marioioannou.cryptopal.domain.model.news.New" />
+    </fragment>
 </navigation>

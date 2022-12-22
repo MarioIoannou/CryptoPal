@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.fragments.SettingsFragment">
+
+    <RelativeLayout
+        android:id="@+id/layout_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cv_back"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerInParent="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="8dp"
+            android:clickable="true"
+            app:cardBackgroundColor="@color/my_grey_blue"
+            app:cardCornerRadius="10dp">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_width="23dp"
+                android:layout_height="23dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_arrow_back_ios"
+                app:tint="@color/my_dark_grey" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </RelativeLayout>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cv_currency"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        app:cardCornerRadius="25dp"
+        app:cardElevation="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/layout_toolbar"
+        app:strokeColor="@color/my_grey_blue"
+        app:strokeWidth="1dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cv_img_currency"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="24dp"
+                android:clickable="true"
+                app:cardBackgroundColor="@color/my_grey_blue"
+                app:cardCornerRadius="10dp">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:layout_width="23dp"
+                    android:layout_height="23dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/changecurrency"
+                    app:tint="@color/my_dark_grey" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:ellipsize="end"
+                android:maxLines="5"
+                android:padding="5dp"
+                android:layout_centerVertical="true"
+                android:text="@string/currency"
+                android:layout_toEndOf="@id/cv_img_currency"
+                android:textAlignment="textStart"
+                android:textColor="@color/my_black"
+                android:textSize="20sp"
+                app:fontFamily="@font/titillium_bold_upright"/>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_currency"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="5"
+                android:padding="5dp"
+                android:text="USD"
+                android:textAlignment="textStart"
+                android:textColor="@color/my_blue_2"
+                android:textSize="20sp"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="16dp"
+                android:layout_alignParentEnd="true"
+                app:fontFamily="@font/titillium_bold_upright"/>
+
+        </RelativeLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cv_appearance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:cardCornerRadius="25dp"
+        app:cardElevation="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/cv_currency"
+        app:strokeColor="@color/my_grey_blue"
+        app:strokeWidth="1dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cv_img_appearance"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="24dp"
+                android:clickable="true"
+                app:cardBackgroundColor="@color/my_grey_blue"
+                app:cardCornerRadius="10dp">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:layout_width="23dp"
+                    android:layout_height="23dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/darkwhite"
+                    app:tint="@color/my_dark_grey" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="16dp"
+                android:layout_toEndOf="@id/cv_img_appearance"
+                android:ellipsize="end"
+                android:maxLines="5"
+                android:padding="5dp"
+                android:text="@string/appearance"
+                android:textAlignment="textStart"
+                android:textColor="@color/my_black"
+                android:textSize="20sp"
+                app:fontFamily="@font/titillium_bold_upright" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_theme"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="16dp"
+                android:ellipsize="end"
+                android:maxLines="5"
+                android:padding="5dp"
+                android:text="Default"
+                android:textAlignment="textStart"
+                android:textColor="@color/my_blue_2"
+                android:textSize="20sp"
+                app:fontFamily="@font/titillium_bold_upright" />
+
+        </RelativeLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+<!--
+<com.google.android.material.imageview.ShapeableImageView
+android:layout_width="28dp"
+android:layout_height="28dp"
+android:layout_centerVertical="true"
+android:layout_marginEnd="16dp"
+android:layout_alignParentEnd="true"
+android:src="@drawable/ic_baseline_arrow_forward"
+app:tint="@color/my_dark_grey" />-->

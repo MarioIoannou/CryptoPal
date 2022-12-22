@@ -2,4 +2,9 @@
 <resources>
     <string name="crypto_coins">Crypto Coins</string>
     <string name="trending_coins">Trending Coins</string>
+    <string name="all_coins">All Coins</string>
+    <string name="watchlist">Your Watchlist</string>
+    <string name="currency">Currency</string>
+    <string name="appearance">Appearance</string>
+    <string name="info_market_cap">The current price of %s multiplied by its current circulating supply</string>
 </resources>

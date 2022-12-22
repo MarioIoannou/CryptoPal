@@ -77,8 +77,8 @@ dependencies {
     kapt "androidx.room:room-compiler:2.4.3"
 
     // Coroutine
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4'
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.5.1"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.5.1"
@@ -88,6 +88,8 @@ dependencies {
 
     //Chart
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+    implementation 'com.github.majorkik:SparkLineLayout:1.0.1'
+    implementation 'com.robinhood.spark:spark:1.2.0'
 
     //Shimmer Layout
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
@@ -102,5 +104,13 @@ dependencies {
     implementation 'nl.bryanderidder:themed-toggle-button-group:1.4.1'
 
     // Segmented Buttons
-    implementation 'com.github.creageek:segmented:1.0.0'
+    //implementation 'com.github.creageek:segmented:1.0.0'
+    implementation 'com.github.addisonelliott:SegmentedButton:3.1.9'
+
+    //Color Palette
+    implementation "androidx.palette:palette-ktx:1.0.0"
+
+    //Lottie
+    implementation 'com.airbnb.android:lottie:5.2.0'
+
 }
