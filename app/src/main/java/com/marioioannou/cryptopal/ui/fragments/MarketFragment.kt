@@ -8,13 +8,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModel
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.marioioannou.cryptopal.R
 import com.marioioannou.cryptopal.adapters.CryptoCoinsAdapter
 import com.marioioannou.cryptopal.databinding.FragmentMarketBinding
+import com.marioioannou.cryptopal.domain.datastore.DataStoreRepository
+import com.marioioannou.cryptopal.domain.datastore.DatastoreRepo
 import com.marioioannou.cryptopal.domain.model.coins.CryptoCoin
 import com.marioioannou.cryptopal.ui.activities.MainActivity
+import com.marioioannou.cryptopal.utils.Constants
 import com.marioioannou.cryptopal.utils.NetworkListener
 import com.marioioannou.cryptopal.utils.ScreenState
 import com.marioioannou.cryptopal.viewmodels.MainViewModel
@@ -27,7 +31,11 @@ class MarketFragment : Fragment() {
 
     lateinit var viewModel: MainViewModel
 
+    lateinit var dataStoreRepository: DataStoreRepository
+
     private lateinit var networkListener: NetworkListener
+
+    private var currency = Constants.DEFAULT_CURRENCY
 
     private var TAG = "CoinsFragment"
 
@@ -35,6 +43,7 @@ class MarketFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = (activity as MainActivity).viewModel
+        dataStoreRepository = DataStoreRepository(requireContext())
     }
 
     override fun onCreateView(
@@ -48,7 +57,7 @@ class MarketFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        //var currency = Constants.DEFAULT_CURRENCY
         binding.cvSettings.setOnClickListener {
             val action = SettingsFragmentDirections.actionGlobalSettingsFragment()
             findNavController().navigate(action)
@@ -59,7 +68,13 @@ class MarketFragment : Fragment() {
             findNavController().navigate(action)
         }
 
-        setupCoinsRecyclerView()
+//        viewModel.readCurrency.observe(viewLifecycleOwner, Observer { value ->
+//            Log.e(TAG, "value -> $value")
+//            currency = value
+//        })
+        currency = viewModel.getCurrency()
+        Log.e(TAG, "currency -> $currency")
+        setupCoinsRecyclerView(viewModel.getCurrency())
         requestCoinsApiData()
 
         coinsAdapter.setOnItemClickListener { coin: CryptoCoin ->
@@ -79,7 +94,7 @@ class MarketFragment : Fragment() {
 
     private fun requestCoinsApiData() {
         Log.e(TAG, "requestCoinsApiData CALLED")
-        viewModel.getCoins(applyQueries())
+        viewModel.getCoins(viewModel.applyCoinsQueries())
         viewModel.coinResponse.observe(viewLifecycleOwner, Observer { coinResponse ->
             Log.e(TAG, "viewModel.coinResponse.observe")
             when (coinResponse) {
@@ -111,8 +126,8 @@ class MarketFragment : Fragment() {
         })
     }
 
-    private fun setupCoinsRecyclerView() {
-        coinsAdapter = CryptoCoinsAdapter()
+    private fun setupCoinsRecyclerView(currency : String) {
+        coinsAdapter = CryptoCoinsAdapter(currency)
         binding.rvCoins.apply {
             adapter = coinsAdapter
             layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
@@ -120,9 +135,23 @@ class MarketFragment : Fragment() {
         }
     }
 
-    private fun applyQueries(): HashMap<String, String> {
+    private fun currencySymbol(currency: String):String{
+        when(currency){
+            "EUR" -> return "€ "
+            "USD" -> return "$ "
+            "GBP" -> return "£ "
+            "INR" -> return "₹ "
+            "CHF" -> return "CHF "
+            "JPY" -> return "¥ "
+            "RUB" -> return "₽ "
+            "AED" -> return " د.إ"
+        }
+        return "€"
+    }
+
+    private fun applyQueries(currency: String): HashMap<String, String> {
         val queries: HashMap<String, String> = HashMap()
-        queries["vs_currency"] = "usd"
+        queries["vs_currency"] = currency
         queries["per_page"] = "100"
         queries["page"] = "1"
         queries["price_change_percentage"] = "1h,24h,7d,14d,30d,200d,1y"

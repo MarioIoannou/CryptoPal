@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.fragments.SettingsFragment">
 
     <RelativeLayout
@@ -81,22 +81,25 @@
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:layout_marginStart="16dp"
+                android:layout_toEndOf="@id/cv_img_currency"
                 android:ellipsize="end"
                 android:maxLines="5"
                 android:padding="5dp"
-                android:layout_centerVertical="true"
                 android:text="@string/currency"
-                android:layout_toEndOf="@id/cv_img_currency"
                 android:textAlignment="textStart"
                 android:textColor="@color/my_black"
                 android:textSize="20sp"
-                app:fontFamily="@font/titillium_bold_upright"/>
+                app:fontFamily="@font/titillium_bold_upright" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tv_currency"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="16dp"
                 android:ellipsize="end"
                 android:maxLines="5"
                 android:padding="5dp"
@@ -104,10 +107,7 @@
                 android:textAlignment="textStart"
                 android:textColor="@color/my_blue_2"
                 android:textSize="20sp"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="16dp"
-                android:layout_alignParentEnd="true"
-                app:fontFamily="@font/titillium_bold_upright"/>
+                app:fontFamily="@font/titillium_bold_upright" />
 
         </RelativeLayout>
 
@@ -184,6 +184,19 @@
         </RelativeLayout>
 
     </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/img_buy_me_a_coffee"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:clickable="true"
+        android:src="@drawable/bmc_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

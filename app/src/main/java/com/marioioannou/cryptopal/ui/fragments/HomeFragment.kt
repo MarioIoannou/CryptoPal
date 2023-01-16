@@ -15,8 +15,10 @@ import com.marioioannou.cryptopal.adapters.SavedCryptoCoinsAdapter
 import com.marioioannou.cryptopal.adapters.TrendingCoinsAdapter
 import com.marioioannou.cryptopal.databinding.FragmentHomeBinding
 import com.marioioannou.cryptopal.domain.database.CryptoCoinEntity
+import com.marioioannou.cryptopal.domain.datastore.DatastoreRepo
 import com.marioioannou.cryptopal.domain.model.coins.CryptoCoin
 import com.marioioannou.cryptopal.ui.activities.MainActivity
+import com.marioioannou.cryptopal.utils.Constants
 import com.marioioannou.cryptopal.utils.NetworkListener
 import com.marioioannou.cryptopal.utils.ScreenState
 import com.marioioannou.cryptopal.viewmodels.MainViewModel
@@ -64,9 +66,10 @@ class HomeFragment : Fragment() {
             findNavController().navigate(action)
         }
 
+
+        setupTrendingCoinsRecyclerView(viewModel.getCurrency())
+        setupWatchlistRecyclerView(viewModel.getCurrency())
         requestTrendingCoinsApiData()
-        setupTrendingCoinsRecyclerView()
-        setupWatchlistRecyclerView()
 
         viewModel.readCryptoCoin.observe(viewLifecycleOwner, Observer { result ->
             savedCryptoCoinsAdapter.differ.submitList(result)
@@ -90,7 +93,7 @@ class HomeFragment : Fragment() {
 
     private fun requestTrendingCoinsApiData(){
         Log.e(TAG, "requestTrendingCoinsApiData CALLED")
-        viewModel.getCoins(applyQueries())
+        viewModel.getCoins(viewModel.applyCoinsQueries())
         viewModel.coinResponse.observe(viewLifecycleOwner, Observer { trendingCoinResponse ->
             Log.e(TAG, "viewModel.trendingCoinResponse.observe")
             when (trendingCoinResponse) {
@@ -129,8 +132,8 @@ class HomeFragment : Fragment() {
         return queries
     }
 
-    private fun setupTrendingCoinsRecyclerView() {
-        trendingCoinsAdapter = TrendingCoinsAdapter()
+    private fun setupTrendingCoinsRecyclerView(currency : String) {
+        trendingCoinsAdapter = TrendingCoinsAdapter(currency)
         binding.rvTrending.apply {
             adapter = trendingCoinsAdapter
             layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
@@ -138,8 +141,8 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun setupWatchlistRecyclerView() {
-        savedCryptoCoinsAdapter = SavedCryptoCoinsAdapter()
+    private fun setupWatchlistRecyclerView(currency : String) {
+        savedCryptoCoinsAdapter = SavedCryptoCoinsAdapter(currency)
         binding.rvWatchlist.apply {
             adapter = savedCryptoCoinsAdapter
             layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)

@@ -73,6 +73,9 @@ class CoinDetailFragment : Fragment() {
         checkSavedRecipes()
 
         val coin = args.coin
+        binding.tvCurrency.text = currencySymbol(viewModel.getCurrency())
+        binding.detailTvCurrency.text = currencySymbol(viewModel.getCurrency())
+        Log.e(TAG, " tvCurrency ${binding.tvCurrency.text}")
 
         Log.e(TAG, "is ${coin.name} saved? ${viewModel.savedCoin}")
 
@@ -86,9 +89,9 @@ class CoinDetailFragment : Fragment() {
         }
 
         binding.cvSave.setOnClickListener {
-            if (!viewModel.savedCoin){
+            if (!viewModel.savedCoin) {
                 saveToFavorites()
-            }else{
+            } else {
                 removeFromFavorites()
             }
         }
@@ -146,50 +149,52 @@ class CoinDetailFragment : Fragment() {
 //        })
 
 
-
-        if (args.fromSearch == 1){
+        if (args.fromSearch == 1) {
             viewModel.getCoins(applyQueries(coin.id))
-            viewModel.coinResponse.observe(viewLifecycleOwner,Observer{ response ->
+            viewModel.coinResponse.observe(viewLifecycleOwner, Observer { response ->
                 when (response) {
                     is ScreenState.Loading -> {
-                    //showShimmerEffect()
-                    Log.e(TAG, "   requestCoinsApiData() Response Loading")
-                }
+                        //showShimmerEffect()
+                        Log.e(TAG, "   requestCoinsApiData() Response Loading")
+                    }
                     is ScreenState.Success -> {
-                    Log.e(TAG, "   requestCoinsApiData() Response Success")
-                    //binding.noInternetLayout.visibility = View.GONE
+                        Log.e(TAG, "   requestCoinsApiData() Response Success")
+                        //binding.noInternetLayout.visibility = View.GONE
 //                    Handler(Looper.getMainLooper()).postDelayed({
 //                        hideShimmerEffect()
 //                    },1000L)
-                    //binding.rvCoinRecyclerview.visibility = View.VISIBLE
+                        //binding.rvCoinRecyclerview.visibility = View.VISIBLE
                         response.data?.let { coin ->
                             binding.apply {
                                 detailTvPrice.text = coin[0].currentPrice.toString()
-                                val price = coin[0].priceChange24h.toString().take(6)
-                                val pricePercentage = coin[0].priceChangePercentage24hInCurrency.toString().take(6)
+                                val price = coin[0].priceChange24h.toString().take(10)
+                                val pricePercentage =
+                                    coin[0].priceChangePercentage24hInCurrency.toString().take(10)
                                 tvChangePrice.text = price
                                 tvChangePercentage.text = "$pricePercentage%"
-                                infoHigh24h.text = coin[0].high24h.toString().take(8)
-                                infoLow24h.text = coin[0].low24h.toString().take(8)
-                                infoAth.text = coin[0].ath.toString().take(8)
-                                infoAtl.text = coin[0].atl.toString().take(8)
+                                infoHigh24h.text = coin[0].high24h.toString().take(10)
+                                infoLow24h.text = coin[0].low24h.toString().take(10)
+                                infoAth.text = coin[0].ath.toString().take(10)
+                                infoAtl.text = coin[0].atl.toString().take(10)
                                 infoMarketCap.text = coin[0].marketCap.toString()
-                                infoCirculatingSupply.text = coin[0].circulatingSupply.toString().take(10)
+                                infoCirculatingSupply.text =
+                                    coin[0].circulatingSupply.toString().take(10)
                                 infoMaxSupply.text = coin[0].maxSupply.toString().take(10)
-                                infoPriceIn1y.text = coin[0].priceChangePercentage1yInCurrency.toString().take(6)
-                                infoMarketCapRank.text = "#"+coin[0].marketCapRank.toString()
+                                infoPriceIn1y.text =
+                                    coin[0].priceChangePercentage1yInCurrency.toString().take(10)
+                                infoMarketCapRank.text = "#" + coin[0].marketCapRank.toString()
                             }
+                        }
                     }
-                }
                     is ScreenState.Error -> {
-                    Log.e(TAG, "   requestCoinsApiData() Response Error")
-                    //hideShimmerEffect()
-                    Toast.makeText(
-                        requireContext(),
-                        response.message.toString(),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
+                        Log.e(TAG, "   requestCoinsApiData() Response Error")
+                        //hideShimmerEffect()
+                        Toast.makeText(
+                            requireContext(),
+                            response.message.toString(),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
             })
         }
@@ -199,20 +204,20 @@ class CoinDetailFragment : Fragment() {
             detailTvTitle.text = coin.name
             detailTvSymbol.text = coin.symbol?.uppercase()
             detailTvPrice.text = coin.currentPrice.toString()
-            val price = coin.priceChange24h.toString().take(6)
-            val pricePercentage = coin.priceChangePercentage24hInCurrency.toString().take(6)
+            val price = coin.priceChange24h.toString().take(10)
+            val pricePercentage = coin.priceChangePercentage24hInCurrency.toString().take(10)
             tvChangePrice.text = price
             tvChangePercentage.text = "$pricePercentage%"
             infoCoinName.text = coin.name
-            infoHigh24h.text = coin.high24h.toString().take(8)
-            infoLow24h.text = coin.low24h.toString().take(8)
-            infoAth.text = coin.ath.toString().take(8)
-            infoAtl.text = coin.atl.toString().take(8)
+            infoHigh24h.text = coin.high24h.toString().take(10)
+            infoLow24h.text = coin.low24h.toString().take(10)
+            infoAth.text = coin.ath.toString().take(10)
+            infoAtl.text = coin.atl.toString().take(10)
             infoMarketCap.text = coin.marketCap.toString()
             infoCirculatingSupply.text = coin.circulatingSupply.toString().take(10)
             infoMaxSupply.text = coin.maxSupply.toString().take(10)
-            infoPriceIn1y.text = coin.priceChangePercentage1yInCurrency.toString().take(6)
-            infoMarketCapRank.text = "#"+coin.marketCapRank.toString()
+            infoPriceIn1y.text = coin.priceChangePercentage1yInCurrency.toString().take(10)
+            infoMarketCapRank.text = "#" + coin.marketCapRank.toString()
         }
 
         //Log.e(TAG, "IN ON CREATE dataSet: $chartData")
@@ -233,12 +238,12 @@ class CoinDetailFragment : Fragment() {
             }
         }
 
-        binding.chipGroupTime.setOnCheckedStateChangeListener{ group, selectedChipId ->
+        binding.chipGroupTime.setOnCheckedStateChangeListener { group, selectedChipId ->
             val chip = group.findViewById<Chip>(selectedChipId.first())
             val selectedTime = chip.text.toString().lowercase(Locale.ROOT)
             chip.isChecked = true
-            group.requestChildFocus(chip,chip)
-            viewModel.getCryptoCoinMarketChart(coin.id,"usd",selectedTime)
+            group.requestChildFocus(chip, chip)
+            viewModel.getCryptoCoinMarketChart(coin.id, "usd", selectedTime)
         }
     }
 
@@ -256,7 +261,7 @@ class CoinDetailFragment : Fragment() {
                     val dataSetCandle: MutableList<CandleEntry> = mutableListOf()
                     val dataSetResponse = response.data?.prices
                     val dataSetCandleResponse = response.data
-                    for (i in 0 until dataSetCandleResponse!!.prices.size-1 ){
+                    for (i in 0 until dataSetCandleResponse!!.prices.size - 1) {
                         dataSet.add(response.data.prices[i][1])
                     }
                     dataSetResponse?.map { value ->
@@ -266,14 +271,18 @@ class CoinDetailFragment : Fragment() {
                     /*dataSetCandleResponse?.prices?.map { item ->
 
                     }*/
-                    for (i in 0 until dataSetCandleResponse!!.prices.size-1 ){
+                    for (i in 0 until dataSetCandleResponse!!.prices.size - 1) {
                         val listOne = response.data.prices[i][1]
                         //Log.e(TAG, "List 1: $listOne")
-                        val listTwo = response.data.prices[i+1][1]
+                        val listTwo = response.data.prices[i + 1][1]
                         //Log.e(TAG, "List 2: $listTwo")
                         //dataSetCandle.add(CandleEntry(i.toFloat(),listOne[1].toFloat(),listTwo[1].toFloat(),listOne[0].toFloat(),listTwo[0].toFloat()))
                         //dataSetLine.add(Entry(listTwo.toFloat(), listOne.toFloat()))
-                        dataSetCandle.add(CandleEntry(i.toFloat(),listOne.toFloat(),listTwo.toFloat(),listOne.toFloat(),listTwo.toFloat()))
+                        dataSetCandle.add(CandleEntry(i.toFloat(),
+                            listOne.toFloat(),
+                            listTwo.toFloat(),
+                            listOne.toFloat(),
+                            listTwo.toFloat()))
                     }
 //                    dataSetResponse?.map { value ->
 //                        dataSetCandle.add(CandleEntry(i.toFloat(),
@@ -334,6 +343,7 @@ class CoinDetailFragment : Fragment() {
             axisLeft.textColor = Color.BLUE
             axisRight.isEnabled = false
             legend.isEnabled = false
+            xAxis.valueFormatter
             setTouchEnabled(false)
             setScaleEnabled(false)
             setDrawGridBackground(false)
@@ -343,7 +353,7 @@ class CoinDetailFragment : Fragment() {
         }
     }
 
-    private fun candleChart (chartData : MutableList<CandleEntry>) {
+    private fun candleChart(chartData: MutableList<CandleEntry>) {
         val chartItems = CandleDataSet(chartData, "${args.coin.name} data")
         chartItems.apply {
             color = resources.getColor(R.color.my_blue)
@@ -357,7 +367,7 @@ class CoinDetailFragment : Fragment() {
         binding.chartCandle.apply {
             data = CandleData(chartItems)
             setBackgroundColor(resources.getColor(R.color.white))
-            animateXY(3000,3000)
+            animateXY(3000, 3000)
             xAxis.position = XAxis.XAxisPosition.BOTTOM
             xAxis.setDrawGridLines(false)
         }
@@ -406,10 +416,10 @@ class CoinDetailFragment : Fragment() {
 
     private fun removeFromFavorites() {
         val cryptoCoinEntity =
-        CryptoCoinEntity(
-            savedCoinId,
-            args.coin
-        )
+            CryptoCoinEntity(
+                savedCoinId,
+                args.coin
+            )
         viewModel.deleteCryptoCoin(cryptoCoinEntity)
         binding.imgFavorite.setTint(R.color.white)
         viewModel.savedCoin = false
@@ -419,11 +429,29 @@ class CoinDetailFragment : Fragment() {
         if (color == null) {
             ImageViewCompat.setImageTintList(this, null)
         } else {
-            ImageViewCompat.setImageTintList(this, ColorStateList.valueOf(ContextCompat.getColor(context, color)))
-        }}
+            ImageViewCompat.setImageTintList(this,
+                ColorStateList.valueOf(ContextCompat.getColor(context, color)))
+        }
+    }
 
     override fun onDestroy() {
         super.onDestroy()
         binding.imgFavorite.setTint(R.color.white)
+    }
+
+    private fun currencySymbol(currency: String): String {
+        return when (currency.uppercase()) {
+            "EUR" -> return "€"
+            "USD" -> return "$"
+            "GBP" -> return "£"
+            "INR" -> return "₹"
+            "CHF" -> return "CHF"
+            "JPY" -> return "¥"
+            "RUB" -> return "₽"
+            "AED" -> return "د.إ"
+            else -> {
+                "$"
+            }
+        }
     }
 }

@@ -17,15 +17,18 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.IOException
 
-class TrendingCoinsAdapter :
+class TrendingCoinsAdapter(
+    currency: String,
+) :
     RecyclerView.Adapter<TrendingCoinsAdapter.MyViewHolder>() {
 
+    var coinCurrency = currency
     private var sortedCoins = emptyList<CryptoCoin>()
 
     inner class MyViewHolder(val binding: RowTrendingCoinLayoutBinding) :
         RecyclerView.ViewHolder(binding.root)
 
-        private val differCallback = object : DiffUtil.ItemCallback<CryptoCoin>() {
+    private val differCallback = object : DiffUtil.ItemCallback<CryptoCoin>() {
 
         override fun areItemsTheSame(oldItem: CryptoCoin, newItem: CryptoCoin): Boolean {
             return oldItem.name == newItem.name
@@ -47,8 +50,9 @@ class TrendingCoinsAdapter :
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         //val coin = differ.currentList[position]
-       sortedCoins = differ.currentList.sortedByDescending { it.priceChange24h }.take(8)
-       val coin = sortedCoins[position]
+        sortedCoins = differ.currentList.sortedByDescending { it.priceChange24h }.take(8)
+        val coin = sortedCoins[position]
+        val fiat = currencySymbol(coinCurrency)
         holder.binding.apply {
             //val priceChange = coin.priceChangePercentage24h.toString()
             imgCoin.load(coin.image) {
@@ -56,10 +60,11 @@ class TrendingCoinsAdapter :
                 error(R.drawable.ic_image_placeholder)
             }
             //imgFood.background(recipe.image.)
+            tvCurrencySymbol.text = fiat
             tvTitle.text = coin.name
             tvSymbol.text = coin.symbol?.uppercase()
-            tvPrice.text = coin.currentPrice.toString().take(8)
-            tvPriceChange.text = coin.priceChange24h.toString().take(6)+"%"
+            tvPrice.text = coin.currentPrice.toString().take(10)
+            tvPriceChange.text = coin.priceChange24h.toString().take(8) + "%"
         }
         holder.itemView.setOnClickListener {
             onItemClickListener?.let { it(coin) }
@@ -73,5 +78,19 @@ class TrendingCoinsAdapter :
     private var onItemClickListener: ((CryptoCoin) -> Unit)? = null
     fun setOnItemClickListener(listener: (CryptoCoin) -> Unit) {
         onItemClickListener = listener
+    }
+
+    private fun currencySymbol(currency: String): String {
+        when (currency.uppercase()) {
+            "EUR" -> return "€ "
+            "USD" -> return "$ "
+            "GBP" -> return "£ "
+            "INR" -> return "₹ "
+            "CHF" -> return "CHF "
+            "JPY" -> return "¥ "
+            "RUB" -> return "₽ "
+            "AED" -> return " د.إ"
+        }
+        return "€"
     }
 }

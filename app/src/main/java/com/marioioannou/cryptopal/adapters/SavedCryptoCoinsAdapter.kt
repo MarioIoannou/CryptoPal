@@ -28,7 +28,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.IOException
 
-class SavedCryptoCoinsAdapter :
+class SavedCryptoCoinsAdapter(
+    currency:String
+) :
     RecyclerView.Adapter<SavedCryptoCoinsAdapter.MyViewHolder>() {
 
     inner class MyViewHolder(val binding: RowWatchlistCoinLayoutBinding) :
@@ -126,5 +128,19 @@ class SavedCryptoCoinsAdapter :
     private var onItemClickListener: ((CryptoCoinEntity) -> Unit)? = null
     fun setOnItemClickListener(listener: (CryptoCoinEntity) -> Unit) {
         onItemClickListener = listener
+    }
+
+    private fun currencySymbol(currency: String):String{
+        when(currency){
+            "EUR" -> return "€ "
+            "USD" -> return "$ "
+            "GBP" -> return "£ "
+            "INR" -> return "₹ "
+            "CHF" -> return "CHF "
+            "JPY" -> return "¥ "
+            "RUB" -> return "₽ "
+            "AED" -> return " د.إ"
+        }
+        return "€"
     }
 }

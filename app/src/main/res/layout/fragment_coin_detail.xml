@@ -118,7 +118,7 @@
                 android:layout_height="wrap_content"
                 android:maxLines="1"
                 android:padding="5dp"
-                android:text="$"
+                android:text=""
                 android:textColor="@color/black"
                 android:textSize="30sp"
                 app:fontFamily="@font/roboto_medium"
@@ -172,7 +172,7 @@
                     android:maxLines="1"
                     android:paddingStart="0dp"
                     android:paddingEnd="5dp"
-                    android:text="$"
+                    android:text=""
                     android:textColor="@color/white"
                     android:textSize="17sp"
                     app:fontFamily="@font/roboto_bold" />
