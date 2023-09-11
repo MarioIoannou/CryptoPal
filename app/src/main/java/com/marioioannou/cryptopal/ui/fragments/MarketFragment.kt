@@ -16,7 +16,7 @@ import com.marioioannou.cryptopal.adapters.CryptoCoinsAdapter
 import com.marioioannou.cryptopal.databinding.FragmentMarketBinding
 import com.marioioannou.cryptopal.domain.datastore.DataStoreRepository
 import com.marioioannou.cryptopal.domain.datastore.DatastoreRepo
-import com.marioioannou.cryptopal.domain.model.coins.CryptoCoin
+import com.marioioannou.cryptopal.domain.model.coins.Coin
 import com.marioioannou.cryptopal.ui.activities.MainActivity
 import com.marioioannou.cryptopal.utils.Constants
 import com.marioioannou.cryptopal.utils.NetworkListener
@@ -77,7 +77,7 @@ class MarketFragment : Fragment() {
         setupCoinsRecyclerView(viewModel.getCurrency())
         requestCoinsApiData()
 
-        coinsAdapter.setOnItemClickListener { coin: CryptoCoin ->
+        coinsAdapter.setOnItemClickListener { coin: Coin ->
             val action = MarketFragmentDirections.actionMarketFragmentToCoinDetailFragment(coin,0)
             findNavController().navigate(action)
         }
@@ -110,7 +110,7 @@ class MarketFragment : Fragment() {
 //                    },1000L)
                     //binding.rvCoinRecyclerview.visibility = View.VISIBLE
                     coinResponse.data?.let { coins ->
-                        coinsAdapter.differ.submitList(coins)
+                        coinsAdapter.differ.submitList(coins.coins)
                     }
                 }
                 is ScreenState.Error -> {

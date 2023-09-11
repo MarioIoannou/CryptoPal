@@ -11,6 +11,9 @@ interface CryptoCoinDAO {
     @Query("SELECT * FROM crypto_coin_table ORDER BY id ASC")
     fun readCryptoCoins(): Flow<List<CryptoCoinEntity>>
 
+    @Update
+    suspend fun updateCryptoData(cryptoCoinEntity: CryptoCoinEntity)
+
     @Delete
     suspend fun deleteCryptoCoin(cryptoCoinEntity: CryptoCoinEntity)
 

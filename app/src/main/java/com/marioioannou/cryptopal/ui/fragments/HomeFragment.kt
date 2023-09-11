@@ -16,7 +16,7 @@ import com.marioioannou.cryptopal.adapters.TrendingCoinsAdapter
 import com.marioioannou.cryptopal.databinding.FragmentHomeBinding
 import com.marioioannou.cryptopal.domain.database.CryptoCoinEntity
 import com.marioioannou.cryptopal.domain.datastore.DatastoreRepo
-import com.marioioannou.cryptopal.domain.model.coins.CryptoCoin
+import com.marioioannou.cryptopal.domain.model.coins.Coin
 import com.marioioannou.cryptopal.ui.activities.MainActivity
 import com.marioioannou.cryptopal.utils.Constants
 import com.marioioannou.cryptopal.utils.NetworkListener
@@ -72,8 +72,8 @@ class HomeFragment : Fragment() {
         requestTrendingCoinsApiData()
 
         viewModel.readCryptoCoin.observe(viewLifecycleOwner, Observer { result ->
-            savedCryptoCoinsAdapter.differ.submitList(result)
-            if (savedCryptoCoinsAdapter.differ.currentList.isEmpty()){
+            savedCryptoCoinsAdapter.submitList(result)
+            if (result.isNullOrEmpty()){
                 hideRecyclerView()
             }else{
                 showRecyclerView()
@@ -85,7 +85,7 @@ class HomeFragment : Fragment() {
             findNavController().navigate(action)
         }
 
-        trendingCoinsAdapter.setOnItemClickListener { coin: CryptoCoin ->
+        trendingCoinsAdapter.setOnItemClickListener { coin: Coin ->
             val action = HomeFragmentDirections.actionHomeFragmentToCoinDetailFragment(coin,0)
             findNavController().navigate(action)
         }
@@ -105,7 +105,7 @@ class HomeFragment : Fragment() {
                     Log.e(TAG, "   requestTrendingCoinsApiData() Response Success")
 
                     trendingCoinResponse.data?.let { trending ->
-                       trendingCoinsAdapter.differ.submitList(trending)
+                       trendingCoinsAdapter.differ.submitList(trending.coins)
                     }
                 }
                 is ScreenState.Error -> {
@@ -160,10 +160,16 @@ class HomeFragment : Fragment() {
         binding.noDataLayout.visibility = View.VISIBLE
     }
 
-    private fun topMovingCoins(list : List<CryptoCoin>) : List<CryptoCoin>{
-        val topMovers = list.sortedBy { it.priceChange24h }
+    private fun topMovingCoins(list : List<Coin>) : List<Coin>{
+        val topMovers = list.sortedBy { it.priceChange1d }
         Log.e(TAG, "Top Movers -> $topMovers")
         return topMovers
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        viewModel.updateSpecificCoins()
     }
 
 }

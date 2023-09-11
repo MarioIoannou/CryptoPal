@@ -2,20 +2,13 @@ package com.marioioannou.cryptopal.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.marioioannou.cryptopal.R
 import com.marioioannou.cryptopal.databinding.RowTrendingCoinLayoutBinding
-import com.marioioannou.cryptopal.domain.model.coins.CryptoCoin
-import com.marioioannou.cryptopal.domain.model.trending_coins.Coin
-import com.marioioannou.cryptopal.viewmodels.MainViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import java.io.IOException
+import com.marioioannou.cryptopal.domain.model.coins.Coin
 
 class TrendingCoinsAdapter(
     currency: String,
@@ -23,18 +16,18 @@ class TrendingCoinsAdapter(
     RecyclerView.Adapter<TrendingCoinsAdapter.MyViewHolder>() {
 
     var coinCurrency = currency
-    private var sortedCoins = emptyList<CryptoCoin>()
+    private var sortedCoins = emptyList<Coin>()
 
     inner class MyViewHolder(val binding: RowTrendingCoinLayoutBinding) :
         RecyclerView.ViewHolder(binding.root)
 
-    private val differCallback = object : DiffUtil.ItemCallback<CryptoCoin>() {
+    private val differCallback = object : DiffUtil.ItemCallback<Coin>() {
 
-        override fun areItemsTheSame(oldItem: CryptoCoin, newItem: CryptoCoin): Boolean {
+        override fun areItemsTheSame(oldItem: Coin, newItem: Coin): Boolean {
             return oldItem.name == newItem.name
         }
 
-        override fun areContentsTheSame(oldItem: CryptoCoin, newItem: CryptoCoin): Boolean {
+        override fun areContentsTheSame(oldItem: Coin, newItem: Coin): Boolean {
             return oldItem == newItem
         }
     }
@@ -50,12 +43,12 @@ class TrendingCoinsAdapter(
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         //val coin = differ.currentList[position]
-        sortedCoins = differ.currentList.sortedByDescending { it.priceChange24h }.take(8)
+        sortedCoins = differ.currentList.sortedByDescending { it.priceChange1d }.take(8)
         val coin = sortedCoins[position]
         val fiat = currencySymbol(coinCurrency)
         holder.binding.apply {
             //val priceChange = coin.priceChangePercentage24h.toString()
-            imgCoin.load(coin.image) {
+            imgCoin.load(coin.icon) {
                 crossfade(600)
                 error(R.drawable.ic_image_placeholder)
             }
@@ -63,8 +56,8 @@ class TrendingCoinsAdapter(
             tvCurrencySymbol.text = fiat
             tvTitle.text = coin.name
             tvSymbol.text = coin.symbol?.uppercase()
-            tvPrice.text = coin.currentPrice.toString().take(10)
-            tvPriceChange.text = coin.priceChange24h.toString().take(8) + "%"
+            tvPrice.text = coin.price.toString().take(10)
+            tvPriceChange.text = coin.priceChange1d.toString().take(8) + "%"
         }
         holder.itemView.setOnClickListener {
             onItemClickListener?.let { it(coin) }
@@ -75,8 +68,8 @@ class TrendingCoinsAdapter(
         return differ.currentList.take(8).size
     }
 
-    private var onItemClickListener: ((CryptoCoin) -> Unit)? = null
-    fun setOnItemClickListener(listener: (CryptoCoin) -> Unit) {
+    private var onItemClickListener: ((Coin) -> Unit)? = null
+    fun setOnItemClickListener(listener: (Coin) -> Unit) {
         onItemClickListener = listener
     }
 

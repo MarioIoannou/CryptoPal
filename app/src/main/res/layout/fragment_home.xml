@@ -82,7 +82,7 @@
 
     </RelativeLayout>
 
-    <androidx.viewpager2.widget.ViewPager2
+    <androidx.constraintlayout.helper.widget.Carousel
         android:id="@+id/viewPager2"
         android:layout_width="match_parent"
         android:layout_height="0dp"

@@ -1,8 +1,8 @@
 package com.marioioannou.cryptopal.di
 
-import com.marioioannou.cryptopal.domain.api.CryptoApi
-import com.marioioannou.cryptopal.utils.Constants.BASE_URL
-import com.marioioannou.cryptopal.utils.Constants.BASE_URL_NEWS
+import com.marioioannou.cryptopal.domain.api.CoinGeckoApi
+import com.marioioannou.cryptopal.domain.api.CoinStatsApi
+import com.marioioannou.cryptopal.utils.Constants
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -41,35 +41,41 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    //@Named("Crypto")
-    fun provideRetrofitInstance(
+    @Named("CoinStats")
+    fun provideCoinStatsInstance(
         okHttpClient: OkHttpClient,
         gsonConverterFactory: GsonConverterFactory
     ): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl(Constants.BASE_URL_COINSTATS)
             .addConverterFactory(gsonConverterFactory)
             .client(okHttpClient)
             .build()
     }
 
-//    @Singleton
-//    @Provides
-//    @Named("News")
-//    fun provideRetrofitNewsInstance(
-//        okHttpClient: OkHttpClient,
-//        gsonConverterFactory: GsonConverterFactory
-//    ): Retrofit {
-//        return Retrofit.Builder()
-//            .baseUrl(BASE_URL_NEWS)
-//            .addConverterFactory(gsonConverterFactory)
-//            .client(okHttpClient)
-//            .build()
-//    }
+    @Singleton
+    @Provides
+    fun provideCoinStatsApiService(@Named("CoinStats") retrofit: Retrofit): CoinStatsApi {
+        return retrofit.create(CoinStatsApi::class.java)
+    }
 
     @Singleton
     @Provides
-    fun provideApiService(retrofit: Retrofit): CryptoApi {
-        return retrofit.create(CryptoApi::class.java)
+    @Named("CoinGecko")
+    fun provideCoinGeckoInstance(
+        okHttpClient: OkHttpClient,
+        gsonConverterFactory: GsonConverterFactory
+    ): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(Constants.BASE_URL_COINGECKO)
+            .addConverterFactory(gsonConverterFactory)
+            .client(okHttpClient)
+            .build()
+    }
+
+    @Singleton
+    @Provides
+    fun provideCoinGeckoApiService(@Named("CoinGecko") retrofit: Retrofit): CoinGeckoApi {
+        return retrofit.create(CoinGeckoApi::class.java)
     }
 }

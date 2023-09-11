@@ -11,20 +11,21 @@ import coil.load
 import com.marioioannou.cryptopal.R
 import com.marioioannou.cryptopal.databinding.RowCoinLayoutBinding
 import com.marioioannou.cryptopal.databinding.RowSearchCoinLayoutBinding
-import com.marioioannou.cryptopal.domain.model.coins.CryptoCoin
+import com.marioioannou.cryptopal.domain.model.coins.Coin
+import com.marioioannou.cryptopal.domain.model.search_coins.SearchedCoin
 
 class SearchCoinsAdapter : RecyclerView.Adapter<SearchCoinsAdapter.MyViewHolder>() {
 
     inner class MyViewHolder(val binding: RowSearchCoinLayoutBinding) :
         RecyclerView.ViewHolder(binding.root)
 
-    private val differCallback = object : DiffUtil.ItemCallback<CryptoCoin>() {
+    private val differCallback = object : DiffUtil.ItemCallback<Coin>() {
 
-        override fun areItemsTheSame(oldItem: CryptoCoin, newItem: CryptoCoin): Boolean {
+        override fun areItemsTheSame(oldItem: Coin, newItem: Coin): Boolean {
             return oldItem.name == newItem.name
         }
 
-        override fun areContentsTheSame(oldItem: CryptoCoin, newItem: CryptoCoin): Boolean {
+        override fun areContentsTheSame(oldItem: Coin, newItem: Coin): Boolean {
             return oldItem == newItem
         }
     }
@@ -45,7 +46,7 @@ class SearchCoinsAdapter : RecyclerView.Adapter<SearchCoinsAdapter.MyViewHolder>
 
 
         holder.binding.apply {
-            imgCoin.load(coin.large) {
+            imgCoin.load(coin.icon) {
                 crossfade(600)
                 error(R.drawable.ic_image_placeholder)
             }
@@ -63,8 +64,8 @@ class SearchCoinsAdapter : RecyclerView.Adapter<SearchCoinsAdapter.MyViewHolder>
         return differ.currentList.size
     }
 
-    private var onItemClickListener: ((CryptoCoin) -> Unit)? = null
-    fun setOnItemClickListener(listener: (CryptoCoin) -> Unit) {
+    private var onItemClickListener: ((Coin) -> Unit)? = null
+    fun setOnItemClickListener(listener: (Coin) -> Unit) {
         onItemClickListener = listener
     }
 

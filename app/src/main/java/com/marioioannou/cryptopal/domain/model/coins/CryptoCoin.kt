@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class CryptoCoin(
+data class XXCryptoCoin(
     @SerializedName("ath")
     val ath: Double?,
     @SerializedName("ath_change_percentage")
@@ -74,5 +74,6 @@ data class CryptoCoin(
     @SerializedName("sparkline_in_7d")
     val sparklineIn7d: SparklineIn7d?,
     @SerializedName("large")
-    val large: String?
+    val large: String?,
+    var isWatchListed : Boolean = false
 ) : Parcelable

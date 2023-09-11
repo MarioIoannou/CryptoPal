@@ -10,7 +10,6 @@ import coil.load
 import com.marioioannou.cryptopal.R
 import com.marioioannou.cryptopal.databinding.RowCoinLayoutBinding
 import com.marioioannou.cryptopal.databinding.RowNewsLayoutBinding
-import com.marioioannou.cryptopal.domain.model.coins.CryptoCoin
 import com.marioioannou.cryptopal.domain.model.news.CryptoNews
 import com.marioioannou.cryptopal.domain.model.news.New
 

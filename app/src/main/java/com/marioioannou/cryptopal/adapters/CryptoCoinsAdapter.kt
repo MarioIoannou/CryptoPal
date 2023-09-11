@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.marioioannou.cryptopal.R
 import com.marioioannou.cryptopal.databinding.RowCoinLayoutBinding
-import com.marioioannou.cryptopal.domain.model.coins.CryptoCoin
+import com.marioioannou.cryptopal.domain.model.coins.Coin
 
 class CryptoCoinsAdapter(
     currency:String
@@ -22,13 +22,13 @@ class CryptoCoinsAdapter(
     inner class MyViewHolder(val binding: RowCoinLayoutBinding) :
         RecyclerView.ViewHolder(binding.root)
 
-    private val differCallback = object : DiffUtil.ItemCallback<CryptoCoin>() {
+    private val differCallback = object : DiffUtil.ItemCallback<Coin>() {
 
-        override fun areItemsTheSame(oldItem: CryptoCoin, newItem: CryptoCoin): Boolean {
+        override fun areItemsTheSame(oldItem: Coin, newItem: Coin): Boolean {
             return oldItem.name == newItem.name
         }
 
-        override fun areContentsTheSame(oldItem: CryptoCoin, newItem: CryptoCoin): Boolean {
+        override fun areContentsTheSame(oldItem: Coin, newItem: Coin): Boolean {
             return oldItem == newItem
         }
     }
@@ -49,17 +49,17 @@ class CryptoCoinsAdapter(
         val fiat = currencySymbol(coinCurrency)
         //Log.e("Currency", fiat)
         holder.binding.apply {
-            val priceChange = coin.priceChange24h.toString().take(8)
-            val priceChangePercentage = coin.priceChangePercentage1hInCurrency.toString().take(7)
-            imgCoin.load(coin.image) {
+            val priceChange = coin.priceChange1d.toString().take(8)
+            val priceChangePercentage = coin.priceChange1h.toString().take(7)
+            imgCoin.load(coin.icon) {
                 crossfade(600)
                 error(R.drawable.ic_image_placeholder)
             }
             tvTitle.text = coin.name
             tvSymbol.text = coin.symbol?.uppercase()
             tvCurrencySymbol.text = fiat
-            tvPrice.text = coin.currentPrice.toString()
-            val hourChangePrice = coin.currentPrice?.let { coin.priceChangePercentage1hInCurrency?.let { it1 ->
+            tvPrice.text = coin.price.toString()
+            val hourChangePrice = coin.price?.let { coin.priceChange1h?.let { it1 ->
                 percentage(it,
                     it1).toString().take(8)
             } }
@@ -89,8 +89,8 @@ class CryptoCoinsAdapter(
         return differ.currentList.size
     }
 
-    private var onItemClickListener: ((CryptoCoin) -> Unit)? = null
-    fun setOnItemClickListener(listener: (CryptoCoin) -> Unit) {
+    private var onItemClickListener: ((Coin) -> Unit)? = null
+    fun setOnItemClickListener(listener: (Coin) -> Unit) {
         onItemClickListener = listener
     }
 

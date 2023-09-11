@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import coil.load
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.CandleData
 import com.github.mikephil.charting.data.CandleDataSet
@@ -29,6 +30,7 @@ import com.google.android.material.chip.Chip
 import com.marioioannou.cryptopal.R
 import com.marioioannou.cryptopal.databinding.FragmentCoinDetailBinding
 import com.marioioannou.cryptopal.domain.database.CryptoCoinEntity
+import com.marioioannou.cryptopal.domain.model.coins.Coin
 import com.marioioannou.cryptopal.ui.activities.MainActivity
 import com.marioioannou.cryptopal.ui.fragments.SettingsFragmentDirections
 import com.marioioannou.cryptopal.utils.ScreenState
@@ -63,7 +65,7 @@ class CoinDetailFragment : Fragment() {
     ): View? {
         binding = FragmentCoinDetailBinding.inflate(inflater, container, false)
 
-        requestChartData(args.coin.id, "usd", "24h")
+        requestChartData(args.coin.coin_id.toString(), "usd", "24h")
         return binding.root
     }
 
@@ -90,7 +92,7 @@ class CoinDetailFragment : Fragment() {
 
         binding.cvSave.setOnClickListener {
             if (!viewModel.savedCoin) {
-                saveToFavorites()
+                saveToFavorites(args.coin)
             } else {
                 removeFromFavorites()
             }
@@ -150,7 +152,7 @@ class CoinDetailFragment : Fragment() {
 
 
         if (args.fromSearch == 1) {
-            viewModel.getCoins(applyQueries(coin.id))
+            viewModel.getCoinInfo(args.coin.coin_id.toString(),"usd")
             viewModel.coinResponse.observe(viewLifecycleOwner, Observer { response ->
                 when (response) {
                     is ScreenState.Loading -> {
@@ -166,23 +168,27 @@ class CoinDetailFragment : Fragment() {
                         //binding.rvCoinRecyclerview.visibility = View.VISIBLE
                         response.data?.let { coin ->
                             binding.apply {
-                                detailTvPrice.text = coin[0].currentPrice.toString()
-                                val price = coin[0].priceChange24h.toString().take(10)
+                                detailTvPrice.text = coin.coins[0].price.toString()
+                                val price = coin.coins[0].price.toString().take(10)
                                 val pricePercentage =
-                                    coin[0].priceChangePercentage24hInCurrency.toString().take(10)
+                                    coin.coins[0].priceChange1d.toString().take(10)
                                 tvChangePrice.text = price
                                 tvChangePercentage.text = "$pricePercentage%"
-                                infoHigh24h.text = coin[0].high24h.toString().take(10)
-                                infoLow24h.text = coin[0].low24h.toString().take(10)
-                                infoAth.text = coin[0].ath.toString().take(10)
-                                infoAtl.text = coin[0].atl.toString().take(10)
-                                infoMarketCap.text = coin[0].marketCap.toString()
-                                infoCirculatingSupply.text =
-                                    coin[0].circulatingSupply.toString().take(10)
-                                infoMaxSupply.text = coin[0].maxSupply.toString().take(10)
-                                infoPriceIn1y.text =
-                                    coin[0].priceChangePercentage1yInCurrency.toString().take(10)
-                                infoMarketCapRank.text = "#" + coin[0].marketCapRank.toString()
+                                //infoHigh24h.text = coin.coins[0].high24h.toString().take(10)
+                                //infoLow24h.text = coin.coins[0].low24h.toString().take(10)
+                                //infoAth.text = coin.coins[0].ath.toString().take(10)
+                                //infoAtl.text = coin.coins[0].atl.toString().take(10)
+                                infoMarketCap.text = coin.coins[0].marketCap.toString()
+//                                infoCirculatingSupply.text =
+//                                    coin.coins[0].circulatingSupply.toString().take(10)
+                                infoMaxSupply.text = coin.coins[0].totalSupply.toString().take(10)
+                                infoPriceIn1w.text =
+                                    coin.coins[0].priceChange1w.toString().take(10)
+                                infoMarketCapRank.text = "#" + coin.coins[0].rank.toString()
+                                imgCryptoLogo.load(coin.coins[0].icon) {
+                                    crossfade(600)
+                                    error(R.drawable.ic_image_placeholder)
+                                }
                             }
                         }
                     }
@@ -203,21 +209,25 @@ class CoinDetailFragment : Fragment() {
             //detailImgCoin.load(coin.image)
             detailTvTitle.text = coin.name
             detailTvSymbol.text = coin.symbol?.uppercase()
-            detailTvPrice.text = coin.currentPrice.toString()
-            val price = coin.priceChange24h.toString().take(10)
-            val pricePercentage = coin.priceChangePercentage24hInCurrency.toString().take(10)
+            detailTvPrice.text = coin.price.toString()
+            val price = coin.price.toString().take(10)
+            val pricePercentage = coin.priceChange1d.toString().take(10)
             tvChangePrice.text = price
             tvChangePercentage.text = "$pricePercentage%"
             infoCoinName.text = coin.name
-            infoHigh24h.text = coin.high24h.toString().take(10)
-            infoLow24h.text = coin.low24h.toString().take(10)
-            infoAth.text = coin.ath.toString().take(10)
-            infoAtl.text = coin.atl.toString().take(10)
+            //infoHigh24h.text = coin.high24h.toString().take(10)
+            //infoLow24h.text = coin.low24h.toString().take(10)
+            //infoAth.text = coin.ath.toString().take(10)
+            //infoAtl.text = coin.atl.toString().take(10)
             infoMarketCap.text = coin.marketCap.toString()
-            infoCirculatingSupply.text = coin.circulatingSupply.toString().take(10)
-            infoMaxSupply.text = coin.maxSupply.toString().take(10)
-            infoPriceIn1y.text = coin.priceChangePercentage1yInCurrency.toString().take(10)
-            infoMarketCapRank.text = "#" + coin.marketCapRank.toString()
+            //infoCirculatingSupply.text = coin.circulatingSupply.toString().take(10)
+            infoMaxSupply.text = coin.totalSupply.toString().take(10)
+            infoPriceIn1w.text = coin.priceChange1w.toString().take(10)
+            infoMarketCapRank.text = "#" + coin.rank.toString()
+            imgCryptoLogo.load(coin.icon) {
+                crossfade(600)
+                error(R.drawable.ic_image_placeholder)
+            }
         }
 
         //Log.e(TAG, "IN ON CREATE dataSet: $chartData")
@@ -243,7 +253,7 @@ class CoinDetailFragment : Fragment() {
             val selectedTime = chip.text.toString().lowercase(Locale.ROOT)
             chip.isChecked = true
             group.requestChildFocus(chip, chip)
-            viewModel.getCryptoCoinMarketChart(coin.id, "usd", selectedTime)
+            viewModel.getCryptoCoinMarketChart(coin.coin_id.toString(), "usd", selectedTime)
         }
     }
 
@@ -373,15 +383,15 @@ class CoinDetailFragment : Fragment() {
         }
     }
 
-    private fun applyQueries(id: String): HashMap<String, String> {
-        val queries: HashMap<String, String> = HashMap()
-        queries["vs_currency"] = "usd"
-        queries["ids"] = id
-        queries["price_change_percentage"] = "1h,24h,7d,14d,30d,200d,1y"
-        queries["sparkline"] = "true"
-
-        return queries
-    }
+//    private fun applyQueries(id: String): HashMap<String, String> {
+//        val queries: HashMap<String, String> = HashMap()
+//        queries["vs_currency"] = "usd"
+//        queries["ids"] = id
+//        queries["price_change_percentage"] = "1h,24h,7d,14d,30d,200d,1y"
+//        queries["sparkline"] = "true"
+//
+//        return queries
+//    }
 
     private fun percentage(price: Double?, percent: Double?): Double {
         return (percent!! / 100) * price!!
@@ -391,7 +401,7 @@ class CoinDetailFragment : Fragment() {
         viewModel.readCryptoCoin.observe(viewLifecycleOwner) { cryptoCoinEntity ->
             try {
                 for (coin in cryptoCoinEntity) {
-                    if (coin.cryptoCoin.id == args.coin.id) {
+                    if (coin.cryptoCoin.coin_id == args.coin.coin_id) {
                         binding.imgFavorite.setTint(R.color.yellow)
                         savedCoinId = coin.id
                         viewModel.savedCoin = true
@@ -403,13 +413,14 @@ class CoinDetailFragment : Fragment() {
         }
     }
 
-    private fun saveToFavorites() {
+    private fun saveToFavorites(selectedCoin: Coin) {
         val cryptoCoinEntity =
             CryptoCoinEntity(
                 0,
-                args.coin
+                selectedCoin
             )
         viewModel.insertCryptoCoin(cryptoCoinEntity)
+        cryptoCoinEntity.cryptoCoin.isWatchListed = true
         binding.imgFavorite.setTint(R.color.yellow)
         viewModel.savedCoin = true
     }

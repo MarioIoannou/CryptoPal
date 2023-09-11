@@ -29,16 +29,16 @@ class CoinFilterBottomSheet : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.apply {
-            radioGroup.check()
-            radioGroup.setOnCheckedChangeListener(
-                when()
-            )
-        }
+//        binding.apply {
+//            radioGroup.check()
+//            radioGroup.setOnCheckedChangeListener(
+//                when()
+//            )
+//        }
     }
 
-    private fun setChecked(name:String): String{
-
-    }
+//    private fun setChecked(name:String): String{
+//
+//    }
 
 }

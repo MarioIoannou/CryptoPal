@@ -4,8 +4,8 @@ import com.marioioannou.cryptopal.BuildConfig
 
 object Constants {
     //https://api.coingecko.com/api/v3/coins/
-    const val BASE_URL = "https://api.coingecko.com/"
-    const val BASE_URL_NEWS = "https://api.coinstats.app/"
+    const val BASE_URL_COINGECKO = "https://api.coingecko.com/"
+    const val BASE_URL_COINSTATS = "https://api.coinstats.app/"
     const val API_KEY = BuildConfig.API_KEY
 
     const val PREFERENCES_BACK_ONLINE = "backOnline"

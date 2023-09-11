@@ -19,7 +19,7 @@ import com.marioioannou.cryptopal.adapters.CryptoCoinsAdapter
 import com.marioioannou.cryptopal.adapters.SearchCoinsAdapter
 import com.marioioannou.cryptopal.databinding.FragmentMarketBinding
 import com.marioioannou.cryptopal.databinding.FragmentSearchBinding
-import com.marioioannou.cryptopal.domain.model.coins.CryptoCoin
+import com.marioioannou.cryptopal.domain.model.coins.Coin
 import com.marioioannou.cryptopal.ui.activities.MainActivity
 import com.marioioannou.cryptopal.utils.NetworkListener
 import com.marioioannou.cryptopal.utils.ScreenState
@@ -81,7 +81,7 @@ class SearchFragment : Fragment() {
 
         setupRecyclerView()
 
-        searchCoinsAdapter.setOnItemClickListener {coin: CryptoCoin ->
+        searchCoinsAdapter.setOnItemClickListener {coin: Coin ->
             val action = SearchFragmentDirections.actionSearchFragmentToCoinDetailFragment(coin,1)
             findNavController().navigate(action)  }
     }

@@ -3,7 +3,7 @@ package com.marioioannou.cryptopal.domain.model.search_coins
 
 import com.google.gson.annotations.SerializedName
 
-data class Coin(
+data class SearchedCoin(
     @SerializedName("api_symbol")
     val apiSymbol: String,
     @SerializedName("id")
@@ -17,5 +17,6 @@ data class Coin(
     @SerializedName("symbol")
     val symbol: String,
     @SerializedName("thumb")
-    val thumb: String
+    val thumb: String,
+    var isWatchListed : Boolean = false
 )

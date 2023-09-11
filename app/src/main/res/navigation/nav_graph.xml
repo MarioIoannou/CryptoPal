@@ -64,7 +64,7 @@
         tools:layout="@layout/fragment_coin_detail">
         <argument
             android:name="coin"
-            app:argType="com.marioioannou.cryptopal.domain.model.coins.CryptoCoin" />
+            app:argType="com.marioioannou.cryptopal.domain.model.coins.Coin" />
         <action
             android:id="@+id/action_coinDetailFragment_to_infoFragment"
             app:destination="@id/infoFragment"

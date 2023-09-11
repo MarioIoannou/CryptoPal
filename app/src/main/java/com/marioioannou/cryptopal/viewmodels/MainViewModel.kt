@@ -10,11 +10,11 @@ import androidx.lifecycle.*
 import com.marioioannou.cryptopal.domain.database.CryptoCoinEntity
 import com.marioioannou.cryptopal.domain.datastore.DataStoreRepository
 import com.marioioannou.cryptopal.domain.datastore.DatastoreRepo
-import com.marioioannou.cryptopal.domain.model.coins.CryptoCoin
+import com.marioioannou.cryptopal.domain.model.coins.CoinInfo
+import com.marioioannou.cryptopal.domain.model.coins.CryptoCoins
 import com.marioioannou.cryptopal.domain.model.market_chart.CoinMarketChart
 import com.marioioannou.cryptopal.domain.model.news.CryptoNews
 import com.marioioannou.cryptopal.domain.model.search_coins.SearchCoin
-import com.marioioannou.cryptopal.domain.model.trending_coins.TrendingCoin
 import com.marioioannou.cryptopal.domain.repository.Repository
 import com.marioioannou.cryptopal.utils.Constants
 import com.marioioannou.cryptopal.utils.Constants.DEFAULT_CURRENCY
@@ -44,7 +44,7 @@ class MainViewModel @Inject constructor(
     var backOnline = false
     var savedCoin = false
 
-    /* DATASTORE */
+    /* DATASTORE */ /* ------------------------------------------------------------------------- */
     fun saveCurrency(symbol: String){
         Log.e(TAG,"Pref -> $symbol")
         runBlocking {
@@ -79,14 +79,20 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    /* ROOM DATABASE */
+    /* ROOM DATABASE */ /* --------------------------------------------------------------------- */
     val readCryptoCoin: LiveData<List<CryptoCoinEntity>> =
         repository.local.readCryptoCoins().asLiveData()
 
+    //val watchlistData = MutableLiveData<>
+
     fun insertCryptoCoin(cryptoCoinEntity: CryptoCoinEntity) =
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch{
             repository.local.insertCryptoCoin(cryptoCoinEntity)
         }
+
+    fun updateSpecificCoins() = viewModelScope.launch {
+        repository.local.updateCryptoCoinsData()
+    }
 
     fun deleteCryptoCoin(cryptoCoinEntity: CryptoCoinEntity) =
         viewModelScope.launch(Dispatchers.IO) {
@@ -96,14 +102,14 @@ class MainViewModel @Inject constructor(
     fun deleteAllCryptoCoins() = viewModelScope.launch(Dispatchers.IO) {
         repository.local.deleteAllCryptoCoins()
     }
-    /* RETROFIT */
 
-    private val _coinResponse: MutableLiveData<ScreenState<List<CryptoCoin>>> = MutableLiveData()
+    /* RETROFIT */ /* -------------------------------------------------------------------------- */
+
+    private val _coinResponse: MutableLiveData<ScreenState<CryptoCoins>> = MutableLiveData()
     val coinResponse = _coinResponse
 
-    private val _trendingCoinResponse: MutableLiveData<ScreenState<TrendingCoin>> =
-        MutableLiveData()
-    val trendingCoinResponse = _trendingCoinResponse
+    private val _coinInfoResponse: MutableLiveData<ScreenState<CoinInfo>> = MutableLiveData()
+    val coinInfoResponse = _coinInfoResponse
 
     private val _coinMarketChartResponse: MutableLiveData<ScreenState<CoinMarketChart>> =
         MutableLiveData()
@@ -121,8 +127,8 @@ class MainViewModel @Inject constructor(
         getCoinsConnected(queries)
     }
 
-    fun getTrendingCoins() = viewModelScope.launch {
-        getTrendingCoinsConnected()
+    fun getCoinInfo(coin_id: String, currency: String) = viewModelScope.launch {
+        getCoinsInfoConnected(coin_id,currency)
     }
 
     fun getCryptoCoinMarketChart(id: String, currency: String, days: String) =
@@ -159,21 +165,22 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    private suspend fun getTrendingCoinsConnected() {
-        trendingCoinResponse.postValue(ScreenState.Loading())
+    private suspend fun getCoinsInfoConnected(coin_id: String, currency: String) {
+        coinInfoResponse.postValue(ScreenState.Loading())
         try {
             if (hasInternetConnection()) {
-                val response = repository.remote.getTrendingCoins()
-                trendingCoinResponse.postValue(handleTrendingCoinsResponse(response))
+                Log.e(TAG, "getCoinsConnected() hasInternetConnection()")
+                val response = repository.remote.getCoinInfo(coin_id, currency)
+                Log.e(TAG, "getCoinsConnected() .remote.getCoins(queries)")
+                coinInfoResponse.postValue(handleCryptoCoinInfoResponse(response))
+                Log.e(TAG, "getCoinsConnected() handleCryptoCoinsResponse()")
             } else {
-                trendingCoinResponse.postValue(ScreenState.Error(null, "No Internet Connection"))
+                coinInfoResponse.postValue(ScreenState.Error(null, "No Internet Connection"))
             }
         } catch (t: Throwable) {
             when (t) {
-                is IOException -> trendingCoinResponse.postValue(ScreenState.Error(null,
-                    "Network Failure"))
-                else -> trendingCoinResponse.postValue(ScreenState.Error(null,
-                    "Something went wrong"))
+                is IOException -> coinInfoResponse.postValue(ScreenState.Error(null, "Network Failure"))
+                else -> coinInfoResponse.postValue(ScreenState.Error(null, "Something went wrong"))
             }
         }
     }
@@ -240,7 +247,7 @@ class MainViewModel @Inject constructor(
     }
 
     // Handle Responses //
-    private fun handleCryptoCoinsResponse(response: Response<List<CryptoCoin>>): ScreenState<List<CryptoCoin>>? {
+    private fun handleCryptoCoinsResponse(response: Response<CryptoCoins>): ScreenState<CryptoCoins>? {
         when {
             response.message().toString().contains("timeout") -> {
                 Log.d("Error1", response.message().toString())
@@ -265,7 +272,7 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    private fun handleTrendingCoinsResponse(response: Response<TrendingCoin>): ScreenState<TrendingCoin> {
+    private fun handleCryptoCoinInfoResponse(response: Response<CoinInfo>): ScreenState<CoinInfo>? {
         when {
             response.message().toString().contains("timeout") -> {
                 Log.d("Error1", response.message().toString())
@@ -275,13 +282,13 @@ class MainViewModel @Inject constructor(
                 Log.d("Error2", response.code().toString())
                 return ScreenState.Error(null, "API Key Limit Achieved.")
             }
-            response.body()!!.coins.isEmpty() -> {
+            response.body() == null -> {
                 Log.d("Error3", response.message().toString())
-                return ScreenState.Error(null, "Trending Coins not found")
+                return ScreenState.Error(null, "Coin not found")
             }
             response.isSuccessful -> {
-                val trendingCoinResponse = response.body()
-                return ScreenState.Success(trendingCoinResponse!!)
+                val coinResponse = response.body()
+                return ScreenState.Success(coinResponse!!)
             }
             else -> {
                 Log.d("Error4", response.message().toString())
@@ -369,23 +376,9 @@ class MainViewModel @Inject constructor(
     fun applyCoinsQueries(): HashMap<String, String> {
         Log.e(TAG, "Currency -> ${getCurrency()}")
         val queries: HashMap<String, String> = HashMap()
-        queries["price_change_percentage"] = "1h,24h,7d,14d,30d,200d,1y"
-        queries["sparkline"] = "true"
-//        if (this@MainViewModel::currency.isInitialized) {
-//            queries["vs_currency"] = currency
-//        }else{
-//            queries["vs_currency"] = Constants.DEFAULT_CURRENCY
-//        }
-        queries["vs_currency"] = getCurrency()
-        return queries
-    }
-
-    fun applyCoinIdQueries(id: String): HashMap<String, String> {
-        val queries: HashMap<String, String> = HashMap()
-        queries["ids"] = id
-        queries["price_change_percentage"] = "1h,24h,7d,14d,30d,200d,1y"
-        queries["sparkline"] = "true"
-
+        queries["limit"] = "500"
+        //queries["price_change_percentage"] = "1h,24h,7d,14d,30d,200d,1y"
+        //queries["sparkline"] = "true"
 //        if (this@MainViewModel::currency.isInitialized) {
 //            queries["vs_currency"] = currency
 //        }else{

@@ -16,13 +16,13 @@ object CoinApiService {
                 .build()
 
             Retrofit.Builder()
-                .baseUrl(Constants.BASE_URL_NEWS)
+                .baseUrl(Constants.BASE_URL_COINGECKO)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build()
         }
 
-        val coinApi: CryptoApi by lazy {
-            coin_api.create(CryptoApi::class.java)
+        val coinApi: CoinGeckoApi by lazy {
+            coin_api.create(CoinGeckoApi::class.java)
         }
 }

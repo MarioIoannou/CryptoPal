@@ -72,13 +72,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="8dp"
             android:ellipsize="end"
             android:maxLines="1"
             android:textColor="@color/my_blue"
             android:textSize="20sp"
             app:fontFamily="@font/roboto_bold"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/layout_toolbar"
             tools:text="Bitcoin" />
@@ -96,21 +95,29 @@
             android:textSize="17sp"
             app:fontFamily="@font/roboto_bold"
             app:layout_constraintEnd_toEndOf="@+id/detail_tv_title"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/detail_tv_title"
             app:layout_constraintTop_toBottomOf="@+id/detail_tv_title"
             tools:text="Bitcoin" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/img_crypto_logo"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="@+id/detail_tv_symbol"
+            app:layout_constraintStart_toStartOf="@+id/detail_tv_symbol"
+            app:layout_constraintTop_toBottomOf="@+id/detail_tv_symbol" />
 
         <LinearLayout
             android:id="@+id/linearLayout3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="35dp"
-            android:layout_marginEnd="24dp"
+            android:layout_marginTop="16dp"
             android:gravity="center|center_vertical"
             android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/layout_toolbar">
+            app:layout_constraintEnd_toEndOf="@+id/img_crypto_logo"
+            app:layout_constraintStart_toStartOf="@+id/img_crypto_logo"
+            app:layout_constraintTop_toBottomOf="@+id/img_crypto_logo">
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/detail_tv_currency"
@@ -143,20 +150,20 @@
                 tools:text="0.544444" />
 
         </LinearLayout>
-        
+
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/materialCardView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="24dp"
             app:cardBackgroundColor="@color/my_blue"
             app:cardCornerRadius="20dp"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/linearLayout3"
+            app:layout_constraintStart_toStartOf="@+id/linearLayout3"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="152dp"
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
 
@@ -437,9 +444,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                android:text="Buy Crypto"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:text="Buy"
                 android:textColor="@color/white"
-                android:textSize="20sp"
+                android:textSize="25sp"
                 app:fontFamily="@font/roboto_bold" />
 
         </com.google.android.material.card.MaterialCardView>
@@ -793,7 +802,7 @@
                         android:layout_marginTop="16dp"
                         android:ellipsize="end"
                         android:maxLines="1"
-                        android:text="Price Change In 1 Year"
+                        android:text="Price Change In 1 Week"
                         android:textColor="@color/my_dark_grey"
                         android:textSize="16sp"
                         app:fontFamily="@font/roboto_bold"
@@ -801,7 +810,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/info_price_in_1y"
+                        android:id="@+id/info_price_in_1w"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
