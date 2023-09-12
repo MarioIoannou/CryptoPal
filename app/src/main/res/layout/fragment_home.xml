@@ -111,9 +111,10 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_trending"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_height="@dimen/_130sdp"
+        app:flow_verticalAlign="center"
         android:orientation="horizontal"
+        android:layout_marginBottom="@dimen/_16sdp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toTopOf="@+id/materialTextView3"
         app:layout_constraintEnd_toEndOf="parent"
@@ -138,7 +139,7 @@
     <RelativeLayout
         android:id="@+id/layout_watchlist"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="@dimen/_130sdp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -161,15 +162,16 @@
             android:id="@+id/no_data_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_centerInParent="true"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
             android:gravity="center"
             android:orientation="vertical"
             tools:visibility="visible">
 
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/lottieNoData"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="@dimen/_100sdp"
                 app:lottie_autoPlay="true"
                 app:lottie_loop="true"
                 app:lottie_rawRes="@raw/empty_data" />
@@ -179,7 +181,7 @@
                 android:layout_height="wrap_content"
                 android:text="Empty Watchlist"
                 android:textColor="@color/my_black"
-                android:textSize="20sp"
+                android:textSize="@dimen/_15ssp"
                 app:fontFamily="@font/titillium_bold_upright" />
 
         </LinearLayout>
