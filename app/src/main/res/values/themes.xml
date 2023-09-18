@@ -42,7 +42,7 @@
         <!-- Navigation icon -->
         <item name="colorOnPrimary">@color/my_dark_grey</item>
         <!--Text Style-->
-        <item name="android:fontFamily">@font/titillium_bold</item>
+        <item name="android:fontFamily">@font/montserrat_bold</item>
         <item name="android:textSize">25sp</item>
     </style>
 

@@ -1,23 +1,27 @@
 package com.marioioannou.cryptopal.domain.repository
 
+import android.content.Context
 import android.util.Log
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
 import com.marioioannou.cryptopal.domain.api.CoinStatsApi
 import com.marioioannou.cryptopal.domain.database.CryptoCoinDAO
 import com.marioioannou.cryptopal.domain.database.CryptoCoinEntity
+import com.marioioannou.cryptopal.domain.datastore.DatastoreRepo
+import com.marioioannou.cryptopal.domain.datastore.DatastoreRepoImpl
+import com.marioioannou.cryptopal.utils.Constants
+import com.marioioannou.cryptopal.viewmodels.MainViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class LocalDataSource @Inject constructor(
     private val cryptoCoinDAO: CryptoCoinDAO,
     private val coinStatsApi: CoinStatsApi,
+    private val datastoreRepo: DatastoreRepo
 ) {
+
 
     fun readCryptoCoins(): Flow<List<CryptoCoinEntity>>{
         return cryptoCoinDAO.readCryptoCoins()
@@ -43,11 +47,12 @@ class LocalDataSource @Inject constructor(
             for (savedCoin in savedCoins) {
                 val coinId = savedCoin.cryptoCoin.coin_id
                 if (coinId != null) {
-                    val response = coinStatsApi.getCryptoCoin(coinId, "USD")
+                    val response = coinStatsApi.getCryptoCoin(coinId, getCurrency())
                     if (response.isSuccessful) {
                         val updatedCoin = response.body()
                         if (updatedCoin != null) {
-                            val coinEntity = CryptoCoinEntity(id = savedCoin.id, cryptoCoin = updatedCoin.coin)
+                            val coinEntity =
+                                CryptoCoinEntity(id = savedCoin.id, cryptoCoin = updatedCoin.coin)
                             cryptoCoinDAO.updateCryptoData(coinEntity)
                         }
                     } else {
@@ -61,4 +66,11 @@ class LocalDataSource @Inject constructor(
         }
     }
 
+    fun getCurrency():String = runBlocking {
+        if (datastoreRepo.getCurrency(Constants.PREFERENCES_CURRENCY)== null){
+            return@runBlocking Constants.DEFAULT_CURRENCY
+        }else{
+            datastoreRepo.getCurrency(Constants.PREFERENCES_CURRENCY)!!
+        }
+    }
 }

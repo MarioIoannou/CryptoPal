@@ -25,7 +25,7 @@
             android:layout_centerInParent="true"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:fontFamily="@font/titillium_bold"
+            android:fontFamily="@font/montserrat_black"
             android:text="@string/app_name"
             android:textColor="@color/my_blue"
             android:textSize="35sp"
@@ -104,7 +104,7 @@
         android:text="@string/trending_coins"
         android:textColor="@color/my_black"
         android:textSize="20sp"
-        app:fontFamily="@font/titillium_bold_upright"
+        app:fontFamily="@font/montserrat_bold"
         app:layout_constraintBottom_toTopOf="@+id/rv_trending"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -132,7 +132,7 @@
         android:text="@string/watchlist"
         android:textColor="@color/my_black"
         android:textSize="20sp"
-        app:fontFamily="@font/titillium_bold_upright"
+        app:fontFamily="@font/montserrat_bold"
         app:layout_constraintBottom_toTopOf="@+id/layout_watchlist"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -182,7 +182,7 @@
                 android:text="Empty Watchlist"
                 android:textColor="@color/my_black"
                 android:textSize="@dimen/_15ssp"
-                app:fontFamily="@font/titillium_bold_upright" />
+                app:fontFamily="@font/montserrat_medium" />
 
         </LinearLayout>
 

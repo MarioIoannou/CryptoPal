@@ -77,6 +77,7 @@ class HomeFragment : Fragment() {
                 hideRecyclerView()
             }else{
                 showRecyclerView()
+
             }
         })
 

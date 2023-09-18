@@ -42,4 +42,14 @@ object Constants {
     const val PREFERENCES_THEME_ID = "themeId"
     const val PREFERENCES_FILTER = "filter"
     const val PREFERENCES_FILTER_ID = "filterId"
+
+    // Currency
+    const val CURRENCY_USD = "USD"
+    const val CURRENCY_EUR = "EUR"
+    const val CURRENCY_GBP = "GBP"
+    const val CURRENCY_INR = "INR"
+    const val CURRENCY_CHF = "CHF"
+    const val CURRENCY_JPY = "JPY"
+    const val CURRENCY_RUB = "RUB"
+    const val CURRENCY_AED = "AED"
 }

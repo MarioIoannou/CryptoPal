@@ -47,7 +47,7 @@
             android:textColor="@color/black"
             android:textSize="20sp"
             android:text="Crypto Stats"
-            app:fontFamily="@font/roboto_bold"/>
+            app:fontFamily="@font/montserrat_bold"/>
 
     </RelativeLayout>
 
@@ -92,7 +92,7 @@
                         android:maxLines="1"
                         android:textColor="@color/black"
                         android:textSize="16sp"
-                        app:fontFamily="@font/roboto_bold"
+                        app:fontFamily="@font/montserrat_medium"
                         android:text="Highest/Lowest Price"/>
 
                     <TextView
@@ -105,7 +105,7 @@
                         android:textSize="14sp"
                         android:ellipsize="none"
                         app:autoSizeTextType="uniform"
-                        app:fontFamily="@font/roboto_bold"
+                        app:fontFamily="@font/montserrat"
                         android:text="@string/info_high_low_24"/>
 
                 </LinearLayout>
@@ -138,7 +138,7 @@
                         android:maxLines="1"
                         android:textColor="@color/black"
                         android:textSize="16sp"
-                        app:fontFamily="@font/roboto_bold"
+                        app:fontFamily="@font/montserrat_medium"
                         android:text="All-time High/Low"/>
 
                     <TextView
@@ -151,7 +151,7 @@
                         android:textSize="14sp"
                         android:ellipsize="none"
                         app:autoSizeTextType="uniform"
-                        app:fontFamily="@font/roboto_bold"
+                        app:fontFamily="@font/montserrat"
                         android:text="@string/info_all_time"/>
 
                 </LinearLayout>
@@ -184,7 +184,7 @@
                         android:maxLines="1"
                         android:textColor="@color/black"
                         android:textSize="16sp"
-                        app:fontFamily="@font/roboto_bold"
+                        app:fontFamily="@font/montserrat_medium"
                         android:text="Market Cap"/>
 
                     <TextView
@@ -197,7 +197,7 @@
                         android:textSize="14sp"
                         android:ellipsize="none"
                         app:autoSizeTextType="uniform"
-                        app:fontFamily="@font/roboto_bold"
+                        app:fontFamily="@font/montserrat"
                         android:text="@string/info_market_cap"/>
 
                 </LinearLayout>
@@ -230,7 +230,7 @@
                         android:maxLines="1"
                         android:textColor="@color/black"
                         android:textSize="16sp"
-                        app:fontFamily="@font/roboto_bold"
+                        app:fontFamily="@font/montserrat_medium"
                         android:text="Circulating Supply"/>
 
                     <TextView
@@ -243,7 +243,7 @@
                         android:textSize="14sp"
                         android:ellipsize="none"
                         app:autoSizeTextType="uniform"
-                        app:fontFamily="@font/roboto_bold"
+                        app:fontFamily="@font/montserrat"
                         android:text="@string/info_circulating_supply"/>
 
                 </LinearLayout>
@@ -276,7 +276,7 @@
                         android:maxLines="1"
                         android:textColor="@color/black"
                         android:textSize="16sp"
-                        app:fontFamily="@font/roboto_bold"
+                        app:fontFamily="@font/montserrat_medium"
                         android:text="Max Supply"/>
 
                     <TextView
@@ -289,7 +289,7 @@
                         android:textSize="14sp"
                         android:ellipsize="none"
                         app:autoSizeTextType="uniform"
-                        app:fontFamily="@font/roboto_bold"
+                        app:fontFamily="@font/montserrat"
                         android:text="@string/info_max_supply"/>
 
                 </LinearLayout>

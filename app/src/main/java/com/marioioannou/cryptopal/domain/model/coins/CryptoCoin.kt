@@ -5,6 +5,10 @@ import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
+
+// Coingecko old model //
+
+
 @Parcelize
 data class XXCryptoCoin(
     @SerializedName("ath")

@@ -15,6 +15,14 @@ import com.marioioannou.cryptopal.databinding.FragmentCoinDetailBinding
 import com.marioioannou.cryptopal.databinding.FragmentSettingsBinding
 import com.marioioannou.cryptopal.ui.activities.MainActivity
 import com.marioioannou.cryptopal.utils.Constants
+import com.marioioannou.cryptopal.utils.Constants.CURRENCY_AED
+import com.marioioannou.cryptopal.utils.Constants.CURRENCY_CHF
+import com.marioioannou.cryptopal.utils.Constants.CURRENCY_EUR
+import com.marioioannou.cryptopal.utils.Constants.CURRENCY_GBP
+import com.marioioannou.cryptopal.utils.Constants.CURRENCY_INR
+import com.marioioannou.cryptopal.utils.Constants.CURRENCY_JPY
+import com.marioioannou.cryptopal.utils.Constants.CURRENCY_RUB
+import com.marioioannou.cryptopal.utils.Constants.CURRENCY_USD
 import com.marioioannou.cryptopal.utils.Constants.DEFAULT_CURRENCY
 import com.marioioannou.cryptopal.viewmodels.MainViewModel
 
@@ -66,7 +74,7 @@ class SettingsFragment : Fragment() {
 //                    "aed" -> tvCurrency.text = "AED"
 //                }
 //            })
-            when(currency.lowercase()){
+            when (currency.lowercase()) {
                 "usd" -> tvCurrency.text = "USD"
                 "eur" -> tvCurrency.text = "EUR"
                 "gbp" -> tvCurrency.text = "GBP"
@@ -88,17 +96,17 @@ class SettingsFragment : Fragment() {
             requireContext(),
             R.style.ThemeOverlay_MaterialComponents_MaterialAlertDialog_Background
         ).setTitle("Theme")
-        val items = arrayOf("USD","EUR","GBP","INR","CHF","JPY","RUB","AED")
-        when(currency.lowercase()){
-                "usd" -> checkedItem = 0
-                "eur" -> checkedItem = 1
-                "gbp" -> checkedItem = 2
-                "inr" -> checkedItem = 3
-                "chf" -> checkedItem = 4
-                "jpy" -> checkedItem = 5
-                "rub" -> checkedItem = 6
-                "aed" -> checkedItem = 7
-            }
+        val items = arrayOf("USD", "EUR", "GBP", "INR", "CHF", "JPY", "RUB", "AED")
+        when (currency.lowercase()) {
+            "usd" -> checkedItem = 0
+            "eur" -> checkedItem = 1
+            "gbp" -> checkedItem = 2
+            "inr" -> checkedItem = 3
+            "chf" -> checkedItem = 4
+            "jpy" -> checkedItem = 5
+            "rub" -> checkedItem = 6
+            "aed" -> checkedItem = 7
+        }
 //        viewModel.readCurrency.observe(viewLifecycleOwner, Observer { value ->
 //            currency = value
 //            when(currency.lowercase()){
@@ -112,55 +120,55 @@ class SettingsFragment : Fragment() {
 //                "aed" -> checkedItem = 7
 //            }
 //        })
-        alertDialog.setSingleChoiceItems(items,checkedItem){dialog,which ->
-            when(which){
+        alertDialog.setSingleChoiceItems(items, checkedItem) { dialog, which ->
+            when (which) {
                 0 -> {
                     dialog.dismiss()
                     checkedItem = 0
                     binding.tvCurrency.text = "USD"
-                    viewModel.saveCurrency("usd")
+                    viewModel.saveCurrency(CURRENCY_USD)
                 }
                 1 -> {
                     dialog.dismiss()
                     checkedItem = 1
                     binding.tvCurrency.text = "EUR"
-                    viewModel.saveCurrency("eur")
+                    viewModel.saveCurrency(CURRENCY_EUR)
                 }
                 2 -> {
                     dialog.dismiss()
                     checkedItem = 2
                     binding.tvCurrency.text = "GBP"
-                    viewModel.saveCurrency("gbp")
+                    viewModel.saveCurrency(CURRENCY_GBP)
                 }
                 3 -> {
                     dialog.dismiss()
                     checkedItem = 3
                     binding.tvCurrency.text = "INR"
-                    viewModel.saveCurrency("inr")
+                    viewModel.saveCurrency(CURRENCY_INR)
                 }
                 4 -> {
                     dialog.dismiss()
                     checkedItem = 4
                     binding.tvCurrency.text = "CHF"
-                    viewModel.saveCurrency("chf")
+                    viewModel.saveCurrency(CURRENCY_CHF)
                 }
                 5 -> {
                     dialog.dismiss()
                     checkedItem = 5
                     binding.tvCurrency.text = "JPY"
-                    viewModel.saveCurrency("jpy")
+                    viewModel.saveCurrency(CURRENCY_JPY)
                 }
                 6 -> {
                     dialog.dismiss()
                     checkedItem = 6
                     binding.tvCurrency.text = "RUB"
-                    viewModel.saveCurrency("rub")
+                    viewModel.saveCurrency(CURRENCY_RUB)
                 }
                 7 -> {
                     dialog.dismiss()
                     checkedItem = 7
                     binding.tvCurrency.text = "AED"
-                    viewModel.saveCurrency("aed")
+                    viewModel.saveCurrency(CURRENCY_AED)
                 }
             }
         }

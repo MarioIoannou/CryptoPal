@@ -91,7 +91,7 @@
                 android:textAlignment="textStart"
                 android:textColor="@color/my_black"
                 android:textSize="20sp"
-                app:fontFamily="@font/titillium_bold_upright" />
+                app:fontFamily="@font/montserrat" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tv_currency"
@@ -107,7 +107,7 @@
                 android:textAlignment="textStart"
                 android:textColor="@color/my_blue_2"
                 android:textSize="20sp"
-                app:fontFamily="@font/titillium_bold_upright" />
+                app:fontFamily="@font/montserrat_medium" />
 
         </RelativeLayout>
 
@@ -163,7 +163,7 @@
                 android:textAlignment="textStart"
                 android:textColor="@color/my_black"
                 android:textSize="20sp"
-                app:fontFamily="@font/titillium_bold_upright" />
+                app:fontFamily="@font/montserrat" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tv_theme"
@@ -179,7 +179,7 @@
                 android:textAlignment="textStart"
                 android:textColor="@color/my_blue_2"
                 android:textSize="20sp"
-                app:fontFamily="@font/titillium_bold_upright" />
+                app:fontFamily="@font/montserrat_medium" />
 
         </RelativeLayout>
 

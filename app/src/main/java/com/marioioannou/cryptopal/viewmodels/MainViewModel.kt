@@ -384,7 +384,8 @@ class MainViewModel @Inject constructor(
 //        }else{
 //            queries["vs_currency"] = Constants.DEFAULT_CURRENCY
 //        }
-        queries["vs_currency"] = getCurrency()
+        //queries["vs_currency"] = getCurrency()
+        queries["currency"] = getCurrency()
         return queries
     }
 

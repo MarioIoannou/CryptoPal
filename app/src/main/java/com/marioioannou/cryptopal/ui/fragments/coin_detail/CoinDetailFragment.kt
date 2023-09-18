@@ -152,8 +152,8 @@ class CoinDetailFragment : Fragment() {
 
 
         if (args.fromSearch == 1) {
-            viewModel.getCoinInfo(args.coin.coin_id.toString(),"usd")
-            viewModel.coinResponse.observe(viewLifecycleOwner, Observer { response ->
+            viewModel.getCoinInfo(args.coin.coin_id.toString(),viewModel.getCurrency())
+            viewModel.coinInfoResponse.observe(viewLifecycleOwner, Observer { response ->
                 when (response) {
                     is ScreenState.Loading -> {
                         //showShimmerEffect()
@@ -168,24 +168,24 @@ class CoinDetailFragment : Fragment() {
                         //binding.rvCoinRecyclerview.visibility = View.VISIBLE
                         response.data?.let { coin ->
                             binding.apply {
-                                detailTvPrice.text = coin.coins[0].price.toString()
-                                val price = coin.coins[0].price.toString().take(10)
+                                detailTvPrice.text = coin.coin.price.toString()
+                                val price = coin.coin.price.toString().take(10)
                                 val pricePercentage =
-                                    coin.coins[0].priceChange1d.toString().take(10)
+                                    coin.coin.priceChange1d.toString().take(10)
                                 tvChangePrice.text = price
                                 tvChangePercentage.text = "$pricePercentage%"
                                 //infoHigh24h.text = coin.coins[0].high24h.toString().take(10)
                                 //infoLow24h.text = coin.coins[0].low24h.toString().take(10)
                                 //infoAth.text = coin.coins[0].ath.toString().take(10)
                                 //infoAtl.text = coin.coins[0].atl.toString().take(10)
-                                infoMarketCap.text = coin.coins[0].marketCap.toString()
+                                infoMarketCap.text = coin.coin.marketCap.toString()
 //                                infoCirculatingSupply.text =
 //                                    coin.coins[0].circulatingSupply.toString().take(10)
-                                infoMaxSupply.text = coin.coins[0].totalSupply.toString().take(10)
+                                infoMaxSupply.text = coin.coin.totalSupply.toString().take(10)
                                 infoPriceIn1w.text =
-                                    coin.coins[0].priceChange1w.toString().take(10)
-                                infoMarketCapRank.text = "#" + coin.coins[0].rank.toString()
-                                imgCryptoLogo.load(coin.coins[0].icon) {
+                                    coin.coin.priceChange1w.toString().take(10)
+                                infoMarketCapRank.text = "#" + coin.coin.rank.toString()
+                                imgCryptoLogo.load(coin.coin.icon) {
                                     crossfade(600)
                                     error(R.drawable.ic_image_placeholder)
                                 }

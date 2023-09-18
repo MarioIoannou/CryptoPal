@@ -64,7 +64,7 @@
                     android:textAlignment="textStart"
                     android:textColor="@color/my_black"
                     android:textSize="20sp"
-                    app:fontFamily="@font/titillium_bold_upright"
+                    app:fontFamily="@font/montserrat_bold"
                     android:layout_below="@id/cv_settings"/>
 
             </RelativeLayout>
