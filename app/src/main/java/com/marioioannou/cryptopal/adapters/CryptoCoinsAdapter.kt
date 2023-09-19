@@ -1,7 +1,6 @@
 package com.marioioannou.cryptopal.adapters
 
 import android.graphics.Color
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
@@ -11,6 +10,7 @@ import coil.load
 import com.marioioannou.cryptopal.R
 import com.marioioannou.cryptopal.databinding.RowCoinLayoutBinding
 import com.marioioannou.cryptopal.domain.model.coins.Coin
+import java.lang.Math.floor
 
 class CryptoCoinsAdapter(
     currency:String
@@ -49,8 +49,8 @@ class CryptoCoinsAdapter(
         val fiat = currencySymbol(coinCurrency)
         //Log.e("Currency", fiat)
         holder.binding.apply {
-            val priceChange = coin.priceChange1d.toString().take(8)
-            val priceChangePercentage = coin.priceChange1h.toString().take(7)
+            val priceChange = formatNumber(coin.priceChange1d)
+            val priceChangePercentage = coin.priceChange1h.toString().take(5)
             imgCoin.load(coin.icon) {
                 crossfade(600)
                 error(R.drawable.ic_image_placeholder)
@@ -58,7 +58,7 @@ class CryptoCoinsAdapter(
             tvTitle.text = coin.name
             tvSymbol.text = coin.symbol?.uppercase()
             tvCurrencySymbol.text = fiat
-            tvPrice.text = coin.price.toString()
+            tvPrice.text = formatNumber(coin.price)
             val hourChangePrice = coin.price?.let { coin.priceChange1h?.let { it1 ->
                 percentage(it,
                     it1).toString().take(8)
@@ -116,6 +116,26 @@ class CryptoCoinsAdapter(
                 "$"
             }
         }
+    }
+
+    private fun formatNumber(num: Double?): String {
+        if (num != null) {
+            return when {
+                num % 1 == 0.0 -> num.toInt().toString()
+                num < 1 && num > 0 -> {
+                    var tempNum = num
+                    var decimalPlaces = 0
+                    while (tempNum < 1) {
+                        tempNum *= 10
+                        decimalPlaces++
+                    }
+                    val totalDecimalPlaces = if (decimalPlaces + 1 > 7) 7 else decimalPlaces + 1
+                    String.format("%.${totalDecimalPlaces}f", num)
+                }
+                else -> String.format("%.2f", num)
+            }
+        }
+        return "0"
     }
 
 }

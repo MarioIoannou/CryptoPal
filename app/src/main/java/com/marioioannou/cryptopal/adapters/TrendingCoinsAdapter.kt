@@ -56,7 +56,7 @@ class TrendingCoinsAdapter(
             tvCurrencySymbol.text = fiat
             tvTitle.text = coin.name
             tvSymbol.text = coin.symbol?.uppercase()
-            tvPrice.text = coin.price.toString().take(10)
+            tvPrice.text = formatNumber(coin.price)
             tvPriceChange.text = coin.priceChange1d.toString().take(8) + "%"
         }
         holder.itemView.setOnClickListener {
@@ -85,5 +85,33 @@ class TrendingCoinsAdapter(
             "AED" -> return " د.إ"
         }
         return "€"
+    }
+
+//    private fun formatNumber(num: Double?): String {
+//        return when {
+//            num!! % 1 == 0.0 -> num.toInt().toString()
+//            kotlin.math.floor(num) != num && Math.floor(num * 10) == num * 10 -> String.format("%.7f", num)
+//            else -> String.format("%.2f", num)
+//        }
+//    }
+
+    private fun formatNumber(num: Double?): String {
+        if (num != null) {
+            return when {
+                num % 1 == 0.0 -> num.toInt().toString()
+                num < 1 && num > 0 -> {
+                    var tempNum = num
+                    var decimalPlaces = 0
+                    while (tempNum < 1) {
+                        tempNum *= 10
+                        decimalPlaces++
+                    }
+                    val totalDecimalPlaces = if (decimalPlaces + 1 > 7) 7 else decimalPlaces + 1
+                    String.format("%.${totalDecimalPlaces}f", num)
+                }
+                else -> String.format("%.2f", num)
+            }
+        }
+        return "0"
     }
 }

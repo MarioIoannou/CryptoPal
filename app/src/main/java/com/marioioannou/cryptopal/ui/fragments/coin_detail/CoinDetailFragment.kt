@@ -168,11 +168,10 @@ class CoinDetailFragment : Fragment() {
                         //binding.rvCoinRecyclerview.visibility = View.VISIBLE
                         response.data?.let { coin ->
                             binding.apply {
-                                detailTvPrice.text = coin.coin.price.toString()
-                                val price = coin.coin.price.toString().take(10)
+                                detailTvPrice.text = formatNumber(coin.coin.price)
                                 val pricePercentage =
-                                    coin.coin.priceChange1d.toString().take(10)
-                                tvChangePrice.text = price
+                                    formatNumber(coin.coin.priceChange1d)
+                                tvChangePrice.text = formatNumber(coin.coin.price)
                                 tvChangePercentage.text = "$pricePercentage%"
                                 //infoHigh24h.text = coin.coins[0].high24h.toString().take(10)
                                 //infoLow24h.text = coin.coins[0].low24h.toString().take(10)
@@ -183,7 +182,7 @@ class CoinDetailFragment : Fragment() {
 //                                    coin.coins[0].circulatingSupply.toString().take(10)
                                 infoMaxSupply.text = coin.coin.totalSupply.toString().take(10)
                                 infoPriceIn1w.text =
-                                    coin.coin.priceChange1w.toString().take(10)
+                                    formatNumber(coin.coin.priceChange1w)
                                 infoMarketCapRank.text = "#" + coin.coin.rank.toString()
                                 imgCryptoLogo.load(coin.coin.icon) {
                                     crossfade(600)
@@ -209,9 +208,9 @@ class CoinDetailFragment : Fragment() {
             //detailImgCoin.load(coin.image)
             detailTvTitle.text = coin.name
             detailTvSymbol.text = coin.symbol?.uppercase()
-            detailTvPrice.text = coin.price.toString()
-            val price = coin.price.toString().take(10)
-            val pricePercentage = coin.priceChange1d.toString().take(10)
+            detailTvPrice.text = formatNumber(coin.price)
+            val price = formatNumber(coin.price)
+            val pricePercentage = formatNumber(coin.priceChange1d)
             tvChangePrice.text = price
             tvChangePercentage.text = "$pricePercentage%"
             infoCoinName.text = coin.name
@@ -222,7 +221,7 @@ class CoinDetailFragment : Fragment() {
             infoMarketCap.text = coin.marketCap.toString()
             //infoCirculatingSupply.text = coin.circulatingSupply.toString().take(10)
             infoMaxSupply.text = coin.totalSupply.toString().take(10)
-            infoPriceIn1w.text = coin.priceChange1w.toString().take(10)
+            infoPriceIn1w.text = formatNumber(coin.priceChange1w)
             infoMarketCapRank.text = "#" + coin.rank.toString()
             imgCryptoLogo.load(coin.icon) {
                 crossfade(600)
@@ -464,5 +463,25 @@ class CoinDetailFragment : Fragment() {
                 "$"
             }
         }
+    }
+
+    private fun formatNumber(num: Double?): String {
+        if (num != null) {
+            return when {
+                num % 1 == 0.0 -> num.toInt().toString()
+                num < 1 && num > 0 -> {
+                    var tempNum = num
+                    var decimalPlaces = 0
+                    while (tempNum < 1) {
+                        tempNum *= 10
+                        decimalPlaces++
+                    }
+                    val totalDecimalPlaces = if (decimalPlaces + 1 > 7) 7 else decimalPlaces + 1
+                    String.format("%.${totalDecimalPlaces}f", num)
+                }
+                else -> String.format("%.2f", num)
+            }
+        }
+        return "0"
     }
 }

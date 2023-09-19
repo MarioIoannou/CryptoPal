@@ -52,7 +52,7 @@ class SavedCryptoCoinsAdapter(
             }
             tvTitle.text = coin.cryptoCoin.name.toString()
             tvSymbol.text = coin.cryptoCoin.symbol.toString()
-            tvPrice.text = coin.cryptoCoin.price.toString().take(10)
+            tvPrice.text = formatNumber(coin.cryptoCoin.price)
             tvCurrencySymbol.text = currencyAdapter
         }
 
@@ -83,6 +83,26 @@ class SavedCryptoCoinsAdapter(
             "AED" -> return " د.إ"
         }
         return "€"
+    }
+
+    private fun formatNumber(num: Double?): String {
+        if (num != null) {
+            return when {
+                num % 1 == 0.0 -> num.toInt().toString()
+                num < 1 && num > 0 -> {
+                    var tempNum = num
+                    var decimalPlaces = 0
+                    while (tempNum < 1) {
+                        tempNum *= 10
+                        decimalPlaces++
+                    }
+                    val totalDecimalPlaces = if (decimalPlaces + 1 > 7) 7 else decimalPlaces + 1
+                    String.format("%.${totalDecimalPlaces}f", num)
+                }
+                else -> String.format("%.2f", num)
+            }
+        }
+        return "0"
     }
 
 }

@@ -103,7 +103,7 @@
         android:padding="5dp"
         android:text="@string/trending_coins"
         android:textColor="@color/my_black"
-        android:textSize="20sp"
+        android:textSize="@dimen/_15ssp"
         app:fontFamily="@font/montserrat_bold"
         app:layout_constraintBottom_toTopOf="@+id/rv_trending"
         app:layout_constraintStart_toStartOf="parent" />
@@ -120,6 +120,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
+        android:visibility="invisible"
         tools:listitem="@layout/row_trending_coin_layout" />
 
     <com.google.android.material.textview.MaterialTextView
@@ -131,7 +132,7 @@
         android:padding="5dp"
         android:text="@string/watchlist"
         android:textColor="@color/my_black"
-        android:textSize="20sp"
+        android:textSize="@dimen/_15ssp"
         app:fontFamily="@font/montserrat_bold"
         app:layout_constraintBottom_toTopOf="@+id/layout_watchlist"
         app:layout_constraintStart_toStartOf="parent" />
@@ -188,5 +189,18 @@
 
     </RelativeLayout>
 
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottieTrending"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/rv_trending"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/rv_trending"
+        app:layout_constraintVertical_bias="0.0"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/crypto_horizontal_anim" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

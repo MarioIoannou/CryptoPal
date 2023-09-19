@@ -66,7 +66,6 @@ class HomeFragment : Fragment() {
             findNavController().navigate(action)
         }
 
-
         setupTrendingCoinsRecyclerView(viewModel.getCurrency())
         setupWatchlistRecyclerView(viewModel.getCurrency())
         requestTrendingCoinsApiData()
@@ -99,7 +98,7 @@ class HomeFragment : Fragment() {
             Log.e(TAG, "viewModel.trendingCoinResponse.observe")
             when (trendingCoinResponse) {
                 is ScreenState.Loading -> {
-                    //showShimmerEffect()
+                    showTrendingEffect()
                     Log.e(TAG, "   requestTrendingCoinsApiData() Response Loading")
                 }
                 is ScreenState.Success -> {
@@ -111,7 +110,7 @@ class HomeFragment : Fragment() {
                 }
                 is ScreenState.Error -> {
                     Log.e(TAG, "   requestTrendingCoinsApiData() Response Error")
-                    //hideShimmerEffect()
+                    hideTrendingEffect()
                     Toast.makeText(
                         requireContext(),
                         trendingCoinResponse.message.toString(),
@@ -159,6 +158,16 @@ class HomeFragment : Fragment() {
     private fun hideRecyclerView() {
         binding.rvWatchlist.visibility = View.GONE
         binding.noDataLayout.visibility = View.VISIBLE
+    }
+
+    private fun showTrendingEffect() {
+        binding.rvTrending.visibility = View.VISIBLE
+        binding.lottieTrending.visibility = View.GONE
+    }
+
+    private fun hideTrendingEffect() {
+        binding.rvTrending.visibility = View.INVISIBLE
+        binding.lottieTrending.visibility = View.VISIBLE
     }
 
     private fun topMovingCoins(list : List<Coin>) : List<Coin>{

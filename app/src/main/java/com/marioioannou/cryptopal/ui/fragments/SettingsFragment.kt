@@ -175,14 +175,4 @@ class SettingsFragment : Fragment() {
         val alert: AlertDialog = alertDialog.create()
         alert.show()
     }
-
-//    "EUR" -> return "€ "
-//    "USD" -> return "$ "
-//    "GBP" -> return "£ "
-//    "INR" -> return "₹ "
-//    "CHF" -> return "CHF "
-//    "JPY" -> return "¥ "
-//    "RUB" -> return "₽ "
-//    "AED" -> return " د.إ"
-
 }
