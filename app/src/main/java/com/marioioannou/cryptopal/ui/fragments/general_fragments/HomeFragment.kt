@@ -1,4 +1,4 @@
-package com.marioioannou.cryptopal.ui.fragments
+package com.marioioannou.cryptopal.ui.fragments.general_fragments
 
 import android.os.Bundle
 import android.util.Log
@@ -10,15 +10,14 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.marioioannou.cryptopal.adapters.CryptoCoinsAdapter
 import com.marioioannou.cryptopal.adapters.SavedCryptoCoinsAdapter
 import com.marioioannou.cryptopal.adapters.TrendingCoinsAdapter
 import com.marioioannou.cryptopal.databinding.FragmentHomeBinding
 import com.marioioannou.cryptopal.domain.database.CryptoCoinEntity
-import com.marioioannou.cryptopal.domain.datastore.DatastoreRepo
 import com.marioioannou.cryptopal.domain.model.coins.Coin
 import com.marioioannou.cryptopal.ui.activities.MainActivity
-import com.marioioannou.cryptopal.utils.Constants
+import com.marioioannou.cryptopal.ui.fragments.HomeFragmentDirections
+import com.marioioannou.cryptopal.ui.fragments.SettingsFragmentDirections
 import com.marioioannou.cryptopal.utils.NetworkListener
 import com.marioioannou.cryptopal.utils.ScreenState
 import com.marioioannou.cryptopal.viewmodels.MainViewModel
@@ -81,12 +80,13 @@ class HomeFragment : Fragment() {
         })
 
         savedCryptoCoinsAdapter.setOnItemClickListener { coin: CryptoCoinEntity ->
-            val action = HomeFragmentDirections.actionHomeFragmentToCoinDetailFragment(coin.cryptoCoin,0)
+            val action =
+                HomeFragmentDirections.actionHomeFragmentToCoinDetailFragment(coin.cryptoCoin, 0)
             findNavController().navigate(action)
         }
 
         trendingCoinsAdapter.setOnItemClickListener { coin: Coin ->
-            val action = HomeFragmentDirections.actionHomeFragmentToCoinDetailFragment(coin,0)
+            val action = HomeFragmentDirections.actionHomeFragmentToCoinDetailFragment(coin, 0)
             findNavController().navigate(action)
         }
     }

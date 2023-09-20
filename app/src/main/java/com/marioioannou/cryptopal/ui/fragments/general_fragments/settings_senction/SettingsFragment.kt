@@ -1,4 +1,4 @@
-package com.marioioannou.cryptopal.ui.fragments
+package com.marioioannou.cryptopal.ui.fragments.general_fragments.settings_senction
 
 import android.content.Intent
 import android.net.Uri
@@ -8,13 +8,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.marioioannou.cryptopal.R
-import com.marioioannou.cryptopal.databinding.FragmentCoinDetailBinding
 import com.marioioannou.cryptopal.databinding.FragmentSettingsBinding
 import com.marioioannou.cryptopal.ui.activities.MainActivity
-import com.marioioannou.cryptopal.utils.Constants
 import com.marioioannou.cryptopal.utils.Constants.CURRENCY_AED
 import com.marioioannou.cryptopal.utils.Constants.CURRENCY_CHF
 import com.marioioannou.cryptopal.utils.Constants.CURRENCY_EUR
@@ -23,7 +20,6 @@ import com.marioioannou.cryptopal.utils.Constants.CURRENCY_INR
 import com.marioioannou.cryptopal.utils.Constants.CURRENCY_JPY
 import com.marioioannou.cryptopal.utils.Constants.CURRENCY_RUB
 import com.marioioannou.cryptopal.utils.Constants.CURRENCY_USD
-import com.marioioannou.cryptopal.utils.Constants.DEFAULT_CURRENCY
 import com.marioioannou.cryptopal.viewmodels.MainViewModel
 
 class SettingsFragment : Fragment() {

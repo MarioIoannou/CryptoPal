@@ -53,3 +53,4 @@ object Constants {
     const val CURRENCY_RUB = "RUB"
     const val CURRENCY_AED = "AED"
 }
+

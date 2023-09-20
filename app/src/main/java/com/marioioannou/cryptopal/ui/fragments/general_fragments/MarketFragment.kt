@@ -1,4 +1,4 @@
-package com.marioioannou.cryptopal.ui.fragments
+package com.marioioannou.cryptopal.ui.fragments.general_fragments
 
 import android.os.Bundle
 import android.util.Log
@@ -8,16 +8,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.marioioannou.cryptopal.R
 import com.marioioannou.cryptopal.adapters.CryptoCoinsAdapter
 import com.marioioannou.cryptopal.databinding.FragmentMarketBinding
 import com.marioioannou.cryptopal.domain.datastore.DataStoreRepository
-import com.marioioannou.cryptopal.domain.datastore.DatastoreRepo
 import com.marioioannou.cryptopal.domain.model.coins.Coin
 import com.marioioannou.cryptopal.ui.activities.MainActivity
+import com.marioioannou.cryptopal.ui.fragments.MarketFragmentDirections
+import com.marioioannou.cryptopal.ui.fragments.SettingsFragmentDirections
 import com.marioioannou.cryptopal.utils.Constants
 import com.marioioannou.cryptopal.utils.NetworkListener
 import com.marioioannou.cryptopal.utils.ScreenState
@@ -78,7 +78,7 @@ class MarketFragment : Fragment() {
         requestCoinsApiData()
 
         coinsAdapter.setOnItemClickListener { coin: Coin ->
-            val action = MarketFragmentDirections.actionMarketFragmentToCoinDetailFragment(coin,0)
+            val action = MarketFragmentDirections.actionMarketFragmentToCoinDetailFragment(coin, 0)
             findNavController().navigate(action)
         }
 

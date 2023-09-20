@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.marioioannou.cryptopal.ui.fragments.HomeFragment"
+        android:name="com.marioioannou.cryptopal.ui.fragments.general_fragments.HomeFragment"
         android:label="Home"
         tools:layout="@layout/fragment_home">
         <action
@@ -27,7 +27,7 @@
     </fragment>
     <fragment
         android:id="@+id/marketFragment"
-        android:name="com.marioioannou.cryptopal.ui.fragments.MarketFragment"
+        android:name="com.marioioannou.cryptopal.ui.fragments.general_fragments.MarketFragment"
         android:label="Market"
         tools:layout="@layout/fragment_market">
         <action
@@ -78,7 +78,7 @@
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
-        android:name="com.marioioannou.cryptopal.ui.fragments.SearchFragment"
+        android:name="com.marioioannou.cryptopal.ui.fragments.general_fragments.SearchFragment"
         android:label="fragment_search"
         tools:layout="@layout/fragment_search" >
         <action
@@ -91,7 +91,7 @@
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="com.marioioannou.cryptopal.ui.fragments.SettingsFragment"
+        android:name="com.marioioannou.cryptopal.ui.fragments.general_fragments.settings_senction.SettingsFragment"
         android:label="fragment_settings"
         tools:layout="@layout/fragment_settings" />
     <action
@@ -114,7 +114,7 @@
     </dialog>
     <fragment
         android:id="@+id/infoFragment"
-        android:name="com.marioioannou.cryptopal.ui.fragments.InfoFragment"
+        android:name="com.marioioannou.cryptopal.ui.fragments.general_fragments.InfoFragment"
         android:label="fragment_info"
         tools:layout="@layout/fragment_info" />
     <fragment

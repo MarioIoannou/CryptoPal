@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragments.SettingsFragment"
+    tools:context=".ui.fragments.general_fragments.settings_senction.SettingsFragment"
     tools:ignore="ScrollViewCount">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -256,7 +257,7 @@
                         android:layout_width="23dp"
                         android:layout_height="23dp"
                         android:layout_gravity="center"
-                        android:src="@drawable/darkwhite"
+                        android:src="@drawable/svg_glossary"
                         app:tint="@color/my_dark_grey" />
 
                 </com.google.android.material.card.MaterialCardView>
@@ -330,7 +331,7 @@
                         android:layout_width="23dp"
                         android:layout_height="23dp"
                         android:layout_gravity="center"
-                        android:src="@drawable/darkwhite"
+                        android:src="@drawable/svg_contact_person"
                         app:tint="@color/my_dark_grey" />
 
                 </com.google.android.material.card.MaterialCardView>
@@ -384,10 +385,10 @@
                     app:cardCornerRadius="10dp">
 
                     <com.google.android.material.imageview.ShapeableImageView
-                        android:layout_width="23dp"
-                        android:layout_height="23dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:layout_gravity="center"
-                        android:src="@drawable/darkwhite"
+                        android:src="@drawable/svg_about"
                         app:tint="@color/my_dark_grey" />
 
                 </com.google.android.material.card.MaterialCardView>
@@ -441,10 +442,10 @@
                     app:cardCornerRadius="10dp">
 
                     <com.google.android.material.imageview.ShapeableImageView
-                        android:layout_width="23dp"
-                        android:layout_height="23dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:layout_gravity="center"
-                        android:src="@drawable/darkwhite"
+                        android:src="@drawable/svg_legal"
                         app:tint="@color/my_dark_grey" />
 
                 </com.google.android.material.card.MaterialCardView>
