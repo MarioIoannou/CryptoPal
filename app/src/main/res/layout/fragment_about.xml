@@ -1,14 +1,209 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.fragments.general_fragments.settings_senction.AboutFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout
+        android:id="@+id/layout_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-</FrameLayout>
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cv_back"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerInParent="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="8dp"
+            android:clickable="true"
+            app:cardBackgroundColor="@color/my_grey_blue"
+            app:cardCornerRadius="10dp">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_width="23dp"
+                android:layout_height="23dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_arrow_back_ios"
+                app:tint="@color/my_dark_grey" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/materialTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/montserrat_black"
+            android:text="@string/app_name"
+            android:textColor="@color/my_blue"
+            android:textSize="35sp" />
+
+    </RelativeLayout>
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/img_crypto_logo"
+        android:layout_width="@dimen/_100sdp"
+        android:layout_height="@dimen/_100sdp"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:src="@mipmap/ic_launcher"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_toolbar" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cv_current_version"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:cardCornerRadius="25dp"
+        app:cardElevation="0dp"
+        app:layout_constraintEnd_toEndOf="@+id/img_crypto_logo"
+        app:layout_constraintStart_toStartOf="@+id/img_crypto_logo"
+        app:layout_constraintTop_toBottomOf="@+id/img_crypto_logo"
+        app:strokeColor="@color/my_grey_blue"
+        app:strokeWidth="1dp">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_current_version"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:ellipsize="end"
+            android:padding="@dimen/_16sdp"
+            android:text="@string/current_version_1_0_0"
+            android:textColor="@color/my_black"
+            android:textSize="@dimen/_13ssp"
+            app:fontFamily="@font/montserrat_bold" />
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_powered_by"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_16sdp"
+        android:ellipsize="end"
+        android:padding="@dimen/_8sdp"
+        android:text="@string/powered_by"
+        android:textColor="@color/my_black"
+        android:textSize="@dimen/_13ssp"
+        app:fontFamily="@font/montserrat"
+        app:layout_constraintEnd_toEndOf="@+id/cv_current_version"
+        app:layout_constraintStart_toStartOf="@+id/cv_current_version"
+        app:layout_constraintTop_toBottomOf="@+id/cv_current_version" />
+
+    <LinearLayout
+        android:id="@+id/cv_powered_by"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="@+id/tv_powered_by"
+        app:layout_constraintStart_toStartOf="@+id/tv_powered_by"
+        app:layout_constraintTop_toBottomOf="@+id/tv_powered_by">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/img_coingecko"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_60sdp"
+            android:src="@drawable/coinstatslogo_supplied" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/img_coinstats"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_60sdp"
+            android:src="@drawable/coingecko_logo" />
+
+    </LinearLayout>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="24dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="20sp"
+        app:cardElevation="1dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cv_powered_by"
+        app:strokeColor="@color/my_grey_blue"
+        app:strokeWidth="1dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/materialTextView9"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="sans-serif"
+                android:text="Developed and designed by"
+                android:textAlignment="center"
+                android:textColor="@color/my_dark_grey"
+                android:textSize="15sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/materialTextView10"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:fontFamily="@font/montserrat"
+                android:text="Marios Ioannou"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="25sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/materialTextView9" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/materialTextView10">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/about_linkedin"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_margin="16dp"
+                    android:src="@drawable/vector_linkedin"
+                    app:tint="#0077b5"
+                    tools:layout_editor_absoluteX="92dp"
+                    tools:layout_editor_absoluteY="89dp" />
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/about_github"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_margin="16dp"
+                    android:src="@drawable/vector_github"
+                    tools:layout_editor_absoluteX="238dp"
+                    tools:layout_editor_absoluteY="99dp" />
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

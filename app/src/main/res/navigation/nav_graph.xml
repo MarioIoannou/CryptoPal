@@ -50,7 +50,7 @@
     </fragment>
     <fragment
         android:id="@+id/newsFragment"
-        android:name="com.marioioannou.cryptopal.ui.fragments.news.NewsFragment"
+        android:name="com.marioioannou.cryptopal.ui.fragments.general_fragments.news.NewsFragment"
         android:label="News"
         tools:layout="@layout/fragment_news" >
         <action
@@ -93,7 +93,20 @@
         android:id="@+id/settingsFragment"
         android:name="com.marioioannou.cryptopal.ui.fragments.general_fragments.settings_senction.SettingsFragment"
         android:label="fragment_settings"
-        tools:layout="@layout/fragment_settings" />
+        tools:layout="@layout/fragment_settings" >
+        <action
+            android:id="@+id/action_settingsFragment_to_aboutFragment"
+            app:destination="@id/aboutFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_contactFragment"
+            app:destination="@id/contactFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_glossaryFragment"
+            app:destination="@id/glossaryFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_legalFragment"
+            app:destination="@id/legalFragment" />
+    </fragment>
     <action
         android:id="@+id/action_global_settingsFragment"
         app:destination="@id/settingsFragment"
@@ -119,11 +132,31 @@
         tools:layout="@layout/fragment_info" />
     <fragment
         android:id="@+id/articleFragment"
-        android:name="com.marioioannou.cryptopal.ui.fragments.news.ArticleFragment"
+        android:name="com.marioioannou.cryptopal.ui.fragments.general_fragments.news.ArticleFragment"
         android:label="fragment_article"
         tools:layout="@layout/fragment_article" >
         <argument
             android:name="article"
             app:argType="com.marioioannou.cryptopal.domain.model.news.New" />
     </fragment>
+    <fragment
+        android:id="@+id/aboutFragment"
+        android:name="com.marioioannou.cryptopal.ui.fragments.general_fragments.settings_senction.AboutFragment"
+        android:label="fragment_about"
+        tools:layout="@layout/fragment_about" />
+    <fragment
+        android:id="@+id/contactFragment"
+        android:name="com.marioioannou.cryptopal.ui.fragments.general_fragments.settings_senction.ContactFragment"
+        android:label="fragment_contact"
+        tools:layout="@layout/fragment_contact" />
+    <fragment
+        android:id="@+id/glossaryFragment"
+        android:name="com.marioioannou.cryptopal.ui.fragments.general_fragments.settings_senction.GlossaryFragment"
+        android:label="fragment_glossary"
+        tools:layout="@layout/fragment_glossary" />
+    <fragment
+        android:id="@+id/legalFragment"
+        android:name="com.marioioannou.cryptopal.ui.fragments.general_fragments.settings_senction.LegalFragment"
+        android:label="fragment_legal"
+        tools:layout="@layout/fragment_legal" />
 </navigation>

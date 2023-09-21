@@ -13,8 +13,10 @@
     <string name="info_max_supply">The maximum number of cryptos that will ever be issued.</string>
     <string name="info_all_time">The all-time-high/low trading price in selected currency.</string>
     <string name="info_high_low_24">The high/low trading price 24 hours in the selected currency.</string>
-    <string name="glossary_text">In the rapidly evolving world of cryptocurrency, staying informed is key.
-        The Crypto Glossary serves as a comprehensive guide, deciphering complex jargon and technical terms for both
-        newcomers and seasoned enthusiasts alike. From "blockchain" and "mining" to "wallets" and "smart contracts",
-        delve into clear definitions and explanations, ensuring you navigate the crypto sphere with confidence and clarity.</string>
+    <string name="glossary_text">Navigating the intricate world of cryptocurrency just got easier!
+
+        With CryptoPal Crypto Glossary at your fingertips, you can effortlessly decode the maze of terms and jargon. From "blockchain" to "decentralization", each definition is crafted for clarity and simplicity. Dive in, demystify the complexities, and embrace the joy of truly understanding the world of crypto.</string>
+    <string name="legal_amp_policies"><![CDATA[Legal & Policies]]></string>
+    <string name="current_version_1_0_0">Current version: 1.0.0</string>
+    <string name="powered_by">Powered by:</string>
 </resources>

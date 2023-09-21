@@ -16,8 +16,7 @@ import com.marioioannou.cryptopal.databinding.FragmentMarketBinding
 import com.marioioannou.cryptopal.domain.datastore.DataStoreRepository
 import com.marioioannou.cryptopal.domain.model.coins.Coin
 import com.marioioannou.cryptopal.ui.activities.MainActivity
-import com.marioioannou.cryptopal.ui.fragments.MarketFragmentDirections
-import com.marioioannou.cryptopal.ui.fragments.SettingsFragmentDirections
+import com.marioioannou.cryptopal.ui.fragments.general_fragments.settings_senction.SettingsFragmentDirections
 import com.marioioannou.cryptopal.utils.Constants
 import com.marioioannou.cryptopal.utils.NetworkListener
 import com.marioioannou.cryptopal.utils.ScreenState

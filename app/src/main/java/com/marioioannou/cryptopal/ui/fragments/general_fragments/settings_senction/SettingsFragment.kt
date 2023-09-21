@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import com.marioioannou.cryptopal.R
 import com.marioioannou.cryptopal.databinding.FragmentSettingsBinding
 import com.marioioannou.cryptopal.ui.activities.MainActivity
+import com.marioioannou.cryptopal.ui.fragments.general_fragments.settings_senction.SettingsFragmentDirections.*
 import com.marioioannou.cryptopal.utils.Constants.CURRENCY_AED
 import com.marioioannou.cryptopal.utils.Constants.CURRENCY_CHF
 import com.marioioannou.cryptopal.utils.Constants.CURRENCY_EUR
@@ -50,6 +51,14 @@ class SettingsFragment : Fragment() {
             }
             cvCurrency.setOnClickListener {
                 currencyAlertDialog()
+            }
+            cvAbout.setOnClickListener {
+                val action = actionSettingsFragmentToAboutFragment()
+                findNavController().navigate(action)
+            }
+            cvGlossary.setOnClickListener {
+                val action = actionSettingsFragmentToGlossaryFragment()
+                findNavController().navigate(action)
             }
 
             imgBuyMeACoffee.setOnClickListener {

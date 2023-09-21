@@ -17,7 +17,6 @@ import com.marioioannou.cryptopal.adapters.SearchCoinsAdapter
 import com.marioioannou.cryptopal.databinding.FragmentSearchBinding
 import com.marioioannou.cryptopal.domain.model.coins.Coin
 import com.marioioannou.cryptopal.ui.activities.MainActivity
-import com.marioioannou.cryptopal.ui.fragments.SearchFragmentDirections
 import com.marioioannou.cryptopal.utils.NetworkListener
 import com.marioioannou.cryptopal.utils.ScreenState
 import com.marioioannou.cryptopal.utils.hideKeyboard

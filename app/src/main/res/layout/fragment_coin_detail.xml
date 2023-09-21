@@ -18,6 +18,7 @@
             android:layout_height="wrap_content"
             android:background="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -544,7 +545,7 @@
                         android:maxLines="1"
                         android:text="Highest Price in 24h"
                         android:textColor="@color/my_dark_grey"
-                        android:textSize="16sp"
+                        android:textSize="@dimen/_13ssp"
                         app:fontFamily="@font/montserrat_medium"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -581,7 +582,7 @@
                         android:maxLines="1"
                         android:text="Lowsest Price in 24h"
                         android:textColor="@color/my_dark_grey"
-                        android:textSize="16sp"
+                        android:textSize="@dimen/_13ssp"
                         app:fontFamily="@font/montserrat_bold"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />

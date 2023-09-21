@@ -32,7 +32,6 @@ import com.marioioannou.cryptopal.databinding.FragmentCoinDetailBinding
 import com.marioioannou.cryptopal.domain.database.CryptoCoinEntity
 import com.marioioannou.cryptopal.domain.model.coins.Coin
 import com.marioioannou.cryptopal.ui.activities.MainActivity
-import com.marioioannou.cryptopal.ui.fragments.SettingsFragmentDirections
 import com.marioioannou.cryptopal.utils.ScreenState
 import com.marioioannou.cryptopal.viewmodels.MainViewModel
 import java.util.*

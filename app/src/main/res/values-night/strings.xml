@@ -7,4 +7,7 @@
     <string name="currency">Currency</string>
     <string name="appearance">Appearance</string>
     <string name="info_market_cap">The current price of %s multiplied by its current circulating supply</string>
+    <string name="legal_amp_policies"><![CDATA[Legal & Policies]]></string>
+    <string name="current_version_1_0_0">Current version: 1.0.0</string>
+    <string name="powered_by">Powered by:</string>
 </resources>

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragments.news.ArticleFragment">
+    tools:context=".ui.fragments.general_fragments.news.ArticleFragment">
 
     <RelativeLayout
         android:id="@+id/layout_toolbar"

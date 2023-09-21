@@ -1,4 +1,4 @@
-package com.marioioannou.cryptopal.ui.fragments.news
+package com.marioioannou.cryptopal.ui.fragments.general_fragments.news
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

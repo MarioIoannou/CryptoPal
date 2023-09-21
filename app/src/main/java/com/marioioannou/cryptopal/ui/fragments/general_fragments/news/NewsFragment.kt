@@ -1,4 +1,4 @@
-package com.marioioannou.cryptopal.ui.fragments.news
+package com.marioioannou.cryptopal.ui.fragments.general_fragments.news
 
 import android.os.Bundle
 import android.os.Looper
@@ -16,8 +16,7 @@ import com.marioioannou.cryptopal.adapters.NewsAdapter
 import com.marioioannou.cryptopal.databinding.FragmentNewsBinding
 import com.marioioannou.cryptopal.domain.model.news.New
 import com.marioioannou.cryptopal.ui.activities.MainActivity
-import com.marioioannou.cryptopal.ui.fragments.MarketFragmentDirections
-import com.marioioannou.cryptopal.ui.fragments.SettingsFragmentDirections
+import com.marioioannou.cryptopal.ui.fragments.general_fragments.settings_senction.SettingsFragmentDirections
 import com.marioioannou.cryptopal.utils.ScreenState
 import com.marioioannou.cryptopal.viewmodels.MainViewModel
 import java.util.*

@@ -11,18 +11,294 @@
         android:layout_width="match_parent"
         android:layout_height="500dp">
 
+        <RelativeLayout
+            android:id="@+id/layout_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cv_back"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="8dp"
+                android:clickable="true"
+                app:cardBackgroundColor="@color/my_grey_blue"
+                app:cardCornerRadius="10dp">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:layout_width="23dp"
+                    android:layout_height="23dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_arrow_back_ios"
+                    app:tint="@color/my_dark_grey" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </RelativeLayout>
+
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tv_top_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=""
+            android:ellipsize="end"
+            android:padding="@dimen/_8sdp"
+            android:text="@string/glossary_text"
+            android:textColor="@color/my_black"
+            android:textSize="@dimen/_13ssp"
+            app:fontFamily="@font/montserrat"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layout_toolbar" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tv_capital_A"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:ellipsize="end"
+            android:padding="@dimen/_8sdp"
+            android:text="A"
+            android:textColor="@color/my_black"
+            android:textSize="@dimen/_16ssp"
+            app:fontFamily="@font/montserrat_bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_top_text" />
 
+        <LinearLayout
+            android:id="@+id/linearLayout4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@+id/tv_capital_A">
 
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:padding="@dimen/_8sdp"
+                android:text="Address:"
+                android:textColor="@color/my_black"
+                android:textSize="@dimen/_13ssp"
+                app:fontFamily="@font/montserrat_bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_top_text" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_address_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:padding="@dimen/_8sdp"
+                android:text="A string of letters and numbers that is used to receive cryptocurrency."
+                android:textColor="@color/my_black"
+                android:textSize="@dimen/_11ssp"
+                app:fontFamily="@font/montserrat"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_top_text" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout4">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_altcoin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:padding="@dimen/_8sdp"
+                android:text="Altcoin:"
+                android:textColor="@color/my_black"
+                android:textSize="@dimen/_13ssp"
+                app:fontFamily="@font/montserrat_bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_top_text" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_altcoin_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:padding="@dimen/_8sdp"
+                android:text="Any cryptocurrency other than Bitcoin."
+                android:textColor="@color/my_black"
+                android:textSize="@dimen/_11ssp"
+                app:fontFamily="@font/montserrat"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_top_text" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout5">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_asic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:padding="@dimen/_8sdp"
+                android:text="ASIC (Application-Specific Integrated Circuit):"
+                android:textColor="@color/my_black"
+                android:textSize="@dimen/_13ssp"
+                app:fontFamily="@font/montserrat_bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_top_text" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_asic_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:padding="@dimen/_8sdp"
+                android:text="A chip designed specifically for cryptocurrency mining."
+                android:textColor="@color/my_black"
+                android:textSize="@dimen/_11ssp"
+                app:fontFamily="@font/montserrat"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_top_text" />
+
+        </LinearLayout>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_capital_B"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:ellipsize="end"
+            android:padding="@dimen/_8sdp"
+            android:text="B"
+            android:textColor="@color/my_black"
+            android:textSize="@dimen/_16ssp"
+            app:fontFamily="@font/montserrat_bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout6" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout7"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@+id/tv_capital_B">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_blockchain"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:padding="@dimen/_8sdp"
+                android:text="Blockchain:"
+                android:textColor="@color/my_black"
+                android:textSize="@dimen/_13ssp"
+                app:fontFamily="@font/montserrat_bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_top_text" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_blockchain_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:padding="@dimen/_8sdp"
+                android:text="A distributed, decentralized ledger technology that underpins cryptocurrencies."
+                android:textColor="@color/my_black"
+                android:textSize="@dimen/_11ssp"
+                app:fontFamily="@font/montserrat"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_top_text" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout8"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout7">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_block"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:padding="@dimen/_8sdp"
+                android:text="Block:"
+                android:textColor="@color/my_black"
+                android:textSize="@dimen/_13ssp"
+                app:fontFamily="@font/montserrat_bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_top_text" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_block_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:padding="@dimen/_8sdp"
+                android:text="A collection of transactions that have been added to the blockchain."
+                android:textColor="@color/my_black"
+                android:textSize="@dimen/_11ssp"
+                app:fontFamily="@font/montserrat"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_top_text" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout9"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout8">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_block_reward"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:padding="@dimen/_8sdp"
+                android:text="Block Reward:"
+                android:textColor="@color/my_black"
+                android:textSize="@dimen/_13ssp"
+                app:fontFamily="@font/montserrat_bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_top_text" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_block_reward_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:padding="@dimen/_8sdp"
+                android:text="The cryptocurrency reward received by miners for solving a block."
+                android:textColor="@color/my_black"
+                android:textSize="@dimen/_11ssp"
+                app:fontFamily="@font/montserrat"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_top_text" />
+
+        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

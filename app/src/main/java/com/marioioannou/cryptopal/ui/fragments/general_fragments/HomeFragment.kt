@@ -16,8 +16,7 @@ import com.marioioannou.cryptopal.databinding.FragmentHomeBinding
 import com.marioioannou.cryptopal.domain.database.CryptoCoinEntity
 import com.marioioannou.cryptopal.domain.model.coins.Coin
 import com.marioioannou.cryptopal.ui.activities.MainActivity
-import com.marioioannou.cryptopal.ui.fragments.HomeFragmentDirections
-import com.marioioannou.cryptopal.ui.fragments.SettingsFragmentDirections
+import com.marioioannou.cryptopal.ui.fragments.general_fragments.settings_senction.SettingsFragmentDirections
 import com.marioioannou.cryptopal.utils.NetworkListener
 import com.marioioannou.cryptopal.utils.ScreenState
 import com.marioioannou.cryptopal.viewmodels.MainViewModel

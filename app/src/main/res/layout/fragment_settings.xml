@@ -111,7 +111,7 @@
                     android:text="@string/currency"
                     android:textAlignment="textStart"
                     android:textColor="@color/my_black"
-                    android:textSize="@dimen/_15ssp"
+                    android:textSize="@dimen/_13ssp"
                     app:fontFamily="@font/montserrat" />
 
                 <com.google.android.material.textview.MaterialTextView
@@ -184,7 +184,7 @@
                     android:text="@string/appearance"
                     android:textAlignment="textStart"
                     android:textColor="@color/my_black"
-                    android:textSize="@dimen/_15ssp"
+                    android:textSize="@dimen/_13ssp"
                     app:fontFamily="@font/montserrat" />
 
                 <com.google.android.material.textview.MaterialTextView
@@ -274,7 +274,7 @@
                     android:text="Crypto Term Glossary"
                     android:textAlignment="textStart"
                     android:textColor="@color/my_black"
-                    android:textSize="@dimen/_15ssp"
+                    android:textSize="@dimen/_13ssp"
                     app:fontFamily="@font/montserrat" />
 
             </RelativeLayout>
@@ -348,7 +348,7 @@
                     android:text="Contact"
                     android:textAlignment="textStart"
                     android:textColor="@color/my_black"
-                    android:textSize="@dimen/_15ssp"
+                    android:textSize="@dimen/_13ssp"
                     app:fontFamily="@font/montserrat" />
 
             </RelativeLayout>
@@ -405,7 +405,7 @@
                     android:text="About"
                     android:textAlignment="textStart"
                     android:textColor="@color/my_black"
-                    android:textSize="@dimen/_15ssp"
+                    android:textSize="@dimen/_13ssp"
                     app:fontFamily="@font/montserrat" />
 
             </RelativeLayout>
@@ -459,10 +459,10 @@
                     android:ellipsize="end"
                     android:maxLines="5"
                     android:padding="5dp"
-                    android:text="Legal &amp; Policies"
+                    android:text="@string/legal_amp_policies"
                     android:textAlignment="textStart"
                     android:textColor="@color/my_black"
-                    android:textSize="@dimen/_15ssp"
+                    android:textSize="@dimen/_13ssp"
                     app:fontFamily="@font/montserrat" />
 
             </RelativeLayout>

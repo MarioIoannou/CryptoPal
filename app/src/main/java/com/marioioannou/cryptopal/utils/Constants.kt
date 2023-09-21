@@ -52,5 +52,23 @@ object Constants {
     const val CURRENCY_JPY = "JPY"
     const val CURRENCY_RUB = "RUB"
     const val CURRENCY_AED = "AED"
+
+    /*
+   <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_capital_A"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:ellipsize="end"
+            android:padding="@dimen/_8sdp"
+            android:text="A:"
+            android:textColor="@color/my_black"
+            android:textSize="@dimen/_16ssp"
+            app:fontFamily="@font/montserrat_bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_top_text" />
+   */
+
+
 }
 
