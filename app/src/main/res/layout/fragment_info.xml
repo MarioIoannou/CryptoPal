@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragments.general_fragments.InfoFragment">
+    tools:context=".ui.fragments.coin_detail.InfoFragment">
 
     <RelativeLayout
         android:id="@+id/layout_toolbar"
@@ -46,7 +47,7 @@
             android:maxLines="1"
             android:textColor="@color/black"
             android:textSize="20sp"
-            android:text="Crypto Stats"
+            android:text="@string/information"
             app:fontFamily="@font/montserrat_bold"/>
 
     </RelativeLayout>
@@ -85,28 +86,28 @@
                     <com.google.android.material.textview.MaterialTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="4dp"
+                        android:layout_marginStart="@dimen/_8sdp"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:layout_marginBottom="@dimen/_4sdp"
                         android:ellipsize="end"
                         android:maxLines="1"
                         android:textColor="@color/black"
-                        android:textSize="16sp"
+                        android:textSize="@dimen/_11ssp"
                         app:fontFamily="@font/montserrat_medium"
-                        android:text="Highest/Lowest Price"/>
+                        android:text="@string/market_cap_market_capitalization"/>
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginTop="4dp"
-                        android:layout_marginBottom="8dp"
-                        android:textSize="14sp"
+                        android:layout_marginStart="@dimen/_8sdp"
+                        android:layout_marginEnd="@dimen/_8sdp"
+                        android:layout_marginTop="@dimen/_4sdp"
+                        android:layout_marginBottom="@dimen/_8sdp"
+                        android:textSize="@dimen/_11ssp"
                         android:ellipsize="none"
                         app:autoSizeTextType="uniform"
                         app:fontFamily="@font/montserrat"
-                        android:text="@string/info_high_low_24"/>
+                        android:text="@string/market_cap_text"/>
 
                 </LinearLayout>
 
@@ -131,28 +132,28 @@
                     <com.google.android.material.textview.MaterialTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="4dp"
+                        android:layout_marginStart="@dimen/_8sdp"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:layout_marginBottom="@dimen/_4sdp"
                         android:ellipsize="end"
                         android:maxLines="1"
                         android:textColor="@color/black"
-                        android:textSize="16sp"
+                        android:textSize="@dimen/_11ssp"
                         app:fontFamily="@font/montserrat_medium"
-                        android:text="All-time High/Low"/>
+                        android:text="@string/volume"/>
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginTop="4dp"
-                        android:layout_marginBottom="8dp"
-                        android:textSize="14sp"
+                        android:layout_marginStart="@dimen/_8sdp"
+                        android:layout_marginTop="@dimen/_4sdp"
+                        android:layout_marginEnd="@dimen/_8sdp"
+                        android:layout_marginBottom="@dimen/_8sdp"
                         android:ellipsize="none"
+                        android:text="@string/volume_text"
+                        android:textSize="@dimen/_11ssp"
                         app:autoSizeTextType="uniform"
-                        app:fontFamily="@font/montserrat"
-                        android:text="@string/info_all_time"/>
+                        app:fontFamily="@font/montserrat" />
 
                 </LinearLayout>
 
@@ -177,28 +178,28 @@
                     <com.google.android.material.textview.MaterialTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="4dp"
+                        android:layout_marginStart="@dimen/_8sdp"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:layout_marginBottom="@dimen/_4sdp"
                         android:ellipsize="end"
                         android:maxLines="1"
                         android:textColor="@color/black"
-                        android:textSize="16sp"
+                        android:textSize="@dimen/_11ssp"
                         app:fontFamily="@font/montserrat_medium"
-                        android:text="Market Cap"/>
+                        android:text="@string/available_supply_or_circulating_supply"/>
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginTop="4dp"
-                        android:layout_marginBottom="8dp"
-                        android:textSize="14sp"
+                        android:layout_marginStart="@dimen/_8sdp"
+                        android:layout_marginTop="@dimen/_4sdp"
+                        android:layout_marginEnd="@dimen/_8sdp"
+                        android:layout_marginBottom="@dimen/_8sdp"
+                        android:textSize="@dimen/_11ssp"
                         android:ellipsize="none"
                         app:autoSizeTextType="uniform"
                         app:fontFamily="@font/montserrat"
-                        android:text="@string/info_market_cap"/>
+                        android:text="@string/available_supply_text"/>
 
                 </LinearLayout>
 
@@ -223,74 +224,28 @@
                     <com.google.android.material.textview.MaterialTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="4dp"
+                        android:layout_marginStart="@dimen/_8sdp"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:layout_marginBottom="@dimen/_4sdp"
                         android:ellipsize="end"
                         android:maxLines="1"
                         android:textColor="@color/black"
-                        android:textSize="16sp"
+                        android:textSize="@dimen/_11ssp"
                         app:fontFamily="@font/montserrat_medium"
-                        android:text="Circulating Supply"/>
+                        android:text="@string/total_supply"/>
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginTop="4dp"
-                        android:layout_marginBottom="8dp"
-                        android:textSize="14sp"
+                        android:layout_marginStart="@dimen/_8sdp"
+                        android:layout_marginTop="@dimen/_4sdp"
+                        android:layout_marginEnd="@dimen/_8sdp"
+                        android:layout_marginBottom="@dimen/_8sdp"
+                        android:textSize="@dimen/_11ssp"
                         android:ellipsize="none"
                         app:autoSizeTextType="uniform"
                         app:fontFamily="@font/montserrat"
-                        android:text="@string/info_circulating_supply"/>
-
-                </LinearLayout>
-
-            </com.google.android.material.card.MaterialCardView>
-
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="8dp"
-                app:cardCornerRadius="10dp"
-                app:strokeColor="@color/my_grey_blue"
-                app:strokeWidth="1dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-
-                    <com.google.android.material.textview.MaterialTextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="4dp"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:textColor="@color/black"
-                        android:textSize="16sp"
-                        app:fontFamily="@font/montserrat_medium"
-                        android:text="Max Supply"/>
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginTop="4dp"
-                        android:layout_marginBottom="8dp"
-                        android:textSize="14sp"
-                        android:ellipsize="none"
-                        app:autoSizeTextType="uniform"
-                        app:fontFamily="@font/montserrat"
-                        android:text="@string/info_max_supply"/>
+                        android:text="@string/total_supply_text"/>
 
                 </LinearLayout>
 

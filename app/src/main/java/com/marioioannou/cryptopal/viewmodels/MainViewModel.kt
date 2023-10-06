@@ -8,76 +8,83 @@ import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.*
 import com.marioioannou.cryptopal.domain.database.CryptoCoinEntity
-import com.marioioannou.cryptopal.domain.datastore.DataStoreRepository
-import com.marioioannou.cryptopal.domain.datastore.DatastoreRepo
+import com.marioioannou.cryptopal.data.datastore.ProtoRepository
 import com.marioioannou.cryptopal.domain.model.coins.CoinInfo
 import com.marioioannou.cryptopal.domain.model.coins.CryptoCoins
 import com.marioioannou.cryptopal.domain.model.market_chart.CoinMarketChart
 import com.marioioannou.cryptopal.domain.model.news.CryptoNews
 import com.marioioannou.cryptopal.domain.model.search_coins.SearchCoin
 import com.marioioannou.cryptopal.domain.repository.Repository
-import com.marioioannou.cryptopal.utils.Constants
-import com.marioioannou.cryptopal.utils.Constants.DEFAULT_CURRENCY
-import com.marioioannou.cryptopal.utils.Constants.DEFAULT_FILTER
-import com.marioioannou.cryptopal.utils.Constants.PREFERENCES_CURRENCY
-import com.marioioannou.cryptopal.utils.Constants.PREFERENCES_FILTER
 import com.marioioannou.cryptopal.utils.ScreenState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import okio.IOException
 import retrofit2.Response
-import java.util.Currency
 import javax.inject.Inject
-import javax.inject.Named
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val repository: Repository,
     application: Application,
-    private val dataStoreRepo: DatastoreRepo,
-    private val dataStoreRepository: DataStoreRepository
+    private val datastore: ProtoRepository
+    //private val dataStoreRepo: DatastoreRepo,
+    //private val dataStoreRepository: DataStoreRepository
 ) : AndroidViewModel(application) {
 
     var networkStatus = false
     var backOnline = false
     var savedCoin = false
 
+    var times = 1
+
+    val readBackOnline = datastore.readBackOnline.asLiveData()
+    val readCurrency = datastore.readCurrency.asLiveData()
+    val readThemeMode = datastore.readThemeMode.asLiveData()
+
     /* DATASTORE */ /* ------------------------------------------------------------------------- */
     fun saveCurrency(symbol: String){
         Log.e(TAG,"Pref -> $symbol")
         runBlocking {
-            dataStoreRepo.putCurrency(PREFERENCES_CURRENCY, symbol)
+            //dataStoreRepo.putCurrency(PREFERENCES_CURRENCY, symbol)
+            datastore.saveCurrency(symbol)
         }
     }
 
-    fun getCurrency():String = runBlocking {
-        //Log.e(TAG,"Pref before getCurrency -> ${dataStoreRepo.getCurrency(PREFERENCES_CURRENCY)}")
-        if (dataStoreRepo.getCurrency(PREFERENCES_CURRENCY)== null){
-            return@runBlocking DEFAULT_CURRENCY
-        }else{
-            //Log.e(TAG,"Pref after getCurrency -> ${dataStoreRepo.getCurrency(PREFERENCES_CURRENCY)!!}")
-            dataStoreRepo.getCurrency(PREFERENCES_CURRENCY)!!
-        }
-    }
+//    val readCurrency = viewModelScope.launch {
+//        datastore.readCurrency.collect { currentCurrency ->
+//         _readCurrency.value = currentCurrency}
+//    }
 
-    fun saveFilter(filter: String){
-        Log.e(TAG,"Pref -> $filter")
-        runBlocking {
-            dataStoreRepo.putCurrency(PREFERENCES_FILTER, filter)
-        }
-    }
+//    fun getCurrency():String = runBlocking {
+//        //Log.e(TAG,"Pref before getCurrency -> ${dataStoreRepo.getCurrency(PREFERENCES_CURRENCY)}")
+//        if (dataStoreRepo.getCurrency(PREFERENCES_CURRENCY)== null){
+//            return@runBlocking DEFAULT_CURRENCY
+//        }else{
+//            //Log.e(TAG,"Pref after getCurrency -> ${dataStoreRepo.getCurrency(PREFERENCES_CURRENCY)!!}")
+//            dataStoreRepo.getCurrency(PREFERENCES_CURRENCY)!!
+//        }
+//    }
 
-    fun getFilter():String = runBlocking {
-        Log.e(TAG,"Pref before getFilter -> ${dataStoreRepo.getFilter(PREFERENCES_FILTER)}")
-        if (dataStoreRepo.getFilter(PREFERENCES_FILTER)== null){
-            return@runBlocking DEFAULT_FILTER
-        }else{
-            Log.e(TAG,"Pref after getFilter -> ${dataStoreRepo.getFilter(PREFERENCES_FILTER)!!}")
-            dataStoreRepo.getFilter(PREFERENCES_CURRENCY)!!
-        }
-    }
+//    fun saveFilter(filter: String){
+//        Log.e(TAG,"Pref -> $filter")
+//        runBlocking {
+//            dataStoreRepo.putCurrency(PREFERENCES_FILTER, filter)
+//        }
+//    }
+
+//    fun getFilter():String = runBlocking {
+//        Log.e(TAG,"Pref before getFilter -> ${dataStoreRepo.getFilter(PREFERENCES_FILTER)}")
+//        if (dataStoreRepo.getFilter(PREFERENCES_FILTER)== null){
+//            return@runBlocking DEFAULT_FILTER
+//        }else{
+//            Log.e(TAG,"Pref after getFilter -> ${dataStoreRepo.getFilter(PREFERENCES_FILTER)!!}")
+//            dataStoreRepo.getFilter(PREFERENCES_CURRENCY)!!
+//        }
+//    }
 
     /* ROOM DATABASE */ /* --------------------------------------------------------------------- */
     val readCryptoCoin: LiveData<List<CryptoCoinEntity>> =
@@ -374,7 +381,7 @@ class MainViewModel @Inject constructor(
 
     /* QUERIES */
     fun applyCoinsQueries(): HashMap<String, String> {
-        Log.e(TAG, "Currency -> ${getCurrency()}")
+        Log.e(TAG, "Currency ViewModel -> ${currentCurrency()}")
         val queries: HashMap<String, String> = HashMap()
         queries["limit"] = "500"
         //queries["price_change_percentage"] = "1h,24h,7d,14d,30d,200d,1y"
@@ -385,7 +392,7 @@ class MainViewModel @Inject constructor(
 //            queries["vs_currency"] = Constants.DEFAULT_CURRENCY
 //        }
         //queries["vs_currency"] = getCurrency()
-        queries["currency"] = getCurrency()
+        queries["currency"] = currentCurrency()
         return queries
     }
 
@@ -407,16 +414,22 @@ class MainViewModel @Inject constructor(
 
     private fun saveBackOnline(backOnline: Boolean) =
         viewModelScope.launch(Dispatchers.IO) {
-            dataStoreRepository.saveBackOnline(backOnline)
+            datastore.saveBackOnline(backOnline)
         }
+
+    fun currentCurrency():String{
+        return runBlocking {
+            datastore.readCurrency.first()
+        }
+    }
 
     fun showNetworkStatus() {
         if (!networkStatus) {
-            Toast.makeText(getApplication(), "No Internet Connection.", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(getApplication(), "No Internet Connection.", Toast.LENGTH_SHORT).show()
             saveBackOnline(true)
         } else if (networkStatus) {
             if (backOnline) {
-                Toast.makeText(getApplication(), "We're back online.", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(getApplication(), "We're back online.", Toast.LENGTH_SHORT).show()
                 saveBackOnline(false)
             }
         }

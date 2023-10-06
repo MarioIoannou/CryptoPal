@@ -1,4 +1,4 @@
-package com.marioioannou.cryptopal.ui.fragments.general_fragments
+package com.marioioannou.cryptopal.ui.fragments.coin_detail
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

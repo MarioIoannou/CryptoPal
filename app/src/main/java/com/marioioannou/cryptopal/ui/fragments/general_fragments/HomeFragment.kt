@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.marioioannou.cryptopal.adapters.SavedCryptoCoinsAdapter
@@ -20,6 +21,7 @@ import com.marioioannou.cryptopal.ui.fragments.general_fragments.settings_sencti
 import com.marioioannou.cryptopal.utils.NetworkListener
 import com.marioioannou.cryptopal.utils.ScreenState
 import com.marioioannou.cryptopal.viewmodels.MainViewModel
+import kotlinx.coroutines.launch
 
 class HomeFragment : Fragment() {
 
@@ -40,6 +42,7 @@ class HomeFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = (activity as MainActivity).viewModel
+
     }
 
     override fun onCreateView(
@@ -48,11 +51,14 @@ class HomeFragment : Fragment() {
     ): View? {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         binding.lottieNoData.playAnimation()
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val currency = viewModel.currentCurrency()
 
         binding.cvSettings.setOnClickListener {
             val action = SettingsFragmentDirections.actionGlobalSettingsFragment()
@@ -64,19 +70,72 @@ class HomeFragment : Fragment() {
             findNavController().navigate(action)
         }
 
-        setupTrendingCoinsRecyclerView(viewModel.getCurrency())
-        setupWatchlistRecyclerView(viewModel.getCurrency())
+        viewModel.readBackOnline.observe(viewLifecycleOwner) {
+            viewModel.backOnline = it
+        }
+
+        setupTrendingCoinsRecyclerView(currency)
+        setupWatchlistRecyclerView(currency)
         requestTrendingCoinsApiData()
 
-        viewModel.readCryptoCoin.observe(viewLifecycleOwner, Observer { result ->
-            savedCryptoCoinsAdapter.submitList(result)
-            if (result.isNullOrEmpty()){
-                hideRecyclerView()
-            }else{
-                showRecyclerView()
+        lifecycleScope.launch {
+            networkListener = NetworkListener()
+            networkListener.checkNetworkAvailability(requireContext())
+                .collect { status ->
+                    Log.d("NetworkListener", status.toString())
+                    viewModel.networkStatus = status
+                    viewModel.showNetworkStatus()
+                    if (!status) {
+                        hideRecyclerView()
+                    } else {
+                        viewModel.readCryptoCoin.observe(viewLifecycleOwner, Observer { result ->
+                            savedCryptoCoinsAdapter.submitList(result)
+                            showRecyclerView()
+                            if (viewModel.times == 1){
+                                viewModel.updateSpecificCoins()
+                                viewModel.times = 2
+                            }
 
-            }
-        })
+                        })
+                    }
+                }
+        }
+
+//        Log.d("Network status","The status is ${viewModel.networkStatus}")
+//        if(viewModel.networkStatus){
+//            Log.d("Network status","Inside viewModel.networkStatus should be TRUE")
+//            hideRecyclerView()
+//        }else{
+//            Log.d("Network status","Inside viewModel.networkStatus should be TRUE")
+//            showRecyclerView()
+//            viewModel.showNetworkStatus()
+//        }
+
+
+//        viewModel.readCryptoCoin.observe(viewLifecycleOwner, Observer { result ->
+//            savedCryptoCoinsAdapter.submitList(result)
+//            if (result.isNullOrEmpty()){
+//                hideRecyclerView()
+//            }else{
+//                showRecyclerView()
+//            }
+//        })
+
+//        lifecycleScope.launch() {
+//            networkListener = NetworkListener()
+//            networkListener.checkNetworkAvailability(requireContext())
+//                .collect { status ->
+//                    Log.d("NetworkListener", status.toString())
+//                    viewModel.networkStatus = status
+//                    viewModel.showNetworkStatus()
+//                    if (!status){
+//                        //savedCryptoCoinsAdapter.submitList(emptyList())
+//                        hideRecyclerView()
+//                    }else{
+//                        showRecyclerView()
+//                    }
+//                }
+//        }
 
         savedCryptoCoinsAdapter.setOnItemClickListener { coin: CryptoCoinEntity ->
             val action =
@@ -90,7 +149,7 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun requestTrendingCoinsApiData(){
+    private fun requestTrendingCoinsApiData() {
         Log.e(TAG, "requestTrendingCoinsApiData CALLED")
         viewModel.getCoins(viewModel.applyCoinsQueries())
         viewModel.coinResponse.observe(viewLifecycleOwner, Observer { trendingCoinResponse ->
@@ -104,7 +163,7 @@ class HomeFragment : Fragment() {
                     Log.e(TAG, "   requestTrendingCoinsApiData() Response Success")
 
                     trendingCoinResponse.data?.let { trending ->
-                       trendingCoinsAdapter.differ.submitList(trending.coins)
+                        trendingCoinsAdapter.differ.submitList(trending.coins)
                     }
                 }
                 is ScreenState.Error -> {
@@ -131,7 +190,7 @@ class HomeFragment : Fragment() {
         return queries
     }
 
-    private fun setupTrendingCoinsRecyclerView(currency : String) {
+    private fun setupTrendingCoinsRecyclerView(currency: String) {
         trendingCoinsAdapter = TrendingCoinsAdapter(currency)
         binding.rvTrending.apply {
             adapter = trendingCoinsAdapter
@@ -140,7 +199,7 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun setupWatchlistRecyclerView(currency : String) {
+    private fun setupWatchlistRecyclerView(currency: String) {
         savedCryptoCoinsAdapter = SavedCryptoCoinsAdapter(currency)
         binding.rvWatchlist.apply {
             adapter = savedCryptoCoinsAdapter
@@ -169,7 +228,7 @@ class HomeFragment : Fragment() {
         binding.lottieTrending.visibility = View.VISIBLE
     }
 
-    private fun topMovingCoins(list : List<Coin>) : List<Coin>{
+    private fun topMovingCoins(list: List<Coin>): List<Coin> {
         val topMovers = list.sortedBy { it.priceChange1d }
         Log.e(TAG, "Top Movers -> $topMovers")
         return topMovers
@@ -177,8 +236,16 @@ class HomeFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        lifecycleScope.launch {
+            networkListener = NetworkListener()
+            networkListener.checkNetworkAvailability(requireContext())
+                .collect { status ->
+                    Log.d("NetworkListener", status.toString())
+                    viewModel.networkStatus = status
+                    viewModel.showNetworkStatus()
 
-        viewModel.updateSpecificCoins()
+                }
+        }
     }
 
 }

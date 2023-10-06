@@ -36,6 +36,7 @@ class NewsFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = (activity as MainActivity).viewModel
+        viewModel.times = 1
     }
 
     override fun onCreateView(

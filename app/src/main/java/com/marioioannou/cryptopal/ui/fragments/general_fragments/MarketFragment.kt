@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.marioioannou.cryptopal.R
 import com.marioioannou.cryptopal.adapters.CryptoCoinsAdapter
 import com.marioioannou.cryptopal.databinding.FragmentMarketBinding
-import com.marioioannou.cryptopal.domain.datastore.DataStoreRepository
 import com.marioioannou.cryptopal.domain.model.coins.Coin
 import com.marioioannou.cryptopal.ui.activities.MainActivity
 import com.marioioannou.cryptopal.ui.fragments.general_fragments.settings_senction.SettingsFragmentDirections
@@ -30,7 +29,6 @@ class MarketFragment : Fragment() {
 
     lateinit var viewModel: MainViewModel
 
-    lateinit var dataStoreRepository: DataStoreRepository
 
     private lateinit var networkListener: NetworkListener
 
@@ -42,7 +40,7 @@ class MarketFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = (activity as MainActivity).viewModel
-        dataStoreRepository = DataStoreRepository(requireContext())
+        viewModel.times = 1
     }
 
     override fun onCreateView(
@@ -56,7 +54,7 @@ class MarketFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //var currency = Constants.DEFAULT_CURRENCY
+
         binding.cvSettings.setOnClickListener {
             val action = SettingsFragmentDirections.actionGlobalSettingsFragment()
             findNavController().navigate(action)
@@ -71,9 +69,10 @@ class MarketFragment : Fragment() {
 //            Log.e(TAG, "value -> $value")
 //            currency = value
 //        })
-        currency = viewModel.getCurrency()
-        Log.e(TAG, "currency -> $currency")
-        setupCoinsRecyclerView(viewModel.getCurrency())
+        //currency = viewModel.readCurrency.toString()
+
+        Log.e(TAG, "currency -> ${viewModel.currentCurrency()}")
+        setupCoinsRecyclerView(viewModel.currentCurrency())
         requestCoinsApiData()
 
         coinsAdapter.setOnItemClickListener { coin: Coin ->

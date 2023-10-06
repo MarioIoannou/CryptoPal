@@ -127,7 +127,7 @@
     </dialog>
     <fragment
         android:id="@+id/infoFragment"
-        android:name="com.marioioannou.cryptopal.ui.fragments.general_fragments.InfoFragment"
+        android:name="com.marioioannou.cryptopal.ui.fragments.coin_detail.InfoFragment"
         android:label="fragment_info"
         tools:layout="@layout/fragment_info" />
     <fragment

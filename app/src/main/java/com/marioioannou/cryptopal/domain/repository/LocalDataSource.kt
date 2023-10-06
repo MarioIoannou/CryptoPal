@@ -2,11 +2,10 @@ package com.marioioannou.cryptopal.domain.repository
 
 import android.content.Context
 import android.util.Log
+import com.marioioannou.cryptopal.data.datastore.ProtoRepository
 import com.marioioannou.cryptopal.domain.api.CoinStatsApi
 import com.marioioannou.cryptopal.domain.database.CryptoCoinDAO
 import com.marioioannou.cryptopal.domain.database.CryptoCoinEntity
-import com.marioioannou.cryptopal.domain.datastore.DatastoreRepo
-import com.marioioannou.cryptopal.domain.datastore.DatastoreRepoImpl
 import com.marioioannou.cryptopal.utils.Constants
 import com.marioioannou.cryptopal.viewmodels.MainViewModel
 import kotlinx.coroutines.Dispatchers
@@ -19,23 +18,22 @@ import javax.inject.Inject
 class LocalDataSource @Inject constructor(
     private val cryptoCoinDAO: CryptoCoinDAO,
     private val coinStatsApi: CoinStatsApi,
-    private val datastoreRepo: DatastoreRepo
+    private val datastoreRepo: ProtoRepository,
 ) {
 
-
-    fun readCryptoCoins(): Flow<List<CryptoCoinEntity>>{
+    fun readCryptoCoins(): Flow<List<CryptoCoinEntity>> {
         return cryptoCoinDAO.readCryptoCoins()
     }
 
-    suspend fun insertCryptoCoin(cryptoCoinEntity: CryptoCoinEntity){
+    suspend fun insertCryptoCoin(cryptoCoinEntity: CryptoCoinEntity) {
         return cryptoCoinDAO.insertCryptoCoin(cryptoCoinEntity)
     }
 
-    suspend fun deleteCryptoCoin(cryptoCoinEntity: CryptoCoinEntity){
+    suspend fun deleteCryptoCoin(cryptoCoinEntity: CryptoCoinEntity) {
         return cryptoCoinDAO.deleteCryptoCoin(cryptoCoinEntity)
     }
 
-    suspend fun deleteAllCryptoCoins(){
+    suspend fun deleteAllCryptoCoins() {
         return cryptoCoinDAO.deleteAllCryptoCoins()
     }
 
@@ -66,11 +64,8 @@ class LocalDataSource @Inject constructor(
         }
     }
 
-    fun getCurrency():String = runBlocking {
-        if (datastoreRepo.getCurrency(Constants.PREFERENCES_CURRENCY)== null){
-            return@runBlocking Constants.DEFAULT_CURRENCY
-        }else{
-            datastoreRepo.getCurrency(Constants.PREFERENCES_CURRENCY)!!
-        }
+    private fun getCurrency():String = runBlocking {
+        Log.d("LocalDataSource","Currency: ${datastoreRepo.readCurrency.first()}")
+        return@runBlocking datastoreRepo.readCurrency.first()
     }
 }

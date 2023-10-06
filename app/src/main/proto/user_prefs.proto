@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+option java_package = "com.marioioannou.cryptopal";
+option java_multiple_files = true;
+
+message UserPreferences {
+  // filter for showing / hiding completed tasks
+  string currency = 1;
+  string theme = 2;
+  bool isBackOnline = 3;
+}

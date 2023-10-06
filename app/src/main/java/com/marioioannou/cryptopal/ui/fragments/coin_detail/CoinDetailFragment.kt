@@ -1,8 +1,10 @@
 package com.marioioannou.cryptopal.ui.fragments.coin_detail
 
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.Paint
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -56,6 +58,7 @@ class CoinDetailFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = (activity as MainActivity).viewModel
+        viewModel.times = 1
     }
 
     override fun onCreateView(
@@ -74,8 +77,12 @@ class CoinDetailFragment : Fragment() {
         checkSavedRecipes()
 
         val coin = args.coin
-        binding.tvCurrency.text = currencySymbol(viewModel.getCurrency())
-        binding.detailTvCurrency.text = currencySymbol(viewModel.getCurrency())
+
+        viewModel.readCurrency.observe(viewLifecycleOwner){currency ->
+            binding.tvCurrency.text = currencySymbol(currency)
+            binding.detailTvCurrency.text = currencySymbol(currency)
+        }
+
         Log.e(TAG, " tvCurrency ${binding.tvCurrency.text}")
 
         Log.e(TAG, "is ${coin.name} saved? ${viewModel.savedCoin}")
@@ -151,7 +158,7 @@ class CoinDetailFragment : Fragment() {
 
 
         if (args.fromSearch == 1) {
-            viewModel.getCoinInfo(args.coin.coin_id.toString(),viewModel.getCurrency())
+            viewModel.getCoinInfo(args.coin.coin_id.toString(),viewModel.readCurrency.value.toString())
             viewModel.coinInfoResponse.observe(viewLifecycleOwner, Observer { response ->
                 when (response) {
                     is ScreenState.Loading -> {
@@ -167,26 +174,43 @@ class CoinDetailFragment : Fragment() {
                         //binding.rvCoinRecyclerview.visibility = View.VISIBLE
                         response.data?.let { coin ->
                             binding.apply {
+                                detailTvTitle.text = coin.coin.name
+                                detailTvSymbol.text = coin.coin.symbol?.uppercase()
                                 detailTvPrice.text = formatNumber(coin.coin.price)
-                                val pricePercentage =
-                                    formatNumber(coin.coin.priceChange1d)
-                                tvChangePrice.text = formatNumber(coin.coin.price)
+                                val price = formatNumber(coin.coin.price)
+                                val pricePercentage = formatNumber(coin.coin.priceChange1d)
+                                tvChangePrice.text = price
                                 tvChangePercentage.text = "$pricePercentage%"
-                                //infoHigh24h.text = coin.coins[0].high24h.toString().take(10)
-                                //infoLow24h.text = coin.coins[0].low24h.toString().take(10)
-                                //infoAth.text = coin.coins[0].ath.toString().take(10)
-                                //infoAtl.text = coin.coins[0].atl.toString().take(10)
-                                infoMarketCap.text = coin.coin.marketCap.toString()
-//                                infoCirculatingSupply.text =
-//                                    coin.coins[0].circulatingSupply.toString().take(10)
-                                infoMaxSupply.text = coin.coin.totalSupply.toString().take(10)
-                                infoPriceIn1w.text =
-                                    formatNumber(coin.coin.priceChange1w)
-                                infoMarketCapRank.text = "#" + coin.coin.rank.toString()
+                                infoCoinName.text = coin.coin.name
+                                //infoHigh24h.text = coin.high24h.toString().take(10)
+                                //infoLow24h.text = coin.low24h.toString().take(10)
+                                //infoAth.text = coin.ath.toString().take(10)
+                                //infoAtl.text = coin.atl.toString().take(10)
+
+                                //infoPriceIn1d.text = formatNumber(coin.priceChange1d)
+                                infoPriceIn1d.text = formatNumber(calculatePrice(price.toDouble(),pricePercentage.toDouble()))
+                                //infoPriceIn1w.text = formatNumber(coin.priceChange1w)
+                                infoPriceIn1w.text = formatNumber(calculatePrice(price.toDouble(), coin.coin.priceChange1w!!.toDouble()))
+                                infoMarketCap.text = formatNumber(coin.coin.marketCap)
+                                infoVolume.text = formatNumber(coin.coin.volume)
+                                infoAvailableSupply.text = coin.coin.availableSupply.toString()
+                                infoTotalSupply.text = coin.coin.totalSupply.toString()
+                                //infoCirculatingSupply.text = coin.circulatingSupply.toString().take(10)
+                                infoRank.text = "#" + coin.coin.rank.toString()
                                 imgCryptoLogo.load(coin.coin.icon) {
                                     crossfade(600)
                                     error(R.drawable.ic_image_placeholder)
                                 }
+                            }
+                            binding.layoutWebsite.setOnClickListener {
+                                val url: Uri = Uri.parse(coin.coin.websiteUrl.toString())
+                                val intent = Intent(Intent.ACTION_VIEW, url)
+                                startActivity(intent)
+                            }
+                            binding.layoutTwitter.setOnClickListener {
+                                val url: Uri = Uri.parse(coin.coin.twitterUrl.toString())
+                                val intent = Intent(Intent.ACTION_VIEW, url)
+                                startActivity(intent)
                             }
                         }
                     }
@@ -217,14 +241,30 @@ class CoinDetailFragment : Fragment() {
             //infoLow24h.text = coin.low24h.toString().take(10)
             //infoAth.text = coin.ath.toString().take(10)
             //infoAtl.text = coin.atl.toString().take(10)
-            infoMarketCap.text = coin.marketCap.toString()
+
+            //infoPriceIn1d.text = formatNumber(coin.priceChange1d)
+            infoPriceIn1d.text = currencySymbol(viewModel.currentCurrency()) + formatNumber(calculatePrice(price.toDouble(),pricePercentage.toDouble()))
+            //infoPriceIn1w.text = formatNumber(coin.priceChange1w)
+            infoPriceIn1w.text = currencySymbol(viewModel.currentCurrency()) + formatNumber(calculatePrice(price.toDouble(), coin.priceChange1w!!.toDouble()))
+            infoMarketCap.text = formatNumber(coin.marketCap)
+            infoVolume.text = formatNumber(coin.volume)
+            infoAvailableSupply.text = coin.availableSupply.toString()
+            infoTotalSupply.text = coin.totalSupply.toString()
             //infoCirculatingSupply.text = coin.circulatingSupply.toString().take(10)
-            infoMaxSupply.text = coin.totalSupply.toString().take(10)
-            infoPriceIn1w.text = formatNumber(coin.priceChange1w)
-            infoMarketCapRank.text = "#" + coin.rank.toString()
+            infoRank.text = "#" + coin.rank.toString()
             imgCryptoLogo.load(coin.icon) {
                 crossfade(600)
                 error(R.drawable.ic_image_placeholder)
+            }
+            binding.layoutWebsite.setOnClickListener {
+                val url: Uri = Uri.parse(coin.websiteUrl.toString())
+                val intent = Intent(Intent.ACTION_VIEW, url)
+                startActivity(intent)
+            }
+            binding.layoutTwitter.setOnClickListener {
+                val url: Uri = Uri.parse(coin.twitterUrl.toString())
+                val intent = Intent(Intent.ACTION_VIEW, url)
+                startActivity(intent)
             }
         }
 
@@ -462,6 +502,10 @@ class CoinDetailFragment : Fragment() {
                 "$"
             }
         }
+    }
+
+    fun calculatePrice(currentPrice: Double, percentageChange: Double): Double {
+        return currentPrice * (1 + percentageChange / 100)
     }
 
     private fun formatNumber(num: Double?): String {

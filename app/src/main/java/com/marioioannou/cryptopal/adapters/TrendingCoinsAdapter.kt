@@ -1,5 +1,6 @@
 package com.marioioannou.cryptopal.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
@@ -74,6 +75,7 @@ class TrendingCoinsAdapter(
     }
 
     private fun currencySymbol(currency: String): String {
+        Log.d("TrendingCoinsAdapter","Currency is $currency")
         when (currency.uppercase()) {
             "EUR" -> return "€ "
             "USD" -> return "$ "

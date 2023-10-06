@@ -32,8 +32,8 @@ object Constants {
     //DATASTORE
     const val PREFERENCES_NAME = "crypto_coin_preferences"
 
-    const val DEFAULT_CURRENCY= "usd"
-    const val DEFAULT_THEME= "system default"
+    const val DEFAULT_CURRENCY= "USD"
+    const val DEFAULT_THEME= "System Default"
     const val DEFAULT_FILTER= "market_cap_desc"
 
     const val PREFERENCES_CURRENCY = "currency"

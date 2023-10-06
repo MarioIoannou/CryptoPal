@@ -65,4 +65,89 @@
         app:layout_constraintVertical_bias="0.5"
         app:menu="@menu/bottom_nav_menu" />
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_no_internet"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintVertical_bias="0.5"
+        tools:visibility="visible">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lottie"
+            android:layout_width="@dimen/_200sdp"
+            android:layout_height="@dimen/_200sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/lottie_no_internet" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_text_something_went_wrong"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:fontFamily="@font/montserrat_medium"
+            android:text="@string/something_went_wrong"
+            android:textColor="@color/my_dark_grey"
+            android:textSize="@dimen/_13ssp"
+            app:layout_constraintBottom_toTopOf="@+id/tv_text_no_internet_connection"
+            app:layout_constraintEnd_toEndOf="@+id/tv_text_no_internet_connection"
+            app:layout_constraintStart_toStartOf="@+id/tv_text_no_internet_connection" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_text_no_internet_connection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:fontFamily="@font/montserrat_bold"
+            android:text="@string/no_internet_connection"
+            android:textColor="@color/my_black"
+            android:textSize="@dimen/_16ssp"
+            app:layout_constraintBottom_toTopOf="@+id/lottie"
+            app:layout_constraintEnd_toEndOf="@+id/lottie"
+            app:layout_constraintStart_toStartOf="@+id/lottie" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/btn_try_again"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:background="@drawable/custom_bg_shape_layer_2"
+            android:fontFamily="@font/montserrat_medium"
+            android:paddingStart="@dimen/_24sdp"
+            android:paddingEnd="@dimen/_24sdp"
+            android:paddingTop="@dimen/_16sdp"
+            android:paddingBottom="@dimen/_16sdp"
+            android:text="@string/try_again"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_14ssp"
+            app:layout_constraintEnd_toEndOf="@+id/lottie"
+            app:layout_constraintStart_toStartOf="@+id/lottie"
+            app:layout_constraintTop_toBottomOf="@+id/lottie" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/btn_wifi_settings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:fontFamily="@font/montserrat_bold"
+            android:text="@string/go_to_settings"
+            android:textColor="@color/my_dark_grey"
+            android:textSize="@dimen/_14ssp"
+            app:layout_constraintEnd_toEndOf="@+id/btn_try_again"
+            app:layout_constraintStart_toStartOf="@+id/btn_try_again"
+            app:layout_constraintTop_toBottomOf="@+id/btn_try_again" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -22,17 +22,19 @@ import com.marioioannou.cryptopal.utils.Constants.CURRENCY_JPY
 import com.marioioannou.cryptopal.utils.Constants.CURRENCY_RUB
 import com.marioioannou.cryptopal.utils.Constants.CURRENCY_USD
 import com.marioioannou.cryptopal.viewmodels.MainViewModel
+import java.util.*
 
 class SettingsFragment : Fragment() {
 
     private lateinit var binding: FragmentSettingsBinding
-    lateinit var viewModel: MainViewModel
-    private lateinit var currency: String
+    private lateinit var viewModel: MainViewModel
+    private var currency: String = "USD"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = (activity as MainActivity).viewModel
-        currency = viewModel.getCurrency()
+        viewModel.times = 1
+        currency = viewModel.currentCurrency()
     }
 
     override fun onCreateView(
@@ -45,12 +47,18 @@ class SettingsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        viewModel.readCurrency.observe(viewLifecycleOwner) { newCurrency ->
+            currency = newCurrency
+            updateCurrencyDisplay(newCurrency)
+        }
+
         binding.apply {
             cvBack.setOnClickListener {
                 findNavController().popBackStack()
             }
             cvCurrency.setOnClickListener {
-                currencyAlertDialog()
+                currencyAlertDialog(currency)
             }
             cvAbout.setOnClickListener {
                 val action = actionSettingsFragmentToAboutFragment()
@@ -93,24 +101,23 @@ class SettingsFragment : Fragment() {
 
     }
 
-    private fun currencyAlertDialog() {
+    private fun currencyAlertDialog(currency: String) {
         //var currency = DEFAULT_CURRENCY
-        val currency = viewModel.getCurrency()
         var checkedItem = 0
         val alertDialog: AlertDialog.Builder = AlertDialog.Builder(
             requireContext(),
             R.style.ThemeOverlay_MaterialComponents_MaterialAlertDialog_Background
         ).setTitle("Theme")
         val items = arrayOf("USD", "EUR", "GBP", "INR", "CHF", "JPY", "RUB", "AED")
-        when (currency.lowercase()) {
-            "usd" -> checkedItem = 0
-            "eur" -> checkedItem = 1
-            "gbp" -> checkedItem = 2
-            "inr" -> checkedItem = 3
-            "chf" -> checkedItem = 4
-            "jpy" -> checkedItem = 5
-            "rub" -> checkedItem = 6
-            "aed" -> checkedItem = 7
+        when (currency) {
+            "USD" -> checkedItem = 0
+            "EUR" -> checkedItem = 1
+            "GBP" -> checkedItem = 2
+            "INR" -> checkedItem = 3
+            "CHF" -> checkedItem = 4
+            "JPY" -> checkedItem = 5
+            "RUB" -> checkedItem = 6
+            "AED" -> checkedItem = 7
         }
 //        viewModel.readCurrency.observe(viewLifecycleOwner, Observer { value ->
 //            currency = value
@@ -179,5 +186,9 @@ class SettingsFragment : Fragment() {
         }
         val alert: AlertDialog = alertDialog.create()
         alert.show()
+    }
+
+    private fun updateCurrencyDisplay(currency: String) {
+        binding.tvCurrency.text = currency.uppercase(Locale.getDefault())
     }
 }

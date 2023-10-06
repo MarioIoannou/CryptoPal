@@ -14,9 +14,30 @@
     <string name="info_all_time">The all-time-high/low trading price in selected currency.</string>
     <string name="info_high_low_24">The high/low trading price 24 hours in the selected currency.</string>
     <string name="glossary_text">Navigating the intricate world of cryptocurrency just got easier!
-
         With CryptoPal Crypto Glossary at your fingertips, you can effortlessly decode the maze of terms and jargon. From "blockchain" to "decentralization", each definition is crafted for clarity and simplicity. Dive in, demystify the complexities, and embrace the joy of truly understanding the world of crypto.</string>
     <string name="legal_amp_policies"><![CDATA[Legal & Policies]]></string>
     <string name="current_version_1_0_0">Current version: 1.0.0</string>
     <string name="powered_by">Powered by:</string>
+    <string name="market_cap_market_capitalization">Market Cap (Market Capitalization)</string>
+    <string name="market_cap_text">It is the total value of a cryptocurrency, calculated by multiplying the current price of the coin by the total number of coins in circulation.
+        Market cap provides a quick snapshot of the relative size and importance of a cryptocurrency within the market.</string>
+    <string name="volume_text">Refers to the amount of a cryptocurrency that has been traded (bought and sold) in a specified time period, typically 24 hours. Volume can give an indication of the interest or activity in a particular coin or token.
+        High trading volume often signifies a high level of interest in a particular crypto and can be associated with price volatility.</string>
+    <string name="available_supply_text">Often referred to as "circulating supply", it\'s the number of coins or tokens currently available to the public and in circulation. This doesn\'t include coins or tokens that might be held in reserve, locked, or not yet released.
+        The available supply can influence the price of the cryptocurrency a lower supply with high demand can lead to price increases.</string>
+    <string name="total_supply_text">This represents the maximum number of coins or tokens that will ever exist for that cryptocurrency. It includes coins or tokens that have already been mined or released, as well as those that are yet to be mined or are held in reserve.
+        Some cryptocurrencies, like Bitcoin, have a capped total supply (Bitcoin\'s total supply is capped at 21 million), while others might have provisions for increasing the supply over time.</string>
+    <string name="volume">Volume</string>
+    <string name="available_supply_or_circulating_supply">Available Supply (or Circulating Supply)</string>
+    <string name="information">Information</string>
+    <string name="go_to_settings">Go to settings</string>
+    <string name="try_again">Try again</string>
+    <string name="no_internet_connection">No internet connection</string>
+    <string name="something_went_wrong">Something went wrong...</string>
+    <string name="total_supply">Total Supply</string>
+    <string name="price_change_in_1_day">Price change in 1 day</string>
+    <string name="market_cap">Market cap</string>
+    <string name="rank">Rank</string>
+    <string name="available_supply">Available supply</string>
+    <string name="website">Website</string>
 </resources>
