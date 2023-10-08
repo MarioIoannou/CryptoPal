@@ -1,10 +1,7 @@
 package com.marioioannou.cryptopal.domain.api
 
-import com.marioioannou.cryptopal.di.NetworkModule
 import com.marioioannou.cryptopal.domain.model.coins.CryptoCoins
 import com.marioioannou.cryptopal.domain.model.news.CryptoNews
-import com.marioioannou.cryptopal.domain.model.coins.CoinInfo
-import dagger.Component
 import retrofit2.Response
 import retrofit2.http.*
 

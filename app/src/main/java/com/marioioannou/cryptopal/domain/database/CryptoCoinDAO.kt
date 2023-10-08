@@ -15,6 +15,9 @@ interface CryptoCoinDAO {
     @Query("SELECT * FROM crypto_coins_table ORDER BY id ASC")
     fun readCryptoCoins(): Flow<List<CryptoCoinEntity>>
 
+    @Query("SELECT * FROM crypto_coins_table WHERE id = :coinId")
+    suspend fun getCoinById(coinId: String): CryptoCoinEntity?
+
     // - Crypto Watchlist - //
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertCryptoWatchlist(cryptoCoinEntity: CryptoWatchlistEntity)

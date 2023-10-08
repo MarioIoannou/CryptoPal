@@ -1,20 +1,14 @@
 package com.marioioannou.cryptopal.domain.repository
 
 import android.util.Log
-import com.marioioannou.cryptopal.domain.api.CoinApiService
 import com.marioioannou.cryptopal.domain.api.CoinGeckoApi
 import com.marioioannou.cryptopal.domain.api.CoinStatsApi
-import com.marioioannou.cryptopal.domain.model.coins.CoinInfo
 import com.marioioannou.cryptopal.domain.model.coins.CryptoCoins
 import com.marioioannou.cryptopal.domain.model.market_chart.CoinMarketChart
 import com.marioioannou.cryptopal.domain.model.news.CryptoNews
 import com.marioioannou.cryptopal.domain.model.search_coins.SearchCoin
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.withContext
 import retrofit2.Response
 import javax.inject.Inject
-import javax.inject.Named
 
 class RemoteDataSource @Inject constructor(
 //    @Named("CoinStats") private val coinStatsApi: CoinStatsApi,

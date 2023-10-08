@@ -9,9 +9,8 @@ import androidx.lifecycle.*
 import com.marioioannou.cryptopal.domain.database.crypto_coins.CryptoCoinEntity
 import com.marioioannou.cryptopal.data.datastore.ProtoRepository
 import com.marioioannou.cryptopal.domain.database.crypto_watchlist.CryptoWatchlistEntity
-import com.marioioannou.cryptopal.domain.model.coins.Result
-import com.marioioannou.cryptopal.domain.model.coins.CoinInfo
 import com.marioioannou.cryptopal.domain.model.coins.CryptoCoins
+import com.marioioannou.cryptopal.domain.model.coins.Result
 import com.marioioannou.cryptopal.domain.model.market_chart.CoinMarketChart
 import com.marioioannou.cryptopal.domain.model.news.CryptoNews
 import com.marioioannou.cryptopal.domain.model.search_coins.SearchCoin
@@ -125,7 +124,7 @@ class MainViewModel @Inject constructor(
     private val _coinResponse: MutableLiveData<ScreenState<CryptoCoins>> = MutableLiveData()
     val coinResponse = _coinResponse
 
-    private val _coinInfoResponse: MutableLiveData<ScreenState<CoinInfo>> = MutableLiveData()
+    private val _coinInfoResponse: MutableLiveData<ScreenState<Result>> = MutableLiveData()
     val coinInfoResponse = _coinInfoResponse
 
     private val _coinMarketChartResponse: MutableLiveData<ScreenState<CoinMarketChart>> =
@@ -332,7 +331,7 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    private fun handleCryptoCoinInfoResponse(response: Response<CoinInfo>): ScreenState<CoinInfo>? {
+    private fun handleCryptoCoinInfoResponse(response: Response<Result>): ScreenState<Result>? {
         when {
             response.message().toString().contains("timeout") -> {
                 Log.d("Error1", response.message().toString())

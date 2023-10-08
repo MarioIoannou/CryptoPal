@@ -6,12 +6,14 @@ import com.marioioannou.cryptopal.domain.api.CoinStatsApi
 import com.marioioannou.cryptopal.domain.database.CryptoCoinDAO
 import com.marioioannou.cryptopal.domain.database.crypto_coins.CryptoCoinEntity
 import com.marioioannou.cryptopal.domain.database.crypto_watchlist.CryptoWatchlistEntity
+import com.marioioannou.cryptopal.utils.ScreenState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
+import com.marioioannou.cryptopal.domain.model.coins.Result as Result1
 
 class LocalDataSource @Inject constructor(
     private val cryptoCoinDAO: CryptoCoinDAO,
@@ -46,6 +48,7 @@ class LocalDataSource @Inject constructor(
     }
 
     suspend fun updateCryptoCoinsData() {
+
         withContext(Dispatchers.IO) {
 
             val savedCoins = readCryptoWatchlist().first()
@@ -68,6 +71,27 @@ class LocalDataSource @Inject constructor(
                         )
                     }
                 }
+
+            }
+        }
+    }
+
+    suspend fun getCoin(coinId: String): Any {
+
+        val localCoin = cryptoCoinDAO.getCoinById(coinId)
+
+        return if (localCoin != null) {
+            ScreenState.Success(localCoin)
+        } else {
+            try {
+                val response = coinStatsApi.getCryptoCoin(coinId,getCurrency())
+                if (response.isSuccessful) {
+                    ScreenState.Success(response.body())
+                } else {
+                    ScreenState.Error(null,"Network call failed: ${response.errorBody()}")
+                }
+            } catch (e: Exception) {
+                ScreenState.Error(null,"Exception occurred: ${e.message}")
             }
         }
     }
