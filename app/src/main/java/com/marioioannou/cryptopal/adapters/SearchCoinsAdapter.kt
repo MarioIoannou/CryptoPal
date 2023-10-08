@@ -11,7 +11,7 @@ import coil.load
 import com.marioioannou.cryptopal.R
 import com.marioioannou.cryptopal.databinding.RowCoinLayoutBinding
 import com.marioioannou.cryptopal.databinding.RowSearchCoinLayoutBinding
-import com.marioioannou.cryptopal.domain.model.coins.Coin
+import com.marioioannou.cryptopal.domain.model.coins.Result
 import com.marioioannou.cryptopal.domain.model.search_coins.SearchedCoin
 
 class SearchCoinsAdapter : RecyclerView.Adapter<SearchCoinsAdapter.MyViewHolder>() {
@@ -19,13 +19,13 @@ class SearchCoinsAdapter : RecyclerView.Adapter<SearchCoinsAdapter.MyViewHolder>
     inner class MyViewHolder(val binding: RowSearchCoinLayoutBinding) :
         RecyclerView.ViewHolder(binding.root)
 
-    private val differCallback = object : DiffUtil.ItemCallback<Coin>() {
+    private val differCallback = object : DiffUtil.ItemCallback<Result>() {
 
-        override fun areItemsTheSame(oldItem: Coin, newItem: Coin): Boolean {
+        override fun areItemsTheSame(oldItem: Result, newItem: Result): Boolean {
             return oldItem.name == newItem.name
         }
 
-        override fun areContentsTheSame(oldItem: Coin, newItem: Coin): Boolean {
+        override fun areContentsTheSame(oldItem: Result, newItem: Result): Boolean {
             return oldItem == newItem
         }
     }
@@ -64,8 +64,8 @@ class SearchCoinsAdapter : RecyclerView.Adapter<SearchCoinsAdapter.MyViewHolder>
         return differ.currentList.size
     }
 
-    private var onItemClickListener: ((Coin) -> Unit)? = null
-    fun setOnItemClickListener(listener: (Coin) -> Unit) {
+    private var onItemClickListener: ((Result) -> Unit)? = null
+    fun setOnItemClickListener(listener: (Result) -> Unit) {
         onItemClickListener = listener
     }
 

@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.marioioannou.cryptopal.databinding.FragmentCoinFilterBottomSheetBinding
 import com.marioioannou.cryptopal.ui.activities.MainActivity
-import com.marioioannou.cryptopal.viewmodels.MainViewModel
+import com.marioioannou.cryptopal.ui.viewmodels.MainViewModel
 
 class CoinFilterBottomSheet : BottomSheetDialogFragment() {
 

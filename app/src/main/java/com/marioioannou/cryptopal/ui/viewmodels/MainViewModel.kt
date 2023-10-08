@@ -1,28 +1,31 @@
-package com.marioioannou.cryptopal.viewmodels
+package com.marioioannou.cryptopal.ui.viewmodels
 
 import android.app.Application
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.*
-import com.marioioannou.cryptopal.domain.database.CryptoCoinEntity
+import com.marioioannou.cryptopal.domain.database.crypto_coins.CryptoCoinEntity
 import com.marioioannou.cryptopal.data.datastore.ProtoRepository
+import com.marioioannou.cryptopal.domain.database.crypto_watchlist.CryptoWatchlistEntity
+import com.marioioannou.cryptopal.domain.model.coins.Result
 import com.marioioannou.cryptopal.domain.model.coins.CoinInfo
 import com.marioioannou.cryptopal.domain.model.coins.CryptoCoins
 import com.marioioannou.cryptopal.domain.model.market_chart.CoinMarketChart
 import com.marioioannou.cryptopal.domain.model.news.CryptoNews
 import com.marioioannou.cryptopal.domain.model.search_coins.SearchCoin
 import com.marioioannou.cryptopal.domain.repository.Repository
+import com.marioioannou.cryptopal.utils.Constants
 import com.marioioannou.cryptopal.utils.ScreenState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import okio.IOException
+import retrofit2.HttpException
 import retrofit2.Response
 import javax.inject.Inject
 
@@ -30,7 +33,7 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     private val repository: Repository,
     application: Application,
-    private val datastore: ProtoRepository
+    private val datastore: ProtoRepository,
     //private val dataStoreRepo: DatastoreRepo,
     //private val dataStoreRepository: DataStoreRepository
 ) : AndroidViewModel(application) {
@@ -41,13 +44,18 @@ class MainViewModel @Inject constructor(
 
     var times = 1
 
+    val readCoins: LiveData<List<CryptoCoinEntity>> =
+        repository.local.readCryptoCoins().asLiveData()
+    val readWatchlist: LiveData<List<CryptoWatchlistEntity>> =
+        repository.local.readCryptoWatchlist().asLiveData()
+
     val readBackOnline = datastore.readBackOnline.asLiveData()
     val readCurrency = datastore.readCurrency.asLiveData()
     val readThemeMode = datastore.readThemeMode.asLiveData()
 
     /* DATASTORE */ /* ------------------------------------------------------------------------- */
-    fun saveCurrency(symbol: String){
-        Log.e(TAG,"Pref -> $symbol")
+    fun saveCurrency(symbol: String) {
+        Log.e(TAG, "Pref -> $symbol")
         runBlocking {
             //dataStoreRepo.putCurrency(PREFERENCES_CURRENCY, symbol)
             datastore.saveCurrency(symbol)
@@ -87,13 +95,15 @@ class MainViewModel @Inject constructor(
 //    }
 
     /* ROOM DATABASE */ /* --------------------------------------------------------------------- */
+
+
     val readCryptoCoin: LiveData<List<CryptoCoinEntity>> =
         repository.local.readCryptoCoins().asLiveData()
 
     //val watchlistData = MutableLiveData<>
 
-    fun insertCryptoCoin(cryptoCoinEntity: CryptoCoinEntity) =
-        viewModelScope.launch{
+    private fun insertCryptoCoin(cryptoCoinEntity: CryptoCoinEntity) =
+        viewModelScope.launch {
             repository.local.insertCryptoCoin(cryptoCoinEntity)
         }
 
@@ -101,13 +111,13 @@ class MainViewModel @Inject constructor(
         repository.local.updateCryptoCoinsData()
     }
 
-    fun deleteCryptoCoin(cryptoCoinEntity: CryptoCoinEntity) =
+    fun deleteCryptoCoin(cryptoCoinEntity: CryptoWatchlistEntity) =
         viewModelScope.launch(Dispatchers.IO) {
-            repository.local.deleteCryptoCoin(cryptoCoinEntity)
+            repository.local.deleteCryptoWatchlist(cryptoCoinEntity)
         }
 
     fun deleteAllCryptoCoins() = viewModelScope.launch(Dispatchers.IO) {
-        repository.local.deleteAllCryptoCoins()
+        repository.local.deleteAllCryptoWatchlist()
     }
 
     /* RETROFIT */ /* -------------------------------------------------------------------------- */
@@ -135,7 +145,7 @@ class MainViewModel @Inject constructor(
     }
 
     fun getCoinInfo(coin_id: String, currency: String) = viewModelScope.launch {
-        getCoinsInfoConnected(coin_id,currency)
+        getCoinsInfoConnected(coin_id, currency)
     }
 
     fun getCryptoCoinMarketChart(id: String, currency: String, days: String) =
@@ -148,26 +158,39 @@ class MainViewModel @Inject constructor(
     }
 
     fun getNews(id: String, queries: Map<String, String>) = viewModelScope.launch {
-        getNewsConnected(id,queries)
+        getNewsConnected(id, queries)
     }
 
     // Connected
     private suspend fun getCoinsConnected(queries: Map<String, String>) {
         coinResponse.postValue(ScreenState.Loading())
-        try {
-            if (hasInternetConnection()) {
-                Log.e(TAG, "getCoinsConnected() hasInternetConnection()")
-                val response = repository.remote.getCoins(queries)
-                Log.e(TAG, "getCoinsConnected() .remote.getCoins(queries)")
-                coinResponse.postValue(handleCryptoCoinsResponse(response))
-                Log.e(TAG, "getCoinsConnected() handleCryptoCoinsResponse()")
-            } else {
-                coinResponse.postValue(ScreenState.Error(null, "No Internet Connection"))
-            }
-        } catch (t: Throwable) {
-            when (t) {
-                is IOException -> coinResponse.postValue(ScreenState.Error(null, "Network Failure"))
-                else -> coinResponse.postValue(ScreenState.Error(null, "Something went wrong"))
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                if (hasInternetConnection()) {
+                    val response = repository.remote.getCoins(queries)
+                    withContext(Dispatchers.Main) {
+                        coinResponse.value = handleCryptoCoinsResponse(response)
+                        coinResponse.value?.data?.let { cryptoCoin ->
+                            offlineCacheCryptoCoins(cryptoCoin)
+                        }
+                    }
+                } else {
+                    withContext(Dispatchers.Main) {
+                        _coinResponse.value = ScreenState.Error(null, "No Internet Connection")
+                    }
+                }
+            } catch (e: IOException) {
+                withContext(Dispatchers.Main) {
+                    _coinResponse.value = ScreenState.Error(null, "Network Failure")
+                }
+            } catch (e: HttpException) {
+                withContext(Dispatchers.Main) {
+                    _coinResponse.value = ScreenState.Error(null, "Server Error")
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    _coinResponse.value = ScreenState.Error(null, "Unexpected Error")
+                }
             }
         }
     }
@@ -186,7 +209,12 @@ class MainViewModel @Inject constructor(
             }
         } catch (t: Throwable) {
             when (t) {
-                is IOException -> coinInfoResponse.postValue(ScreenState.Error(null, "Network Failure"))
+                is IOException -> coinInfoResponse.postValue(
+                    ScreenState.Error(
+                        null,
+                        "Network Failure"
+                    )
+                )
                 else -> coinInfoResponse.postValue(ScreenState.Error(null, "Something went wrong"))
             }
         }
@@ -207,10 +235,18 @@ class MainViewModel @Inject constructor(
             }
         } catch (t: Throwable) {
             when (t) {
-                is IOException -> coinMarketChartResponse.postValue(ScreenState.Error(null,
-                    "Network Failure"))
-                else -> coinMarketChartResponse.postValue(ScreenState.Error(null,
-                    "Something went wrong"))
+                is IOException -> coinMarketChartResponse.postValue(
+                    ScreenState.Error(
+                        null,
+                        "Network Failure"
+                    )
+                )
+                else -> coinMarketChartResponse.postValue(
+                    ScreenState.Error(
+                        null,
+                        "Something went wrong"
+                    )
+                )
             }
         }
     }
@@ -226,10 +262,18 @@ class MainViewModel @Inject constructor(
             }
         } catch (t: Throwable) {
             when (t) {
-                is IOException -> searchCoinResponse.postValue(ScreenState.Error(null,
-                    "Network Failure"))
-                else -> searchCoinResponse.postValue(ScreenState.Error(null,
-                    "Something went wrong"))
+                is IOException -> searchCoinResponse.postValue(
+                    ScreenState.Error(
+                        null,
+                        "Network Failure"
+                    )
+                )
+                else -> searchCoinResponse.postValue(
+                    ScreenState.Error(
+                        null,
+                        "Something went wrong"
+                    )
+                )
             }
         }
     }
@@ -238,17 +282,25 @@ class MainViewModel @Inject constructor(
         newsResponse.postValue(ScreenState.Loading())
         try {
             if (hasInternetConnection()) {
-                val response = repository.remote.getNews(id,queries)
+                val response = repository.remote.getNews(id, queries)
                 newsResponse.postValue(handleNewsResponse(response))
             } else {
                 newsResponse.postValue(ScreenState.Error(null, "No Internet Connection"))
             }
         } catch (t: Throwable) {
             when (t) {
-                is IOException -> newsResponse.postValue(ScreenState.Error(null,
-                    "Network Failure"))
-                else -> newsResponse.postValue(ScreenState.Error(null,
-                    "Something went wrong"))
+                is IOException -> newsResponse.postValue(
+                    ScreenState.Error(
+                        null,
+                        "Network Failure"
+                    )
+                )
+                else -> newsResponse.postValue(
+                    ScreenState.Error(
+                        null,
+                        "Something went wrong"
+                    )
+                )
             }
         }
     }
@@ -270,6 +322,7 @@ class MainViewModel @Inject constructor(
             }
             response.isSuccessful -> {
                 val coinResponse = response.body()
+                Log.d("IS SUCCESS", coinResponse.toString())
                 return ScreenState.Success(coinResponse!!)
             }
             else -> {
@@ -289,6 +342,7 @@ class MainViewModel @Inject constructor(
                 Log.d("Error2", response.code().toString())
                 return ScreenState.Error(null, "API Key Limit Achieved.")
             }
+
             response.body() == null -> {
                 Log.d("Error3", response.message().toString())
                 return ScreenState.Error(null, "Coin not found")
@@ -379,11 +433,20 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    // - Offline cache data - //
+
+    private fun offlineCacheCryptoCoins(cryptoCoin: CryptoCoins) {
+        val cryptoCoinEntity = CryptoCoinEntity(cryptoCoin)
+        Log.e("offlineCacheCrypto", "insertCryptoCoin()")
+        Log.e("offlineCacheCrypto", cryptoCoin.toString())
+            insertCryptoCoin(cryptoCoinEntity)
+    }
+
     /* QUERIES */
     fun applyCoinsQueries(): HashMap<String, String> {
         Log.e(TAG, "Currency ViewModel -> ${currentCurrency()}")
         val queries: HashMap<String, String> = HashMap()
-        queries["limit"] = "500"
+        queries[Constants.QUERY_LIMIT] = "120"
         //queries["price_change_percentage"] = "1h,24h,7d,14d,30d,200d,1y"
         //queries["sparkline"] = "true"
 //        if (this@MainViewModel::currency.isInitialized) {
@@ -392,7 +455,7 @@ class MainViewModel @Inject constructor(
 //            queries["vs_currency"] = Constants.DEFAULT_CURRENCY
 //        }
         //queries["vs_currency"] = getCurrency()
-        queries["currency"] = currentCurrency()
+        queries[Constants.QUERY_CURRENCY] = currentCurrency()
         return queries
     }
 
@@ -400,7 +463,8 @@ class MainViewModel @Inject constructor(
     private fun hasInternetConnection(): Boolean {
         val connectivityManager =
             getApplication<Application>().getSystemService(
-                Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+                Context.CONNECTIVITY_SERVICE
+            ) as ConnectivityManager
         val activeNetwork = connectivityManager.activeNetwork ?: return false
         val capabilities =
             connectivityManager.getNetworkCapabilities(activeNetwork) ?: return false
@@ -417,7 +481,7 @@ class MainViewModel @Inject constructor(
             datastore.saveBackOnline(backOnline)
         }
 
-    fun currentCurrency():String{
+    fun currentCurrency(): String {
         return runBlocking {
             datastore.readCurrency.first()
         }

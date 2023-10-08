@@ -14,13 +14,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.marioioannou.cryptopal.adapters.SavedCryptoCoinsAdapter
 import com.marioioannou.cryptopal.adapters.TrendingCoinsAdapter
 import com.marioioannou.cryptopal.databinding.FragmentHomeBinding
-import com.marioioannou.cryptopal.domain.database.CryptoCoinEntity
-import com.marioioannou.cryptopal.domain.model.coins.Coin
+import com.marioioannou.cryptopal.domain.database.crypto_coins.CryptoCoinEntity
+import com.marioioannou.cryptopal.domain.model.coins.Result
 import com.marioioannou.cryptopal.ui.activities.MainActivity
 import com.marioioannou.cryptopal.ui.fragments.general_fragments.settings_senction.SettingsFragmentDirections
 import com.marioioannou.cryptopal.utils.NetworkListener
 import com.marioioannou.cryptopal.utils.ScreenState
-import com.marioioannou.cryptopal.viewmodels.MainViewModel
+import com.marioioannou.cryptopal.ui.viewmodels.MainViewModel
+import com.marioioannou.cryptopal.utils.observeOnce
 import kotlinx.coroutines.launch
 
 class HomeFragment : Fragment() {
@@ -76,7 +77,8 @@ class HomeFragment : Fragment() {
 
         setupTrendingCoinsRecyclerView(currency)
         setupWatchlistRecyclerView(currency)
-        requestTrendingCoinsApiData()
+        //requestTrendingCoinsApiData()
+        readDatabase()
 
         lifecycleScope.launch {
             networkListener = NetworkListener()
@@ -88,7 +90,7 @@ class HomeFragment : Fragment() {
                     if (!status) {
                         hideRecyclerView()
                     } else {
-                        viewModel.readCryptoCoin.observe(viewLifecycleOwner, Observer { result ->
+                        viewModel.readWatchlist.observe(viewLifecycleOwner, Observer { result ->
                             savedCryptoCoinsAdapter.submitList(result)
                             showRecyclerView()
                             if (viewModel.times == 1){
@@ -137,58 +139,47 @@ class HomeFragment : Fragment() {
 //                }
 //        }
 
-        savedCryptoCoinsAdapter.setOnItemClickListener { coin: CryptoCoinEntity ->
-            val action =
-                HomeFragmentDirections.actionHomeFragmentToCoinDetailFragment(coin.cryptoCoin, 0)
-            findNavController().navigate(action)
-        }
+//        savedCryptoCoinsAdapter.setOnItemClickListener { coin: CryptoCoinEntity ->
+//            val action =
+//                HomeFragmentDirections.actionHomeFragmentToCoinDetailFragment(coin.cryptoCoin, 0)
+//            findNavController().navigate(action)
+//        }
 
-        trendingCoinsAdapter.setOnItemClickListener { coin: Coin ->
+        trendingCoinsAdapter.setOnItemClickListener { coin: Result ->
             val action = HomeFragmentDirections.actionHomeFragmentToCoinDetailFragment(coin, 0)
             findNavController().navigate(action)
         }
     }
 
-    private fun requestTrendingCoinsApiData() {
-        Log.e(TAG, "requestTrendingCoinsApiData CALLED")
-        viewModel.getCoins(viewModel.applyCoinsQueries())
-        viewModel.coinResponse.observe(viewLifecycleOwner, Observer { trendingCoinResponse ->
-            Log.e(TAG, "viewModel.trendingCoinResponse.observe")
-            when (trendingCoinResponse) {
-                is ScreenState.Loading -> {
-                    showTrendingEffect()
-                    Log.e(TAG, "   requestTrendingCoinsApiData() Response Loading")
-                }
-                is ScreenState.Success -> {
-                    Log.e(TAG, "   requestTrendingCoinsApiData() Response Success")
-
-                    trendingCoinResponse.data?.let { trending ->
-                        trendingCoinsAdapter.differ.submitList(trending.coins)
-                    }
-                }
-                is ScreenState.Error -> {
-                    Log.e(TAG, "   requestTrendingCoinsApiData() Response Error")
-                    hideTrendingEffect()
-                    Toast.makeText(
-                        requireContext(),
-                        trendingCoinResponse.message.toString(),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            }
-        })
-    }
-
-    private fun applyQueries(): HashMap<String, String> {
-        val queries: HashMap<String, String> = HashMap()
-        queries["vs_currency"] = "usd"
-        queries["per_page"] = "100"
-        queries["page"] = "1"
-        queries["price_change_percentage"] = "1h,24h,7d,14d,30d,200d,1y"
-        queries["sparkline"] = "false"
-
-        return queries
-    }
+//    private fun requestTrendingCoinsApiData() {
+//        Log.e(TAG, "requestTrendingCoinsApiData CALLED")
+//        viewModel.getCoins(viewModel.applyCoinsQueries())
+//        viewModel.coinResponse.observe(viewLifecycleOwner, Observer { trendingCoinResponse ->
+//            Log.e(TAG, "viewModel.trendingCoinResponse.observe")
+//            when (trendingCoinResponse) {
+//                is ScreenState.Loading -> {
+//                    showTrendingEffect()
+//                    Log.e(TAG, "   requestTrendingCoinsApiData() Response Loading")
+//                }
+//                is ScreenState.Success -> {
+//                    Log.e(TAG, "   requestTrendingCoinsApiData() Response Success")
+//
+//                    trendingCoinResponse.data?.let { trending ->
+//                        trendingCoinsAdapter.differ.submitList(trending.result)
+//                    }
+//                }
+//                is ScreenState.Error -> {
+//                    Log.e(TAG, "   requestTrendingCoinsApiData() Response Error")
+//                    hideTrendingEffect()
+//                    Toast.makeText(
+//                        requireContext(),
+//                        trendingCoinResponse.message.toString(),
+//                        Toast.LENGTH_SHORT
+//                    ).show()
+//                }
+//            }
+//        })
+//    }
 
     private fun setupTrendingCoinsRecyclerView(currency: String) {
         trendingCoinsAdapter = TrendingCoinsAdapter(currency)
@@ -218,20 +209,39 @@ class HomeFragment : Fragment() {
         binding.noDataLayout.visibility = View.VISIBLE
     }
 
-    private fun showTrendingEffect() {
+    private fun showTrendingList() {
         binding.rvTrending.visibility = View.VISIBLE
         binding.lottieTrending.visibility = View.GONE
     }
 
-    private fun hideTrendingEffect() {
+    private fun hideTrendingList() {
         binding.rvTrending.visibility = View.INVISIBLE
         binding.lottieTrending.visibility = View.VISIBLE
     }
 
-    private fun topMovingCoins(list: List<Coin>): List<Coin> {
+    private fun topMovingCoins(list: List<Result>): List<Result> {
         val topMovers = list.sortedBy { it.priceChange1d }
         Log.e(TAG, "Top Movers -> $topMovers")
         return topMovers
+    }
+
+    private fun readDatabase() {
+        lifecycleScope.launch {
+            viewModel.readCryptoCoin.observeOnce(viewLifecycleOwner, Observer { database ->
+                if (database.isNotEmpty()) {
+                    showTrendingList()
+                    Log.e(TAG, "readDatabase() CALLED")
+                    trendingCoinsAdapter.differ.submitList(database.last().cryptoCoin.result)
+                } else {
+                    hideTrendingList()
+                    Toast.makeText(
+                        requireContext(),
+                        "Database is empty",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            })
+        }
     }
 
     override fun onResume() {

@@ -5,17 +5,17 @@ import com.marioioannou.cryptopal.BuildConfig
 object Constants {
     //https://api.coingecko.com/api/v3/coins/
     const val BASE_URL_COINGECKO = "https://api.coingecko.com/"
-    const val BASE_URL_COINSTATS = "https://api.coinstats.app/"
-    const val API_KEY = BuildConfig.API_KEY
+    const val BASE_URL_COINSTATS = "https://openapiv1.coinstats.app/"
+    //const val API_KEY = BuildConfig.API_KEY
 
     const val PREFERENCES_BACK_ONLINE = "backOnline"
 
     //API QUERY - COINS
-    const val QUERY_COINS_CURRENCY = "vs_currency"
-    const val QUERY_COINS_NUMBER = "per_page"
-    const val QUERY_COINS_PAGE = "page"
-    const val QUERY_COINS_SPARKLINE = "sparkline"
-    const val QUERY_COINS_PRICE_CHANGE_PERCENTAGE = "price_change_percentage"
+    const val QUERY_COINSTATS_API_KEY = BuildConfig.COINSTATS_API_KEY
+    const val QUERY_COINGECKO_API_KEY = BuildConfig.COINGECKO_API_KEY
+
+    const val QUERY_LIMIT = "limit"
+    const val QUERY_CURRENCY = "currency"
 
     //API QUERY - TRENDING COINS
 
@@ -26,8 +26,12 @@ object Constants {
     //API QUERY - NEWS
 
     //ROOM
-    const val DATABASE_NAME = "crypto_watchlist_database"
-    const val CRYPTO_COIN_TABLE = "crypto_coin_table"
+    const val DATABASE_COIN_NAME = "crypto_database"
+    const val CRYPTO_COIN_TABLE = "crypto_coins_table"
+    const val CRYPTO_WATCHLIST_TABLE = "crypto_watchlist_table"
+
+    const val DATABASE_NEWS_NAME = "crypto_news_database"
+    const val CRYPTO_NEWS_TABLE = "crypto_news_table"
 
     //DATASTORE
     const val PREFERENCES_NAME = "crypto_coin_preferences"

@@ -21,7 +21,7 @@ import com.marioioannou.cryptopal.utils.Constants.CURRENCY_INR
 import com.marioioannou.cryptopal.utils.Constants.CURRENCY_JPY
 import com.marioioannou.cryptopal.utils.Constants.CURRENCY_RUB
 import com.marioioannou.cryptopal.utils.Constants.CURRENCY_USD
-import com.marioioannou.cryptopal.viewmodels.MainViewModel
+import com.marioioannou.cryptopal.ui.viewmodels.MainViewModel
 import java.util.*
 
 class SettingsFragment : Fragment() {

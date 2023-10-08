@@ -2,13 +2,11 @@ package com.marioioannou.cryptopal.domain.model.coins
 
 
 import android.os.Parcelable
-import androidx.room.Entity
-import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class Coin(
+data class OldCoin(
     @SerializedName("availableSupply")
     val availableSupply: Double?,
     @SerializedName("contractAddress")

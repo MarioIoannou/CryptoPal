@@ -3,7 +3,7 @@ package com.marioioannou.cryptopal.di
 import android.content.Context
 import androidx.room.Room
 import com.marioioannou.cryptopal.domain.database.CryptoCoinDatabase
-import com.marioioannou.cryptopal.utils.Constants.DATABASE_NAME
+import com.marioioannou.cryptopal.utils.Constants
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -13,7 +13,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object DatabaseModule {
+object CryptoDatabaseModule {
 
     @Singleton
     @Provides
@@ -22,7 +22,7 @@ object DatabaseModule {
     ) = Room.databaseBuilder(
         context,
         CryptoCoinDatabase::class.java,
-        DATABASE_NAME
+        Constants.DATABASE_COIN_NAME
     ).fallbackToDestructiveMigration().build()
 
     @Singleton

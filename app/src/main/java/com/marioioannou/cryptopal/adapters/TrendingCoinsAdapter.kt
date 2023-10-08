@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.marioioannou.cryptopal.R
 import com.marioioannou.cryptopal.databinding.RowTrendingCoinLayoutBinding
-import com.marioioannou.cryptopal.domain.model.coins.Coin
+import com.marioioannou.cryptopal.domain.model.coins.Result
 
 class TrendingCoinsAdapter(
     currency: String,
@@ -17,18 +17,18 @@ class TrendingCoinsAdapter(
     RecyclerView.Adapter<TrendingCoinsAdapter.MyViewHolder>() {
 
     var coinCurrency = currency
-    private var sortedCoins = emptyList<Coin>()
+    private var sortedCoins = emptyList<Result>()
 
     inner class MyViewHolder(val binding: RowTrendingCoinLayoutBinding) :
         RecyclerView.ViewHolder(binding.root)
 
-    private val differCallback = object : DiffUtil.ItemCallback<Coin>() {
+    private val differCallback = object : DiffUtil.ItemCallback<Result>() {
 
-        override fun areItemsTheSame(oldItem: Coin, newItem: Coin): Boolean {
+        override fun areItemsTheSame(oldItem: Result, newItem: Result): Boolean {
             return oldItem.name == newItem.name
         }
 
-        override fun areContentsTheSame(oldItem: Coin, newItem: Coin): Boolean {
+        override fun areContentsTheSame(oldItem: Result, newItem: Result): Boolean {
             return oldItem == newItem
         }
     }
@@ -69,8 +69,8 @@ class TrendingCoinsAdapter(
         return differ.currentList.take(8).size
     }
 
-    private var onItemClickListener: ((Coin) -> Unit)? = null
-    fun setOnItemClickListener(listener: (Coin) -> Unit) {
+    private var onItemClickListener: ((Result) -> Unit)? = null
+    fun setOnItemClickListener(listener: (Result) -> Unit) {
         onItemClickListener = listener
     }
 

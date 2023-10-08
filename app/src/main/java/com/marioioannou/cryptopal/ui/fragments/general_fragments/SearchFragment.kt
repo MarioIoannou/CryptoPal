@@ -15,12 +15,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.marioioannou.cryptopal.adapters.CryptoCoinsAdapter
 import com.marioioannou.cryptopal.adapters.SearchCoinsAdapter
 import com.marioioannou.cryptopal.databinding.FragmentSearchBinding
-import com.marioioannou.cryptopal.domain.model.coins.Coin
+import com.marioioannou.cryptopal.domain.model.coins.Result
 import com.marioioannou.cryptopal.ui.activities.MainActivity
 import com.marioioannou.cryptopal.utils.NetworkListener
 import com.marioioannou.cryptopal.utils.ScreenState
 import com.marioioannou.cryptopal.utils.hideKeyboard
-import com.marioioannou.cryptopal.viewmodels.MainViewModel
+import com.marioioannou.cryptopal.ui.viewmodels.MainViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
@@ -78,7 +78,7 @@ class SearchFragment : Fragment() {
 
         setupRecyclerView()
 
-        searchCoinsAdapter.setOnItemClickListener {coin: Coin ->
+        searchCoinsAdapter.setOnItemClickListener {coin: Result ->
             val action = SearchFragmentDirections.actionSearchFragmentToCoinDetailFragment(coin, 1)
             findNavController().navigate(action)  }
     }

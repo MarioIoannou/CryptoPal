@@ -21,7 +21,8 @@ android {
 
         Properties properties = new Properties()
         properties.load(project.rootProject.file("local.properties").newDataInputStream())
-        buildConfigField "String", "API_KEY", "\"${properties.getProperty("API_KEY")}\""
+        buildConfigField "String", "COINGECKO_API_KEY", "\"${properties.getProperty("COINGECKO_API_KEY")}\""
+        buildConfigField "String", "COINSTATS_API_KEY", "\"${properties.getProperty("COINSTATS_API_KEY")}\""
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

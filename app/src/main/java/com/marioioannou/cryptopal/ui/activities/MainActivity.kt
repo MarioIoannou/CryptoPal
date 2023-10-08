@@ -6,8 +6,10 @@ import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -18,8 +20,12 @@ import androidx.navigation.ui.setupWithNavController
 import com.marioioannou.cryptopal.R
 import com.marioioannou.cryptopal.databinding.ActivityMainBinding
 import com.marioioannou.cryptopal.utils.NetworkListener
-import com.marioioannou.cryptopal.viewmodels.MainViewModel
+import com.marioioannou.cryptopal.ui.viewmodels.MainViewModel
+import com.marioioannou.cryptopal.utils.ScreenState
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -31,12 +37,16 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var networkListener: NetworkListener
 
+    private var TAG = "MainActivity"
+
     val viewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        requestApiData()
 
         lifecycleScope.launchWhenStarted {
             networkListener = NetworkListener()
@@ -50,6 +60,7 @@ class MainActivity : AppCompatActivity() {
                         disconnected()
                     }else{
                         connected()
+                        requestApiData()
                     }
                 }
         }
@@ -120,6 +131,38 @@ class MainActivity : AppCompatActivity() {
 //            }
 //        }
 //    }
+
+    private fun requestApiData() {
+        Log.e(TAG, "requestApiData CALLED")
+        viewModel.getCoins(viewModel.applyCoinsQueries())
+        viewModel.coinResponse.observe(this, Observer { recipeResponse ->
+            Log.e(TAG, "viewModel.requestApiData.observe")
+            when (recipeResponse) {
+                is ScreenState.Loading -> {
+                    Log.d(TAG, "   requestApiData() Response Loading")
+                }
+                is ScreenState.Success -> {
+                    Log.d(TAG, "   requestApiData() Response Success")
+                }
+                is ScreenState.Error -> {
+                    Log.d(TAG, "   requestApiData() Response Error")
+                    Toast.makeText(
+                        this,
+                        recipeResponse.message.toString(),
+                        Toast.LENGTH_SHORT
+                    ).show()
+//                    if (recipeResponse.data?.results.isNullOrEmpty()){
+//                        Log.e(TAG, "is Empty()")
+//                        binding.shimmerFragRecipesRv.visibility = View.GONE
+//                        binding.rvRecipes.visibility = View.INVISIBLE
+//                        binding.noInternetLayout.visibility = View.VISIBLE
+//                    }else{
+//                        loadCachedData()
+//                    }
+                }
+            }
+        })
+    }
 
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp() || super.onSupportNavigateUp()

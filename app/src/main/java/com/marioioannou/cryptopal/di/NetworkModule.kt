@@ -1,5 +1,8 @@
 package com.marioioannou.cryptopal.di
 
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.marioioannou.cryptopal.domain.api.AuthInterceptor
 import com.marioioannou.cryptopal.domain.api.CoinGeckoApi
 import com.marioioannou.cryptopal.domain.api.CoinStatsApi
 import com.marioioannou.cryptopal.utils.Constants
@@ -19,13 +22,44 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
 
-    // - Domain - //
+    @Singleton
+    @Provides
+    fun provideGson(): Gson {
+        return GsonBuilder()
+            .setLenient()
+            .create()
+    }
 
     @Singleton
     @Provides
-    fun provideOkHttpClient() : OkHttpClient {
+    fun provideGsonConverterFactory(gson: Gson): GsonConverterFactory {
+        return GsonConverterFactory.create(gson)
+    }
+
+    @Singleton
+    @Provides
+    fun provideLoggingInterceptor(): HttpLoggingInterceptor {
         val loggingInterceptor = HttpLoggingInterceptor()
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
+        return loggingInterceptor
+    }
+
+    @Singleton
+    @Provides
+    @Named("WithAuth")
+    fun provideOkHttpClientWithAuth(loggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
+        return OkHttpClient.Builder()
+            .readTimeout(15, TimeUnit.SECONDS)
+            .connectTimeout(15, TimeUnit.SECONDS)
+            .addInterceptor(AuthInterceptor())
+            .addInterceptor(loggingInterceptor)
+            .build()
+    }
+
+    @Singleton
+    @Provides
+    @Named("WithoutAuth")
+    fun provideOkHttpClientWithoutAuth(loggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
         return OkHttpClient.Builder()
             .readTimeout(15, TimeUnit.SECONDS)
             .connectTimeout(15, TimeUnit.SECONDS)
@@ -35,15 +69,9 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideConverterFactory(): GsonConverterFactory {
-        return GsonConverterFactory.create()
-    }
-
-    @Singleton
-    @Provides
     @Named("CoinStats")
     fun provideCoinStatsInstance(
-        okHttpClient: OkHttpClient,
+        @Named("WithAuth") okHttpClient: OkHttpClient,
         gsonConverterFactory: GsonConverterFactory
     ): Retrofit {
         return Retrofit.Builder()
@@ -55,15 +83,9 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideCoinStatsApiService(@Named("CoinStats") retrofit: Retrofit): CoinStatsApi {
-        return retrofit.create(CoinStatsApi::class.java)
-    }
-
-    @Singleton
-    @Provides
     @Named("CoinGecko")
     fun provideCoinGeckoInstance(
-        okHttpClient: OkHttpClient,
+        @Named("WithoutAuth") okHttpClient: OkHttpClient,
         gsonConverterFactory: GsonConverterFactory
     ): Retrofit {
         return Retrofit.Builder()
@@ -75,7 +97,13 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideCoinGeckoApiService(@Named("CoinGecko") retrofit: Retrofit): CoinGeckoApi {
+    fun provideCoinStatsApi(@Named("CoinStats") retrofit: Retrofit): CoinStatsApi {
+        return retrofit.create(CoinStatsApi::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideCoinGeckoApi(@Named("CoinGecko") retrofit: Retrofit): CoinGeckoApi {
         return retrofit.create(CoinGeckoApi::class.java)
     }
 }

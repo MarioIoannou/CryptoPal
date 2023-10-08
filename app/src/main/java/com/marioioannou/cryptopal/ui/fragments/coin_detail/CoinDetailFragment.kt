@@ -31,14 +31,13 @@ import com.github.mikephil.charting.data.LineDataSet
 import com.google.android.material.chip.Chip
 import com.marioioannou.cryptopal.R
 import com.marioioannou.cryptopal.databinding.FragmentCoinDetailBinding
-import com.marioioannou.cryptopal.domain.database.CryptoCoinEntity
-import com.marioioannou.cryptopal.domain.model.coins.Coin
+import com.marioioannou.cryptopal.domain.database.crypto_coins.CryptoCoinEntity
+import com.marioioannou.cryptopal.domain.model.coins.Result
 import com.marioioannou.cryptopal.ui.activities.MainActivity
 import com.marioioannou.cryptopal.utils.ScreenState
-import com.marioioannou.cryptopal.viewmodels.MainViewModel
+import com.marioioannou.cryptopal.ui.viewmodels.MainViewModel
 import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
 
 class CoinDetailFragment : Fragment() {
 
@@ -67,14 +66,14 @@ class CoinDetailFragment : Fragment() {
     ): View? {
         binding = FragmentCoinDetailBinding.inflate(inflater, container, false)
 
-        requestChartData(args.coin.coin_id.toString(), "usd", "24h")
+        requestChartData(args.coin.id.toString(), viewModel.currentCurrency(), "24h")
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        checkSavedRecipes()
+        //checkSavedRecipes()
 
         val coin = args.coin
 
@@ -98,9 +97,9 @@ class CoinDetailFragment : Fragment() {
 
         binding.cvSave.setOnClickListener {
             if (!viewModel.savedCoin) {
-                saveToFavorites(args.coin)
+                //saveToFavorites(args.coin)
             } else {
-                removeFromFavorites()
+                //removeFromFavorites()
             }
         }
 
@@ -158,7 +157,7 @@ class CoinDetailFragment : Fragment() {
 
 
         if (args.fromSearch == 1) {
-            viewModel.getCoinInfo(args.coin.coin_id.toString(),viewModel.readCurrency.value.toString())
+            viewModel.getCoinInfo(args.coin.id.toString(),viewModel.readCurrency.value.toString())
             viewModel.coinInfoResponse.observe(viewLifecycleOwner, Observer { response ->
                 when (response) {
                     is ScreenState.Loading -> {
@@ -291,7 +290,7 @@ class CoinDetailFragment : Fragment() {
             val selectedTime = chip.text.toString().lowercase(Locale.ROOT)
             chip.isChecked = true
             group.requestChildFocus(chip, chip)
-            viewModel.getCryptoCoinMarketChart(coin.coin_id.toString(), "usd", selectedTime)
+            viewModel.getCryptoCoinMarketChart(coin.id.toString(), "usd", selectedTime)
         }
     }
 
@@ -435,44 +434,44 @@ class CoinDetailFragment : Fragment() {
         return (percent!! / 100) * price!!
     }
 
-    private fun checkSavedRecipes() {
-        viewModel.readCryptoCoin.observe(viewLifecycleOwner) { cryptoCoinEntity ->
-            try {
-                for (coin in cryptoCoinEntity) {
-                    if (coin.cryptoCoin.coin_id == args.coin.coin_id) {
-                        binding.imgFavorite.setTint(R.color.yellow)
-                        savedCoinId = coin.id
-                        viewModel.savedCoin = true
-                    }
-                }
-            } catch (e: Exception) {
-                Log.e(TAG, e.message.toString())
-            }
-        }
-    }
-
-    private fun saveToFavorites(selectedCoin: Coin) {
-        val cryptoCoinEntity =
-            CryptoCoinEntity(
-                0,
-                selectedCoin
-            )
-        viewModel.insertCryptoCoin(cryptoCoinEntity)
-        cryptoCoinEntity.cryptoCoin.isWatchListed = true
-        binding.imgFavorite.setTint(R.color.yellow)
-        viewModel.savedCoin = true
-    }
-
-    private fun removeFromFavorites() {
-        val cryptoCoinEntity =
-            CryptoCoinEntity(
-                savedCoinId,
-                args.coin
-            )
-        viewModel.deleteCryptoCoin(cryptoCoinEntity)
-        binding.imgFavorite.setTint(R.color.white)
-        viewModel.savedCoin = false
-    }
+//    private fun checkSavedRecipes() {
+//        viewModel.readCryptoCoin.observe(viewLifecycleOwner) { cryptoCoinEntity ->
+//            try {
+//                for (coin in cryptoCoinEntity) {
+//                    if (coin.cryptoCoin.coin_id == args.coin.coin_id) {
+//                        binding.imgFavorite.setTint(R.color.yellow)
+//                        savedCoinId = coin.id
+//                        viewModel.savedCoin = true
+//                    }
+//                }
+//            } catch (e: Exception) {
+//                Log.e(TAG, e.message.toString())
+//            }
+//        }
+//    }
+//
+//    private fun saveToFavorites(selectedCoin: Coin) {
+//        val cryptoCoinEntity =
+//            CryptoCoinEntity(
+//                0,
+//                selectedCoin
+//            )
+//        viewModel.insertCryptoCoin(cryptoCoinEntity)
+//        cryptoCoinEntity.cryptoCoin.isWatchListed = true
+//        binding.imgFavorite.setTint(R.color.yellow)
+//        viewModel.savedCoin = true
+//    }
+//
+//    private fun removeFromFavorites() {
+//        val cryptoCoinEntity =
+//            CryptoCoinEntity(
+//                savedCoinId,
+//                args.coin
+//            )
+//        viewModel.deleteCryptoCoin(cryptoCoinEntity)
+//        binding.imgFavorite.setTint(R.color.white)
+//        viewModel.savedCoin = false
+//    }
 
     private fun ImageView.setTint(@ColorRes color: Int?) {
         if (color == null) {
@@ -504,7 +503,7 @@ class CoinDetailFragment : Fragment() {
         }
     }
 
-    fun calculatePrice(currentPrice: Double, percentageChange: Double): Double {
+    private fun calculatePrice(currentPrice: Double, percentageChange: Double): Double {
         return currentPrice * (1 + percentageChange / 100)
     }
 

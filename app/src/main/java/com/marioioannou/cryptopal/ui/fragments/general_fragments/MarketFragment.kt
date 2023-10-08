@@ -8,18 +8,21 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.marioioannou.cryptopal.R
 import com.marioioannou.cryptopal.adapters.CryptoCoinsAdapter
 import com.marioioannou.cryptopal.databinding.FragmentMarketBinding
-import com.marioioannou.cryptopal.domain.model.coins.Coin
+import com.marioioannou.cryptopal.domain.model.coins.Result
 import com.marioioannou.cryptopal.ui.activities.MainActivity
 import com.marioioannou.cryptopal.ui.fragments.general_fragments.settings_senction.SettingsFragmentDirections
 import com.marioioannou.cryptopal.utils.Constants
 import com.marioioannou.cryptopal.utils.NetworkListener
 import com.marioioannou.cryptopal.utils.ScreenState
-import com.marioioannou.cryptopal.viewmodels.MainViewModel
+import com.marioioannou.cryptopal.ui.viewmodels.MainViewModel
+import com.marioioannou.cryptopal.utils.observeOnce
+import kotlinx.coroutines.launch
 
 class MarketFragment : Fragment() {
 
@@ -73,9 +76,10 @@ class MarketFragment : Fragment() {
 
         Log.e(TAG, "currency -> ${viewModel.currentCurrency()}")
         setupCoinsRecyclerView(viewModel.currentCurrency())
-        requestCoinsApiData()
+        readDatabase()
+        //requestCoinsApiData()
 
-        coinsAdapter.setOnItemClickListener { coin: Coin ->
+        coinsAdapter.setOnItemClickListener { coin: Result ->
             val action = MarketFragmentDirections.actionMarketFragmentToCoinDetailFragment(coin, 0)
             findNavController().navigate(action)
         }
@@ -90,39 +94,56 @@ class MarketFragment : Fragment() {
         }
     }
 
-    private fun requestCoinsApiData() {
-        Log.e(TAG, "requestCoinsApiData CALLED")
-        viewModel.getCoins(viewModel.applyCoinsQueries())
-        viewModel.coinResponse.observe(viewLifecycleOwner, Observer { coinResponse ->
-            Log.e(TAG, "viewModel.coinResponse.observe")
-            when (coinResponse) {
-                is ScreenState.Loading -> {
-                    //showShimmerEffect()
-                    Log.e(TAG, "   requestCoinsApiData() Response Loading")
-                }
-                is ScreenState.Success -> {
-                    Log.e(TAG, "   requestCoinsApiData() Response Success")
-                    //binding.noInternetLayout.visibility = View.GONE
-//                    Handler(Looper.getMainLooper()).postDelayed({
-//                        hideShimmerEffect()
-//                    },1000L)
-                    //binding.rvCoinRecyclerview.visibility = View.VISIBLE
-                    coinResponse.data?.let { coins ->
-                        coinsAdapter.differ.submitList(coins.coins)
-                    }
-                }
-                is ScreenState.Error -> {
-                    Log.e(TAG, "   requestCoinsApiData() Response Error")
-                    //hideShimmerEffect()
+    private fun readDatabase() {
+        lifecycleScope.launch {
+            viewModel.readCryptoCoin.observeOnce(viewLifecycleOwner, Observer { database ->
+                if (database.isNotEmpty()) {
+                    Log.e(TAG, "readDatabase() CALLED")
+                    coinsAdapter.differ.submitList(database.last().cryptoCoin.result)
+                } else {
                     Toast.makeText(
                         requireContext(),
-                        coinResponse.message.toString(),
+                        "Database is empty",
                         Toast.LENGTH_SHORT
                     ).show()
                 }
-            }
-        })
+            })
+        }
     }
+
+//    private fun requestCoinsApiData() {
+//        Log.e(TAG, "requestCoinsApiData CALLED")
+//        viewModel.getCoins(viewModel.applyCoinsQueries())
+//        viewModel.coinResponse.observe(viewLifecycleOwner, Observer { coinResponse ->
+//            Log.e(TAG, "viewModel.coinResponse.observe")
+//            when (coinResponse) {
+//                is ScreenState.Loading -> {
+//                    //showShimmerEffect()
+//                    Log.e(TAG, "   requestCoinsApiData() Response Loading")
+//                }
+//                is ScreenState.Success -> {
+//                    Log.e(TAG, "   requestCoinsApiData() Response Success")
+//                    //binding.noInternetLayout.visibility = View.GONE
+////                    Handler(Looper.getMainLooper()).postDelayed({
+////                        hideShimmerEffect()
+////                    },1000L)
+//                    //binding.rvCoinRecyclerview.visibility = View.VISIBLE
+//                    coinResponse.data?.let { coins ->
+//                        coinsAdapter.differ.submitList(coins.coins)
+//                    }
+//                }
+//                is ScreenState.Error -> {
+//                    Log.e(TAG, "   requestCoinsApiData() Response Error")
+//                    //hideShimmerEffect()
+//                    Toast.makeText(
+//                        requireContext(),
+//                        coinResponse.message.toString(),
+//                        Toast.LENGTH_SHORT
+//                    ).show()
+//                }
+//            }
+//        })
+//    }
 
     private fun setupCoinsRecyclerView(currency : String) {
         coinsAdapter = CryptoCoinsAdapter(currency)

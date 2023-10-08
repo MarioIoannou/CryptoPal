@@ -9,8 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.marioioannou.cryptopal.R
 import com.marioioannou.cryptopal.databinding.RowCoinLayoutBinding
-import com.marioioannou.cryptopal.domain.model.coins.Coin
-import java.lang.Math.floor
+import com.marioioannou.cryptopal.domain.model.coins.Result
 
 class CryptoCoinsAdapter(
     currency:String
@@ -22,23 +21,20 @@ class CryptoCoinsAdapter(
     inner class MyViewHolder(val binding: RowCoinLayoutBinding) :
         RecyclerView.ViewHolder(binding.root)
 
-    private val differCallback = object : DiffUtil.ItemCallback<Coin>() {
+    private val differCallback = object : DiffUtil.ItemCallback<Result>() {
 
-        override fun areItemsTheSame(oldItem: Coin, newItem: Coin): Boolean {
+        override fun areItemsTheSame(oldItem: Result, newItem: Result): Boolean {
             return oldItem.name == newItem.name
         }
 
-        override fun areContentsTheSame(oldItem: Coin, newItem: Coin): Boolean {
+        override fun areContentsTheSame(oldItem: Result, newItem: Result): Boolean {
             return oldItem == newItem
         }
     }
 
     val differ = AsyncListDiffer(this, differCallback)
 
-    //private var recipes = emptyList<com.marioioannou.mealquest.domain.model.recipes.Result>()
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        //return MyViewHolder.from(parent)
         return MyViewHolder(
             RowCoinLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         )
@@ -47,7 +43,6 @@ class CryptoCoinsAdapter(
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val coin = differ.currentList[position]
         val fiat = currencySymbol(coinCurrency)
-        //Log.e("Currency", fiat)
         holder.binding.apply {
             val priceChange = formatNumber(coin.priceChange1d)
             val priceChangePercentage = coin.priceChange1h.toString().take(5)
@@ -67,14 +62,12 @@ class CryptoCoinsAdapter(
             if (priceChange.contains("-") && priceChangePercentage.contains("-")) {
                 tvPriceChange.text = "$fiat $hourChangePrice"
                 tvPriceChange.setTextColor(Color.RED)
-                //tvChangePercentage.filters = arrayOf(InputFilter.LengthFilter(4))
                 tvChangePercentage.text = "$priceChangePercentage%"
                 tvChangePercentage.setTextColor(Color.RED)
                 cvChangePercentage.strokeColor = Color.parseColor("#ffb3b3")
             } else {
                 tvPriceChange.text = "$fiat $hourChangePrice"
                 tvPriceChange.setTextColor(Color.GREEN)
-               // tvChangePercentage.filters = arrayOf(InputFilter.LengthFilter(4))
                 tvChangePercentage.text = "$priceChangePercentage%"
                 tvChangePercentage.setTextColor(Color.GREEN)
                 cvChangePercentage.strokeColor = Color.parseColor("#b3ffb3")
@@ -89,8 +82,8 @@ class CryptoCoinsAdapter(
         return differ.currentList.size
     }
 
-    private var onItemClickListener: ((Coin) -> Unit)? = null
-    fun setOnItemClickListener(listener: (Coin) -> Unit) {
+    private var onItemClickListener: ((Result) -> Unit)? = null
+    fun setOnItemClickListener(listener: (Result) -> Unit) {
         onItemClickListener = listener
     }
 

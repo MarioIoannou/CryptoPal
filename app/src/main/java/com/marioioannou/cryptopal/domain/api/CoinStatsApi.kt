@@ -1,8 +1,10 @@
 package com.marioioannou.cryptopal.domain.api
 
+import com.marioioannou.cryptopal.di.NetworkModule
 import com.marioioannou.cryptopal.domain.model.coins.CryptoCoins
 import com.marioioannou.cryptopal.domain.model.news.CryptoNews
 import com.marioioannou.cryptopal.domain.model.coins.CoinInfo
+import dagger.Component
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -13,12 +15,12 @@ interface CoinStatsApi {
 //        @QueryMap queries: Map<String,String>
 //    ): Response<List<CryptoCoin>>
 
-    @GET("/public/v1/coins")
+    @GET("/coins")
     suspend fun getCryptoCoins(
         @QueryMap queries: Map<String,String>
     ): Response<CryptoCoins>
 
-    @GET("/public/v1/coins/{coin_id}")
+    @GET("/coins/{coin_id}")
     suspend fun getCryptoCoin(
         @Path("coin_id") coinId: String,
         @Query("currency") currency: String

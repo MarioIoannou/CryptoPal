@@ -1,7 +1,9 @@
 package com.marioioannou.cryptopal.domain.api
 
+import com.marioioannou.cryptopal.di.NetworkModule
 import com.marioioannou.cryptopal.domain.model.market_chart.CoinMarketChart
 import com.marioioannou.cryptopal.domain.model.search_coins.SearchCoin
+import dagger.Component
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path

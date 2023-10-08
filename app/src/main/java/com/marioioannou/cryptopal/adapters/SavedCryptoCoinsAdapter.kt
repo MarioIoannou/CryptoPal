@@ -1,30 +1,23 @@
 package com.marioioannou.cryptopal.adapters
 
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
-import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.AsyncListDiffer
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.marioioannou.cryptopal.R
 import com.marioioannou.cryptopal.databinding.RowWatchlistCoinLayoutBinding
-import com.marioioannou.cryptopal.domain.database.CryptoCoinEntity
-import com.marioioannou.cryptopal.utils.ScreenState
-import com.marioioannou.cryptopal.viewmodels.MainViewModel
+import com.marioioannou.cryptopal.domain.database.crypto_coins.CryptoCoinEntity
+import com.marioioannou.cryptopal.domain.database.crypto_watchlist.CryptoWatchlistEntity
 
 class SavedCryptoCoinsAdapter(
     currency: String,
 ) : RecyclerView.Adapter<SavedCryptoCoinsAdapter.MyViewHolder>() {
 
-    private var coins: List<CryptoCoinEntity> = emptyList()
+    private var coins: List<CryptoWatchlistEntity> = emptyList()
 
     private val currencyAdapter = currencySymbol(currency)
 
-    fun submitList(coins: List<CryptoCoinEntity>) {
+    fun submitList(coins: List<CryptoWatchlistEntity>) {
         this.coins = coins
         notifyDataSetChanged()
     }
@@ -46,13 +39,13 @@ class SavedCryptoCoinsAdapter(
         val coin = coins[position]
 
         holder.binding.apply {
-            imgCoin.load(coin.cryptoCoin.icon) {
-                crossfade(600)
-                error(R.drawable.ic_image_placeholder)
-            }
-            tvTitle.text = coin.cryptoCoin.name.toString()
-            tvSymbol.text = coin.cryptoCoin.symbol.toString()
-            tvPrice.text = formatNumber(coin.cryptoCoin.price)
+//            imgCoin.load(coin.cryptoCoin.icon) {
+//                crossfade(600)
+//                error(R.drawable.ic_image_placeholder)
+//            }
+//            tvTitle.text = coin.cryptoCoin.name.toString()
+//            tvSymbol.text = coin.cryptoCoin.symbol.toString()
+//            tvPrice.text = formatNumber(coin.cryptoCoin.price)
             tvCurrencySymbol.text = currencyAdapter
         }
 
@@ -66,8 +59,8 @@ class SavedCryptoCoinsAdapter(
         return coins.size
     }
 
-    private var onItemClickListener: ((CryptoCoinEntity) -> Unit)? = null
-    fun setOnItemClickListener(listener: (CryptoCoinEntity) -> Unit) {
+    private var onItemClickListener: ((CryptoWatchlistEntity) -> Unit)? = null
+    fun setOnItemClickListener(listener: (CryptoWatchlistEntity) -> Unit) {
         onItemClickListener = listener
     }
 

@@ -24,7 +24,6 @@ class RemoteDataSource @Inject constructor(
 ) {
 
     suspend fun getCoins(queries: Map<String, String>): Response<CryptoCoins> {
-        Log.e("RemoteDataSource", "getCoins")
         return coinStatsApi.getCryptoCoins(queries)
     }
 

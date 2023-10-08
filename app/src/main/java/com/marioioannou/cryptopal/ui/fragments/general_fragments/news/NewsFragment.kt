@@ -18,7 +18,7 @@ import com.marioioannou.cryptopal.domain.model.news.New
 import com.marioioannou.cryptopal.ui.activities.MainActivity
 import com.marioioannou.cryptopal.ui.fragments.general_fragments.settings_senction.SettingsFragmentDirections
 import com.marioioannou.cryptopal.utils.ScreenState
-import com.marioioannou.cryptopal.viewmodels.MainViewModel
+import com.marioioannou.cryptopal.ui.viewmodels.MainViewModel
 import java.util.*
 import java.util.logging.Handler
 import kotlin.collections.HashMap
