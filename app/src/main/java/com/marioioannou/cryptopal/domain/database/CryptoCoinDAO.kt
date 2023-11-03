@@ -33,4 +33,7 @@ interface CryptoCoinDAO {
 
     @Query("DELETE FROM crypto_watchlist_table")
     suspend fun deleteAllCryptoWatchlist()
+
+    @Query("SELECT * FROM crypto_watchlist_table")
+    fun readCryptoWatchlistCount(): Int
 }

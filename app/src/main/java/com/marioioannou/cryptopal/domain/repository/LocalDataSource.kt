@@ -12,8 +12,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
+import retrofit2.Response
 import javax.inject.Inject
-import com.marioioannou.cryptopal.domain.model.coins.Result as Result1
+import com.marioioannou.cryptopal.domain.model.coins.Result as Result
 
 class LocalDataSource @Inject constructor(
     private val cryptoCoinDAO: CryptoCoinDAO,
@@ -28,6 +29,10 @@ class LocalDataSource @Inject constructor(
 
     suspend fun insertCryptoCoin(cryptoCoinEntity: CryptoCoinEntity) {
         return cryptoCoinDAO.insertCryptoCoin(cryptoCoinEntity)
+    }
+
+    suspend fun getCryptoCoinFromDatabase(coinId: String): CryptoCoinEntity? {
+        return cryptoCoinDAO.getCoinById(coinId)
     }
 
     // - Crypto Watchlist - //
@@ -47,6 +52,10 @@ class LocalDataSource @Inject constructor(
         return cryptoCoinDAO.deleteAllCryptoWatchlist()
     }
 
+    suspend fun isWatchlistEmpty(): Boolean {
+        return cryptoCoinDAO.readCryptoWatchlistCount() == 0
+    }
+
     suspend fun updateCryptoCoinsData() {
 
         withContext(Dispatchers.IO) {
@@ -61,7 +70,7 @@ class LocalDataSource @Inject constructor(
                         val updatedCoin = response.body()
                         if (updatedCoin != null) {
                             val coinEntity =
-                                CryptoWatchlistEntity(id = savedCoin.id, cryptoCoin = updatedCoin.coin)
+                                CryptoWatchlistEntity(id = savedCoin.id, cryptoCoin = updatedCoin)
                             cryptoCoinDAO.updateCryptoWatchlistData(coinEntity)
                         }
                     } else {
@@ -72,26 +81,6 @@ class LocalDataSource @Inject constructor(
                     }
                 }
 
-            }
-        }
-    }
-
-    suspend fun getCoin(coinId: String): Any {
-
-        val localCoin = cryptoCoinDAO.getCoinById(coinId)
-
-        return if (localCoin != null) {
-            ScreenState.Success(localCoin)
-        } else {
-            try {
-                val response = coinStatsApi.getCryptoCoin(coinId,getCurrency())
-                if (response.isSuccessful) {
-                    ScreenState.Success(response.body())
-                } else {
-                    ScreenState.Error(null,"Network call failed: ${response.errorBody()}")
-                }
-            } catch (e: Exception) {
-                ScreenState.Error(null,"Exception occurred: ${e.message}")
             }
         }
     }

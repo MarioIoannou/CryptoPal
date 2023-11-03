@@ -43,10 +43,38 @@ class MainViewModel @Inject constructor(
 
     var times = 1
 
+    // - Retrofit - //
+    private val _coinResponse: MutableLiveData<ScreenState<CryptoCoins>> = MutableLiveData()
+    val coinResponse = _coinResponse
+
+    private val _coinInfoResponse: MutableLiveData<ScreenState<Result>> = MutableLiveData()
+    val coinInfoResponse = _coinInfoResponse
+
+    private val _coinMarketChartResponse: MutableLiveData<ScreenState<CoinMarketChart>> =
+        MutableLiveData()
+    val coinMarketChartResponse = _coinMarketChartResponse
+
+    private val _searchCoinResponse: MutableLiveData<ScreenState<SearchCoin>> = MutableLiveData()
+    val searchCoinResponse = _searchCoinResponse
+
+    private val _newsResponse: MutableLiveData<ScreenState<CryptoNews>> = MutableLiveData()
+    val newsResponse = _newsResponse
+
+//    private val _cryptoCoinInfo: MutableLiveData<ScreenState<CryptoCoinEntity>> = MutableLiveData()
+//    val cryptoCoinInfo = _cryptoCoinInfo
+
+    private var TAG = "MainViewModel"
+
+
+    // - Database - //
     val readCoins: LiveData<List<CryptoCoinEntity>> =
         repository.local.readCryptoCoins().asLiveData()
+
     val readWatchlist: LiveData<List<CryptoWatchlistEntity>> =
         repository.local.readCryptoWatchlist().asLiveData()
+
+    private val _watchlistStatus: MutableLiveData<Boolean> = MutableLiveData()
+        val watchlistStatus = _watchlistStatus
 
     val readBackOnline = datastore.readBackOnline.asLiveData()
     val readCurrency = datastore.readCurrency.asLiveData()
@@ -106,8 +134,32 @@ class MainViewModel @Inject constructor(
             repository.local.insertCryptoCoin(cryptoCoinEntity)
         }
 
+    fun insertWatchlistCryptoCoin(cryptoWatchlistEntity: CryptoWatchlistEntity) =
+        viewModelScope.launch {
+            repository.local.insertCryptoWatchlist(cryptoWatchlistEntity)
+        }
+
     fun updateSpecificCoins() = viewModelScope.launch {
         repository.local.updateCryptoCoinsData()
+    }
+
+    fun getCryptoCoinInfo(id: String) = viewModelScope.launch {
+        coinInfoResponse.value = ScreenState.Loading()
+        try {
+            val localCoinData = repository.local.getCryptoCoinFromDatabase(id)
+            if (localCoinData != null){
+                coinInfoResponse.value = ScreenState.Success(localCoinData.cryptoCoin.result.first())
+            }else{
+                val response = repository.remote.getCoinInfo(id,currentCurrency())
+                if (response.isSuccessful && response.body() != null) {
+                    coinInfoResponse.value = ScreenState.Success(response.body())
+                } else {
+                    coinInfoResponse.value = ScreenState.Error(message = "Network error: ${response.errorBody()?.string() ?: "Unknown error"}")
+                }
+            }
+        } catch (e: Exception) {
+            coinInfoResponse.value = ScreenState.Error(message = "Exception: ${e.message}")
+        }
     }
 
     fun deleteCryptoCoin(cryptoCoinEntity: CryptoWatchlistEntity) =
@@ -119,25 +171,12 @@ class MainViewModel @Inject constructor(
         repository.local.deleteAllCryptoWatchlist()
     }
 
+    fun isWatchlistEmpty()= viewModelScope.launch(Dispatchers.IO) {
+        repository.local.isWatchlistEmpty()
+    }
+
+
     /* RETROFIT */ /* -------------------------------------------------------------------------- */
-
-    private val _coinResponse: MutableLiveData<ScreenState<CryptoCoins>> = MutableLiveData()
-    val coinResponse = _coinResponse
-
-    private val _coinInfoResponse: MutableLiveData<ScreenState<Result>> = MutableLiveData()
-    val coinInfoResponse = _coinInfoResponse
-
-    private val _coinMarketChartResponse: MutableLiveData<ScreenState<CoinMarketChart>> =
-        MutableLiveData()
-    val coinMarketChartResponse = _coinMarketChartResponse
-
-    private val _searchCoinResponse: MutableLiveData<ScreenState<SearchCoin>> = MutableLiveData()
-    val searchCoinResponse = _searchCoinResponse
-
-    private val _newsResponse: MutableLiveData<ScreenState<CryptoNews>> = MutableLiveData()
-    val newsResponse = _newsResponse
-
-    private var TAG = "MainViewModel"
 
     fun getCoins(queries: Map<String, String>) = viewModelScope.launch {
         getCoinsConnected(queries)
@@ -175,20 +214,20 @@ class MainViewModel @Inject constructor(
                     }
                 } else {
                     withContext(Dispatchers.Main) {
-                        _coinResponse.value = ScreenState.Error(null, "No Internet Connection")
+                        coinResponse.value = ScreenState.Error(null, "No Internet Connection")
                     }
                 }
             } catch (e: IOException) {
                 withContext(Dispatchers.Main) {
-                    _coinResponse.value = ScreenState.Error(null, "Network Failure")
+                    coinResponse.value = ScreenState.Error(null, "Network Failure")
                 }
             } catch (e: HttpException) {
                 withContext(Dispatchers.Main) {
-                    _coinResponse.value = ScreenState.Error(null, "Server Error")
+                    coinResponse.value = ScreenState.Error(null, "Server Error")
                 }
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
-                    _coinResponse.value = ScreenState.Error(null, "Unexpected Error")
+                    coinResponse.value = ScreenState.Error(null, "Unexpected Error")
                 }
             }
         }
@@ -438,7 +477,7 @@ class MainViewModel @Inject constructor(
         val cryptoCoinEntity = CryptoCoinEntity(cryptoCoin)
         Log.e("offlineCacheCrypto", "insertCryptoCoin()")
         Log.e("offlineCacheCrypto", cryptoCoin.toString())
-            insertCryptoCoin(cryptoCoinEntity)
+        insertCryptoCoin(cryptoCoinEntity)
     }
 
     /* QUERIES */

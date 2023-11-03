@@ -32,6 +32,7 @@ import com.google.android.material.chip.Chip
 import com.marioioannou.cryptopal.R
 import com.marioioannou.cryptopal.databinding.FragmentCoinDetailBinding
 import com.marioioannou.cryptopal.domain.database.crypto_coins.CryptoCoinEntity
+import com.marioioannou.cryptopal.domain.database.crypto_watchlist.CryptoWatchlistEntity
 import com.marioioannou.cryptopal.domain.model.coins.Result
 import com.marioioannou.cryptopal.ui.activities.MainActivity
 import com.marioioannou.cryptopal.utils.ScreenState
@@ -73,7 +74,7 @@ class CoinDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //checkSavedRecipes()
+        checkSavedCryptoCoin()
 
         val coin = args.coin
 
@@ -97,9 +98,9 @@ class CoinDetailFragment : Fragment() {
 
         binding.cvSave.setOnClickListener {
             if (!viewModel.savedCoin) {
-                //saveToFavorites(args.coin)
+                saveToFavorites(args.coin)
             } else {
-                //removeFromFavorites()
+                removeFromFavorites()
             }
         }
 
@@ -173,14 +174,14 @@ class CoinDetailFragment : Fragment() {
                         //binding.rvCoinRecyclerview.visibility = View.VISIBLE
                         response.data?.let { coin ->
                             binding.apply {
-                                detailTvTitle.text = coin.coin.name
-                                detailTvSymbol.text = coin.coin.symbol?.uppercase()
-                                detailTvPrice.text = formatNumber(coin.coin.price)
-                                val price = formatNumber(coin.coin.price)
-                                val pricePercentage = formatNumber(coin.coin.priceChange1d)
+                                detailTvTitle.text = coin.name
+                                detailTvSymbol.text = coin.symbol?.uppercase()
+                                detailTvPrice.text = formatNumber(coin.price)
+                                val price = formatNumber(coin.price)
+                                val pricePercentage = formatNumber(coin.priceChange1d)
                                 tvChangePrice.text = price
                                 tvChangePercentage.text = "$pricePercentage%"
-                                infoCoinName.text = coin.coin.name
+                                infoCoinName.text = coin.name
                                 //infoHigh24h.text = coin.high24h.toString().take(10)
                                 //infoLow24h.text = coin.low24h.toString().take(10)
                                 //infoAth.text = coin.ath.toString().take(10)
@@ -189,25 +190,30 @@ class CoinDetailFragment : Fragment() {
                                 //infoPriceIn1d.text = formatNumber(coin.priceChange1d)
                                 infoPriceIn1d.text = formatNumber(calculatePrice(price.toDouble(),pricePercentage.toDouble()))
                                 //infoPriceIn1w.text = formatNumber(coin.priceChange1w)
-                                infoPriceIn1w.text = formatNumber(calculatePrice(price.toDouble(), coin.coin.priceChange1w!!.toDouble()))
-                                infoMarketCap.text = formatNumber(coin.coin.marketCap)
-                                infoVolume.text = formatNumber(coin.coin.volume)
-                                infoAvailableSupply.text = coin.coin.availableSupply.toString()
-                                infoTotalSupply.text = coin.coin.totalSupply.toString()
+                                infoPriceIn1w.text = formatNumber(calculatePrice(price.toDouble(), coin.priceChange1w!!.toDouble()))
+                                infoMarketCap.text = formatNumber(coin.marketCap)
+                                infoVolume.text = formatNumber(coin.volume)
+                                infoAvailableSupply.text = coin.availableSupply.toString()
+                                infoTotalSupply.text = coin.totalSupply.toString()
                                 //infoCirculatingSupply.text = coin.circulatingSupply.toString().take(10)
-                                infoRank.text = "#" + coin.coin.rank.toString()
-                                imgCryptoLogo.load(coin.coin.icon) {
+                                infoRank.text = "#" + coin.rank.toString()
+                                imgCryptoLogo.load(coin.icon) {
                                     crossfade(600)
                                     error(R.drawable.ic_image_placeholder)
                                 }
                             }
                             binding.layoutWebsite.setOnClickListener {
-                                val url: Uri = Uri.parse(coin.coin.websiteUrl.toString())
+                                val url: Uri = Uri.parse(coin.websiteUrl.toString())
                                 val intent = Intent(Intent.ACTION_VIEW, url)
                                 startActivity(intent)
                             }
                             binding.layoutTwitter.setOnClickListener {
-                                val url: Uri = Uri.parse(coin.coin.twitterUrl.toString())
+                                val url: Uri = Uri.parse(coin.twitterUrl.toString())
+                                val intent = Intent(Intent.ACTION_VIEW, url)
+                                startActivity(intent)
+                            }
+                            binding.layoutReddit.setOnClickListener {
+                                val url: Uri = Uri.parse(coin.redditUrl.toString())
                                 val intent = Intent(Intent.ACTION_VIEW, url)
                                 startActivity(intent)
                             }
@@ -434,44 +440,48 @@ class CoinDetailFragment : Fragment() {
         return (percent!! / 100) * price!!
     }
 
-//    private fun checkSavedRecipes() {
-//        viewModel.readCryptoCoin.observe(viewLifecycleOwner) { cryptoCoinEntity ->
-//            try {
-//                for (coin in cryptoCoinEntity) {
-//                    if (coin.cryptoCoin.coin_id == args.coin.coin_id) {
-//                        binding.imgFavorite.setTint(R.color.yellow)
-//                        savedCoinId = coin.id
-//                        viewModel.savedCoin = true
-//                    }
-//                }
-//            } catch (e: Exception) {
-//                Log.e(TAG, e.message.toString())
-//            }
-//        }
-//    }
-//
-//    private fun saveToFavorites(selectedCoin: Coin) {
-//        val cryptoCoinEntity =
-//            CryptoCoinEntity(
-//                0,
-//                selectedCoin
-//            )
-//        viewModel.insertCryptoCoin(cryptoCoinEntity)
-//        cryptoCoinEntity.cryptoCoin.isWatchListed = true
-//        binding.imgFavorite.setTint(R.color.yellow)
-//        viewModel.savedCoin = true
-//    }
-//
-//    private fun removeFromFavorites() {
-//        val cryptoCoinEntity =
-//            CryptoCoinEntity(
-//                savedCoinId,
-//                args.coin
-//            )
-//        viewModel.deleteCryptoCoin(cryptoCoinEntity)
-//        binding.imgFavorite.setTint(R.color.white)
-//        viewModel.savedCoin = false
-//    }
+    private fun checkSavedCryptoCoin() {
+        viewModel.readWatchlist.observe(viewLifecycleOwner) { cryptoWatchlistEntity ->
+            try {
+                for (coin in cryptoWatchlistEntity) {
+                    if (coin.cryptoCoin.id == args.coin.id) {
+                        binding.imgFavorite.setTint(R.color.yellow)
+                        savedCoinId = coin.id
+                        viewModel.savedCoin = true
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, e.message.toString())
+            }
+        }
+    }
+
+    private fun saveToFavorites(selectedCoin: Result) {
+        val cryptoWatchlistEntity =
+            CryptoWatchlistEntity(
+                0,
+                selectedCoin
+            )
+        viewModel.insertWatchlistCryptoCoin(cryptoWatchlistEntity)
+        cryptoWatchlistEntity.cryptoCoin.isWatchListed = true
+        binding.imgFavorite.setTint(R.color.yellow)
+        viewModel.savedCoin = true
+    }
+
+    private fun removeFromFavorites() {
+        val cryptoWatchlistEntity =
+            CryptoWatchlistEntity(
+                savedCoinId,
+                args.coin
+            )
+        viewModel.deleteCryptoCoin(cryptoWatchlistEntity)
+        binding.imgFavorite.setTint(R.color.white)
+        viewModel.savedCoin = false
+    }
+
+    private fun cryptoCoinCheck(id:String){
+        viewModel.getCoinInfo(id,viewModel.currentCurrency())
+    }
 
     private fun ImageView.setTint(@ColorRes color: Int?) {
         if (color == null) {

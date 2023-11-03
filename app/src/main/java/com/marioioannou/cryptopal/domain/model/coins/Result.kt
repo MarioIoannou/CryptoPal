@@ -13,6 +13,8 @@ data class Result(
     val contractAddress: String?,
     @SerializedName("icon")
     val icon: String?,
+    @SerializedName("large")
+    val large: String?,
     @SerializedName("id")
     val id: String?,
     @SerializedName("marketCap")

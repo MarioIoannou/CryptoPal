@@ -806,14 +806,12 @@
                 android:id="@+id/layout_website"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_24sdp"
                 android:layout_marginTop="@dimen/_16sdp"
                 android:layout_marginBottom="@dimen/_16sdp"
-                android:layout_marginStart="@dimen/_24sdp"
-                android:layout_marginEnd="@dimen/_16sdp"
                 android:gravity="center"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/layout_twitter"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
@@ -838,18 +836,49 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/layout_twitter"
+                android:id="@+id/layout_reddit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_16sdp"
                 android:layout_marginBottom="@dimen/_16sdp"
-                android:layout_marginStart="@dimen/_16sdp"
+                android:gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/layout_twitter"
+                app:layout_constraintStart_toEndOf="@+id/layout_website"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/img_reddit"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:src="@drawable/svg_reddit" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_4sdp"
+                    android:layout_marginBottom="@dimen/_4sdp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="@string/website"
+                    android:textColor="@color/my_dark_grey"
+                    android:textSize="@dimen/_13ssp"
+                    app:fontFamily="@font/montserrat_medium" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_twitter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_16sdp"
                 android:layout_marginEnd="@dimen/_24sdp"
+                android:layout_marginBottom="@dimen/_16sdp"
                 android:gravity="center"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/layout_website"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <com.google.android.material.imageview.ShapeableImageView

@@ -1,6 +1,7 @@
 package com.marioioannou.cryptopal.domain.api
 
 import com.marioioannou.cryptopal.domain.model.coins.CryptoCoins
+import com.marioioannou.cryptopal.domain.model.coins.Result
 import com.marioioannou.cryptopal.domain.model.news.CryptoNews
 import retrofit2.Response
 import retrofit2.http.*
@@ -21,7 +22,7 @@ interface CoinStatsApi {
     suspend fun getCryptoCoin(
         @Path("coin_id") coinId: String,
         @Query("currency") currency: String
-    ): Response<CoinInfo>
+    ): Response<Result>
 
     @GET("/public/v1/news/{filter}")
     suspend fun getNews(

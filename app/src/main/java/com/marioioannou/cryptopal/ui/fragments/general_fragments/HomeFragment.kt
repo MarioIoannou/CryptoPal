@@ -88,16 +88,25 @@ class HomeFragment : Fragment() {
                     viewModel.networkStatus = status
                     viewModel.showNetworkStatus()
                     if (!status) {
-                        hideRecyclerView()
+                        Log.d("Network status", "Status False")
+                        //hideWatchlistRecyclerView()
                     } else {
+                        Log.d("Network status", "Status True")
+                        viewModel.watchlistStatus.observe(viewLifecycleOwner, Observer { isEmpty ->
+                            if (isEmpty) {
+                                Log.d("Watchlist", "Watchlist is EMPTY")
+                                hideWatchlistRecyclerView()
+                            } else {
+                                Log.d("Watchlist", "Watchlist is -NOT- EMPTY")
+                                showWatchlistRecyclerView()
+                            }
+                        })
                         viewModel.readWatchlist.observe(viewLifecycleOwner, Observer { result ->
                             savedCryptoCoinsAdapter.submitList(result)
-                            showRecyclerView()
-                            if (viewModel.times == 1){
-                                viewModel.updateSpecificCoins()
+                            if (viewModel.times == 1) {
+                                //viewModel.updateSpecificCoins()
                                 viewModel.times = 2
                             }
-
                         })
                     }
                 }
@@ -199,12 +208,12 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun showRecyclerView() {
+    private fun showWatchlistRecyclerView() {
         binding.rvWatchlist.visibility = View.VISIBLE
         binding.noDataLayout.visibility = View.GONE
     }
 
-    private fun hideRecyclerView() {
+    private fun hideWatchlistRecyclerView() {
         binding.rvWatchlist.visibility = View.GONE
         binding.noDataLayout.visibility = View.VISIBLE
     }

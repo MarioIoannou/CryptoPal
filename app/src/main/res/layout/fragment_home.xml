@@ -41,6 +41,7 @@
             android:layout_marginBottom="8dp"
             android:layout_toStartOf="@id/cv_search"
             android:clickable="true"
+            android:visibility="gone"
             app:cardBackgroundColor="@color/my_grey_blue"
             app:cardCornerRadius="10dp"
             app:layout_constraintBottom_toBottomOf="@+id/cv_search"

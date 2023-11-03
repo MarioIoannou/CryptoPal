@@ -46,7 +46,7 @@ class SearchCoinsAdapter : RecyclerView.Adapter<SearchCoinsAdapter.MyViewHolder>
 
 
         holder.binding.apply {
-            imgCoin.load(coin.icon) {
+            imgCoin.load(coin.large) {
                 crossfade(600)
                 error(R.drawable.ic_image_placeholder)
             }
